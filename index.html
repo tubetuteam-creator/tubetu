@@ -3,87 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUBETU — Платформа обмена идеями и ресурсами</title>
+    <title>TUBETU — Биржа идей и ресурсов</title>
     <style>
         :root {
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --ai-bg: #eff6ff;
-            --ai-text: #1e40af;
-        }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --text-color: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
         }
         body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-main);
+            color: var(--text-color);
+            margin: 0;
             padding: 16px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
         }
         .container {
             width: 100%;
             max-width: 600px;
         }
         header {
-            margin-bottom: 20px;
             text-align: center;
+            margin-bottom: 24px;
         }
         h1 {
-            font-size: 1.75rem;
             color: var(--primary);
-            margin-bottom: 4px;
+            margin: 0 0 4px 0;
+            font-size: 28px;
         }
-        p.subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 0;
         }
         .card {
             background: var(--card-bg);
-            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             margin-bottom: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
         }
-        textarea, input[type="text"], select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
+        .form-title {
+            font-size: 16px;
+            font-weight: 600;
             margin-bottom: 12px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        textarea:focus, input[type="text"]:focus, select:focus {
-            border-color: var(--primary);
         }
         textarea {
-            resize: vertical;
-            min-height: 90px;
+            width: 100%;
+            height: 90px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            resize: none;
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 12px;
+            font-family: inherit;
         }
-        button {
+        textarea:focus {
+            border-color: var(--primary);
+        }
+        select, .btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        select {
+            border: 1px solid var(--border-color);
+            background: #fff;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        .btn {
             background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            width: 100%;
-            transition: background-color 0.2s;
+            transition: background 0.2s;
         }
-        button:hover {
+        .btn:hover {
             background-color: var(--primary-hover);
         }
         .filters {
@@ -95,27 +105,26 @@
         }
         .filter-btn {
             background: var(--card-bg);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 6px 14px;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 13px;
             cursor: pointer;
+            color: var(--text-secondary);
             white-space: nowrap;
-            width: auto;
         }
         .filter-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
-        .post-item {
+        .post-card {
             background: var(--card-bg);
-            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             margin-bottom: 12px;
-            position: relative;
+            border: 1px solid var(--border-color);
         }
         .post-header {
             display: flex;
@@ -123,39 +132,34 @@
             align-items: center;
             margin-bottom: 8px;
         }
-        .post-category {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
+        .badge {
+            font-size: 11px;
+            font-weight: 600;
             padding: 3px 8px;
             border-radius: 6px;
-            background: #e2e8f0;
-            color: #475569;
+            background: #e0f2fe;
+            color: #0369a1;
+            text-transform: uppercase;
         }
-        .post-date {
-            font-size: 0.75rem;
-            color: var(--text-muted);
+        .post-time {
+            font-size: 12px;
+            color: var(--text-secondary);
         }
-        .post-content {
-            font-size: 0.95rem;
-            line-height: 1.5;
+        .post-text {
+            font-size: 15px;
+            line-height: 1.4;
             margin-bottom: 12px;
-            word-break: break-word;
+            white-space: pre-wrap;
         }
-        .ai-badge {
-            background: var(--ai-bg);
-            color: var(--ai-text);
-            font-size: 0.8rem;
-            padding: 8px 12px;
+        .ai-box {
+            background: #eff6ff;
             border-radius: 8px;
+            padding: 10px;
+            font-size: 12px;
+            color: #1e40af;
             display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .loading {
-            color: var(--text-muted);
-            font-style: italic;
-            font-size: 0.85rem;
+            gap: 8px;
+            align-items: flex-start;
         }
     </style>
 </head>
@@ -167,123 +171,108 @@
         </header>
 
         <div class="card">
-            <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Опубликовать инициативу</h3>
-            <form id="postForm">
-                <textarea id="postText" placeholder="Опишите вашу идею, задачу или ресурс..." required></textarea>
-                <select id="userCategory">
-                    <option value="Идея">Идея / Проект</option>
-                    <option value="Ресурс">Материал / Оборудование</option>
-                    <option value="Услуга">Работа / Услуга</option>
-                </select>
-                <button type="submit">Опубликовать</button>
-            </form>
+            <div class="form-title">Опубликовать инициативу</div>
+            <textarea id="postText" placeholder="Опишите вашу идею, задачу или ресурс..."></textarea>
+            <select id="postCategory">
+                <option value="Идея">Идея / Проект</option>
+                <option value="Ресурс">Ресурс / Материал</option>
+                <option value="Услуга">Работа / Услуга</option>
+            </select>
+            <button class="btn" onclick="createPost()">Опубликовать</button>
         </div>
 
         <div class="filters">
-            <button class="filter-btn active" data-filter="all">Все</button>
-            <button class="filter-btn" data-filter="Идея">Идеи</button>
-            <button class="filter-btn" data-filter="Ресурс">Ресурсы</button>
-            <button class="filter-btn" data-filter="Услуга">Услуги</button>
+            <button class="filter-btn active" onclick="filterPosts('Все', this)">Все</button>
+            <button class="filter-btn" onclick="filterPosts('Идея', this)">Идеи</button>
+            <button class="filter-btn" onclick="filterPosts('Ресурс', this)">Ресурсы</button>
+            <button class="filter-btn" onclick="filterPosts('Услуга', this)">Услуги</button>
         </div>
 
-        <div id="postsContainer"></div>
+        <div id="postsFeed"></div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('postForm');
-            const textInput = document.getElementById('postText');
-            const categorySelect = document.getElementById('userCategory');
-            const container = document.getElementById('postsContainer');
-            const filterBtns = document.querySelectorAll('.filter-btn');
+        let posts = JSON.parse(localStorage.getItem('tubetu_posts')) || [
+            {
+                id: 1,
+                text: "«Старт платформы TUBETU в Алматы. Собираем команду разработчиков, инвесторов и партнеров для создания децентрализованной биржи идей и ресурсов. Присоединяйтесь!»",
+                category: "Идея",
+                time: "18.10.2026 04:07",
+                ai: "Категоризация подтверждена. Рекомендация: высокая степень автономности для реализации (Идея)."
+            }
+        ];
+        let currentFilter = 'Все';
+
+        function renderPosts() {
+            const feed = document.getElementById('postsFeed');
+            feed.innerHTML = '';
             
-            let currentFilter = 'all';
+            const filtered = currentFilter === 'Все' 
+                ? posts 
+                : posts.filter(p => p.category === currentFilter);
 
-            function escapeHTML(str) {
-                return str.replace(/[&<>'"]/g, 
-                    tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-                );
+            if (filtered.length === 0) {
+                feed.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">Нет публикаций в этой категории</div>';
+                return;
             }
 
-            function loadPosts() {
-                const posts = JSON.parse(localStorage.getItem('tubetu_posts') || '[]');
-                container.innerHTML = '';
-                
-                const filtered = posts.filter(p => currentFilter === 'all' || p.category === currentFilter);
-                
-                if (filtered.length === 0) {
-                    container.innerHTML = '<div class="card" style="text-align: center; color: #64748b;">Пока записей нет. Станьте первыми!</div>';
-                    return;
-                }
+            filtered.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="badge">${post.category}</span>
+                        <span class="post-time">${post.time}</span>
+                    </div>
+                    <div class="post-text">${post.text}</div>
+                    <div class="ai-box">
+                        <span>✨</span>
+                        <div><strong>AI-анализ:</strong> ${post.ai}</div>
+                    </div>
+                `;
+                feed.appendChild(card);
+            });
+        }
 
-                filtered.forEach(post => {
-                    const el = document.createElement('div');
-                    el.className = 'post-item';
-                    
-                    let aiBlock = '';
-                    if (post.aiStatus === 'processing') {
-                        aiBlock = `<div class="ai-badge loading">🤖 ИИ анализирует инициативу...</div>`;
-                    } else if (post.aiStatus === 'done') {
-                        aiBlock = `<div class="ai-badge">✨ <strong>AI-анализ:</strong> ${escapeHTML(post.aiAnalysis)}</div>`;
-                    }
-
-                    el.innerHTML = `
-                        <div class="post-header">
-                            <span class="post-category">${escapeHTML(post.category)}</span>
-                            <span class="post-date">${escapeHTML(post.date)}</span>
-                        </div>
-                        <div class="post-content">${escapeHTML(post.text)}</div>
-                        ${aiBlock}
-                    `;
-                    container.appendChild(el);
-                });
+        function createPost() {
+            const textInput = document.getElementById('postText');
+            const categorySelect = document.getElementById('postCategory');
+            
+            if (!textInput.value.trim()) {
+                alert('Заполните поле описания!');
+                return;
             }
 
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const text = textInput.value.trim();
-                if (!text) return;
+            const now = new Date();
+            const timeString = String(now.getDate()).padStart(2, '0') + '.' + 
+                               String(now.getMonth() + 1).padStart(2, '0') + '.' + 
+                               now.getFullYear() + ' ' + 
+                               String(now.getHours()).padStart(2, '0') + ':' + 
+                               String(now.getMinutes()).padStart(2, '0');
 
-                const newPost = {
-                    id: Date.now(),
-                    text: text,
-                    category: categorySelect.value,
-                    date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-                    aiStatus: 'processing',
-                    aiAnalysis: ''
-                };
+            const newPost = {
+                id: Date.now(),
+                text: textInput.value.trim(),
+                category: categorySelect.value,
+                time: timeString,
+                ai: `Категоризация подтверждена (${categorySelect.value}). Проект принят в обработку.`
+            };
 
-                const posts = JSON.parse(localStorage.getItem('tubetu_posts') || '[]');
-                posts.unshift(newPost);
-                localStorage.setItem('tubetu_posts', JSON.stringify(posts));
+            posts.unshift(newPost);
+            localStorage.setItem('tubetu_posts', JSON.stringify(posts));
+            
+            textInput.value = '';
+            renderPosts();
+        }
 
-                textInput.value = '';
-                loadPosts();
+        function filterPosts(category, btn) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderPosts();
+        }
 
-                // Имитация ИИ-анализа через 2 секунды
-                setTimeout(() => {
-                    const currentPosts = JSON.parse(localStorage.getItem('tubetu_posts') || '[]');
-                    const target = currentPosts.find(p => p.id === newPost.id);
-                    if (target) {
-                        target.aiStatus = 'done';
-                        target.aiAnalysis = `Категоризация подтверждена. Рекомендация: высокая степень автономности для реализации (${target.category}).`;
-                        localStorage.setItem('tubetu_posts', JSON.stringify(currentPosts));
-                        loadPosts();
-                    }
-                }, 2000);
-            });
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFilter = btn.getAttribute('data-filter');
-                    loadPosts();
-                });
-            });
-
-            loadPosts();
-        });
+        renderPosts();
     </script>
 </body>
 </html>
