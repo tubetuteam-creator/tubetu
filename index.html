@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TUBETU — Биржа идей и ресурсов</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary: #2563eb;
@@ -68,9 +69,7 @@
             margin-bottom: 12px;
             font-family: inherit;
         }
-        textarea:focus {
-            border-color: var(--primary);
-        }
+        textarea:focus { border-color: var(--primary); }
         select, .btn {
             width: 100%;
             padding: 12px;
@@ -93,9 +92,7 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        .btn:hover {
-            background-color: var(--primary-hover);
-        }
+        .btn:hover { background-color: var(--primary-hover); }
         .filters {
             display: flex;
             gap: 8px;
@@ -167,7 +164,7 @@
     <div class="container">
         <header>
             <h1>TUBETU</h1>
-            <p class="subtitle">Децентрализованная биржа идей и ресурсов</p>
+            <p class="subtitle">Облачная биржа идей и ресурсов</p>
         </header>
 
         <div class="card">
@@ -178,7 +175,7 @@
                 <option value="Ресурс">Ресурс / Материал</option>
                 <option value="Услуга">Работа / Услуга</option>
             </select>
-            <button class="btn" onclick="createPost()">Опубликовать</button>
+            <button class="btn" onclick="createPost()">Опубликовать в облако</button>
         </div>
 
         <div class="filters">
@@ -188,81 +185,82 @@
             <button class="filter-btn" onclick="filterPosts('Услуга', this)">Услуги</button>
         </div>
 
-        <div id="postsFeed"></div>
+        <div id="postsFeed">Загрузка данных...</div>
     </div>
 
     <script>
-        let posts = JSON.parse(localStorage.getItem('tubetu_posts')) || [
-            {
-                id: 1,
-                text: "«Старт платформы TUBETU в Алматы. Собираем команду разработчиков, инвесторов и партнеров для создания децентрализованной биржи идей и ресурсов. Присоединяйтесь!»",
-                category: "Идея",
-                time: "18.10.2026 04:07",
-                ai: "Категоризация подтверждена. Рекомендация: высокая степень автономности для реализации (Идея)."
-            }
-        ];
+        const SUPABASE_URL = 'https://zbgfuitelvmkrpzbpcrj.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
+        const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         let currentFilter = 'Все';
+        let allPosts = [];
+
+        async function fetchPosts() {
+            const { data, error } = await db.from('posts').select('*').order('created_at', { ascending: false });
+            if (error) {
+                console.error('Ошибка загрузки:', error);
+                document.getElementById('postsFeed').innerHTML = 'Ошибка подключения к облаку';
+                return;
+            }
+            allPosts = data || [];
+            renderPosts();
+        }
 
         function renderPosts() {
             const feed = document.getElementById('postsFeed');
             feed.innerHTML = '';
-            
+
             const filtered = currentFilter === 'Все' 
-                ? posts 
-                : posts.filter(p => p.category === currentFilter);
+                ? allPosts 
+                : allPosts.filter(p => p.category === currentFilter);
 
             if (filtered.length === 0) {
-                feed.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">Нет публикаций в этой категории</div>';
+                feed.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">Записей пока нет</div>';
                 return;
             }
 
             filtered.forEach(post => {
+                const date = new Date(post.created_at);
+                const timeStr = date.toLocaleDateString('ru-RU') + ' ' + date.toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'});
+                
                 const card = document.createElement('div');
                 card.className = 'post-card';
                 card.innerHTML = `
                     <div class="post-header">
                         <span class="badge">${post.category}</span>
-                        <span class="post-time">${post.time}</span>
+                        <span class="post-time">${timeStr}</span>
                     </div>
                     <div class="post-text">${post.text}</div>
                     <div class="ai-box">
                         <span>✨</span>
-                        <div><strong>AI-анализ:</strong> ${post.ai}</div>
+                        <div><strong>AI-анализ:</strong> Синхронизировано с облачной базой данных Supabase.</div>
                     </div>
                 `;
                 feed.appendChild(card);
             });
         }
 
-        function createPost() {
+        async function createPost() {
             const textInput = document.getElementById('postText');
             const categorySelect = document.getElementById('postCategory');
-            
-            if (!textInput.value.trim()) {
+            const text = textInput.value.trim();
+
+            if (!text) {
                 alert('Заполните поле описания!');
                 return;
             }
 
-            const now = new Date();
-            const timeString = String(now.getDate()).padStart(2, '0') + '.' + 
-                               String(now.getMonth() + 1).padStart(2, '0') + '.' + 
-                               now.getFullYear() + ' ' + 
-                               String(now.getHours()).padStart(2, '0') + ':' + 
-                               String(now.getMinutes()).padStart(2, '0');
+            const { error } = await db.from('posts').insert([
+                { text: text, category: categorySelect.value }
+            ]);
 
-            const newPost = {
-                id: Date.now(),
-                text: textInput.value.trim(),
-                category: categorySelect.value,
-                time: timeString,
-                ai: `Категоризация подтверждена (${categorySelect.value}). Проект принят в обработку.`
-            };
-
-            posts.unshift(newPost);
-            localStorage.setItem('tubetu_posts', JSON.stringify(posts));
-            
-            textInput.value = '';
-            renderPosts();
+            if (error) {
+                alert('Ошибка при сохранении: ' + error.message);
+            } else {
+                textInput.value = '';
+                fetchPosts();
+            }
         }
 
         function filterPosts(category, btn) {
@@ -272,7 +270,7 @@
             renderPosts();
         }
 
-        renderPosts();
+        fetchPosts();
     </script>
 </body>
 </html>
