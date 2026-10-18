@@ -1,276 +1,440 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUBETU — Биржа идей и ресурсов</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            width: 100%;
-            max-width: 600px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        h1 {
-            color: var(--primary);
-            margin: 0 0 4px 0;
-            font-size: 28px;
-        }
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin: 0;
-        }
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
-        }
-        .form-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        textarea {
-            width: 100%;
-            height: 90px;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-            resize: none;
-            box-sizing: border-box;
-            outline: none;
-            margin-bottom: 12px;
-            font-family: inherit;
-        }
-        textarea:focus { border-color: var(--primary); }
-        select, .btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-        select {
-            border: 1px solid var(--border-color);
-            background: #fff;
-            margin-bottom: 12px;
-            outline: none;
-        }
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn:hover { background-color: var(--primary-hover); }
-        .filters {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-        }
-        .filter-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-        .filter-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        .post-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
-        }
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        .badge {
-            font-size: 11px;
-            font-weight: 600;
-            padding: 3px 8px;
-            border-radius: 6px;
-            background: #e0f2fe;
-            color: #0369a1;
-            text-transform: uppercase;
-        }
-        .post-time {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-        .post-text {
-            font-size: 15px;
-            line-height: 1.4;
-            margin-bottom: 12px;
-            white-space: pre-wrap;
-        }
-        .ai-box {
-            background: #eff6ff;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 12px;
-            color: #1e40af;
-            display: flex;
-            gap: 8px;
-            align-items: flex-start;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08120e">
+<title>TUBETU — People • Business • Resources</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --bg:#08120e;--panel:#102019;--panel2:#14271e;
+  --line:#294334;--text:#edf7ef;--muted:#a1b6a7;
+  --green:#43df80;--red:#ff8585;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:760px;margin:auto;padding:22px 15px}
+header{display:flex;justify-content:space-between;align-items:center;
+gap:12px;margin:10px 0 25px}
+h1{font-size:30px;letter-spacing:2px;color:var(--green);margin:0}
+.subtitle{font-size:12px;color:var(--muted);margin:0}
+.status{font-size:12px;border:1px solid var(--line);
+border-radius:20px;padding:5px 9px;color:var(--muted)}
+.card,.post{background:var(--panel);border:1px solid var(--line);
+border-radius:15px;padding:17px;margin-bottom:15px}
+h2{font-size:18px;margin:0 0 12px}
+label{display:block;color:var(--muted);font-size:13px;margin:12px 0 5px}
+input,textarea,select{width:100%;padding:12px;border:1px solid var(--line);
+border-radius:9px;background:#09160f;color:var(--text);font:inherit}
+textarea{min-height:115px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:1px solid var(--green)}
+button{padding:10px 14px;border:1px solid var(--line);border-radius:9px;
+background:var(--panel2);color:var(--text);font:inherit;cursor:pointer}
+button.primary{background:var(--green);color:#07140b;border-color:var(--green);
+font-weight:700}
+button:disabled{opacity:.55;cursor:wait}
+.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.row>*{flex:1}
+.hidden{display:none!important}
+.message{padding:10px;border-radius:8px;background:#173724;
+color:#c6f8d6;font-size:13px;margin-top:12px;white-space:pre-wrap}
+.message.error{background:#3a2020;color:#ffd0d0}
+.muted{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.toolbar input{flex:1;min-width:150px}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.filter.active{border-color:var(--green);color:var(--green)}
+.post-top{display:flex;justify-content:space-between;gap:8px;
+align-items:center;font-size:12px;color:var(--muted)}
+.tag{border:1px solid #315a40;border-radius:20px;padding:3px 8px;color:var(--green)}
+.post h3{font-size:18px;margin:12px 0 6px;overflow-wrap:anywhere}
+.post-text{white-space:pre-wrap;overflow-wrap:anywhere}
+.ai{border-top:1px solid var(--line);padding-top:9px;margin-top:13px;
+font-size:12px;color:var(--muted)}
+.ai strong{color:var(--green)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:440px){header{align-items:flex-start}h1{font-size:25px}.card,.post{padding:13px}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>TUBETU</h1>
-            <p class="subtitle">Облачная биржа идей и ресурсов</p>
-        </header>
+<main>
+<header>
+  <div>
+    <h1>TUBETU</h1>
+    <p class="subtitle">Direct Information Exchange Environment<br>
+    People • Business • Resources</p>
+  </div>
+  <span id="connection" class="status">Подключение...</span>
+</header>
 
-        <div class="card">
-            <div class="form-title">Опубликовать инициативу</div>
-            <textarea id="postText" placeholder="Опишите вашу идею, задачу или ресурс..."></textarea>
-            <select id="postCategory">
-                <option value="Идея">Идея / Проект</option>
-                <option value="Ресурс">Ресурс / Материал</option>
-                <option value="Услуга">Работа / Услуга</option>
-            </select>
-            <button class="btn" onclick="createPost()">Опубликовать в облако</button>
-        </div>
-
-        <div class="filters">
-            <button class="filter-btn active" onclick="filterPosts('Все', this)">Все</button>
-            <button class="filter-btn" onclick="filterPosts('Идея', this)">Идеи</button>
-            <button class="filter-btn" onclick="filterPosts('Ресурс', this)">Ресурсы</button>
-            <button class="filter-btn" onclick="filterPosts('Услуга', this)">Услуги</button>
-        </div>
-
-        <div id="postsFeed">Загрузка данных...</div>
+<section id="authCard" class="card">
+  <h2>Вход в TUBETU</h2>
+  <p class="muted">Войди или создай аккаунт, чтобы публиковать материалы.</p>
+  <form id="authForm">
+    <label for="email">Электронная почта</label>
+    <input id="email" type="email" autocomplete="email"
+    required maxlength="254" placeholder="you@example.com">
+    <label for="password">Пароль</label>
+    <input id="password" type="password" minlength="8"
+    autocomplete="current-password" required placeholder="Минимум 8 символов">
+    <div class="row">
+      <button class="primary" id="loginBtn" type="submit">Войти</button>
+      <button id="registerBtn" type="button">Регистрация</button>
     </div>
+  </form>
+  <div id="authMessage" class="message hidden" role="status"></div>
+</section>
 
-    <script>
-        const SUPABASE_URL = 'https://zbgfuitelvmkrpzbpcrj.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
-        const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+<section id="publishCard" class="card hidden">
+  <div class="row" style="align-items:center">
+    <h2 style="flex:2;margin:0">Новая публикация</h2>
+    <button id="logoutBtn" type="button">Выйти</button>
+  </div>
+  <p id="userLine" class="muted"></p>
+  <form id="postForm">
+    <label for="title">Заголовок</label>
+    <input id="title" maxlength="120" required
+    placeholder="Название предложения">
+    <label for="description">Описание</label>
+    <textarea id="description" maxlength="10000" required
+    placeholder="Что предлагаешь, ищешь или хочешь реализовать?"></textarea>
+    <label for="category">Категория</label>
+    <select id="category">
+      <option value="Идея">Идея / Проект</option>
+      <option value="Ресурс">Ресурс / Материал</option>
+      <option value="Услуга">Работа / Услуга</option>
+    </select>
+    <button class="primary" id="publishBtn" type="submit"
+    style="width:100%;margin-top:13px">Опубликовать</button>
+  </form>
+  <div id="publishMessage" class="message hidden" role="status"></div>
+</section>
 
-        let currentFilter = 'Все';
-        let allPosts = [];
+<div class="toolbar">
+  <input id="search" type="search" maxlength="150"
+  placeholder="Поиск публикаций...">
+  <button id="refreshBtn" type="button">Обновить</button>
+</div>
 
-        async function fetchPosts() {
-            const { data, error } = await db.from('posts').select('*').order('created_at', { ascending: false });
-            if (error) {
-                console.error('Ошибка загрузки:', error);
-                document.getElementById('postsFeed').innerHTML = 'Ошибка подключения к облаку';
-                return;
-            }
-            allPosts = data || [];
-            renderPosts();
-        }
+<div class="filters" id="filters">
+  <button type="button" class="filter active" data-filter="Все">Все</button>
+  <button type="button" class="filter" data-filter="Идея">Идеи</button>
+  <button type="button" class="filter" data-filter="Ресурс">Ресурсы</button>
+  <button type="button" class="filter" data-filter="Услуга">Услуги</button>
+</div>
 
-        function renderPosts() {
-            const feed = document.getElementById('postsFeed');
-            feed.innerHTML = '';
+<div id="feed" aria-live="polite">
+  <div class="card muted">Загрузка публикаций...</div>
+</div>
 
-            const filtered = currentFilter === 'Все' 
-                ? allPosts 
-                : allPosts.filter(p => p.category === currentFilter);
+<footer>TUBETU · People • Business • Resources</footer>
+</main>
 
-            if (filtered.length === 0) {
-                feed.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">Записей пока нет</div>';
-                return;
-            }
+<script>
+(() => {
+  'use strict';
 
-            filtered.forEach(post => {
-                const date = new Date(post.created_at);
-                const timeStr = date.toLocaleDateString('ru-RU') + ' ' + date.toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'});
-                
-                const card = document.createElement('div');
-                card.className = 'post-card';
-                card.innerHTML = `
-                    <div class="post-header">
-                        <span class="badge">${post.category}</span>
-                        <span class="post-time">${timeStr}</span>
-                    </div>
-                    <div class="post-text">${post.text}</div>
-                    <div class="ai-box">
-                        <span>✨</span>
-                        <div><strong>AI-анализ:</strong> Синхронизировано с облачной базой данных Supabase.</div>
-                    </div>
-                `;
-                feed.appendChild(card);
-            });
-        }
+  const URL = 'https://zbgfuitelvmkrpzbpcrj.supabase.co';
+  const KEY = 'sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
 
-        async function createPost() {
-            const textInput = document.getElementById('postText');
-            const categorySelect = document.getElementById('postCategory');
-            const text = textInput.value.trim();
+  const $ = id => document.getElementById(id);
+  const client = window.supabase
+    ? window.supabase.createClient(URL, KEY)
+    : null;
 
-            if (!text) {
-                alert('Заполните поле описания!');
-                return;
-            }
+  let user = null;
+  let posts = [];
+  let filter = 'Все';
+  let loadingPosts = false;
 
-            const { error } = await db.from('posts').insert([
-                { text: text, category: categorySelect.value }
-            ]);
+  function showMessage(id, text, error = false) {
+    const el = $(id);
+    el.textContent = text;
+    el.classList.remove('hidden', 'error');
+    if (error) el.classList.add('error');
+  }
 
-            if (error) {
-                alert('Ошибка при сохранении: ' + error.message);
-            } else {
-                textInput.value = '';
-                fetchPosts();
-            }
-        }
+  function clearMessage(id) {
+    $(id).textContent = '';
+    $(id).classList.add('hidden');
+    $(id).classList.remove('error');
+  }
 
-        function filterPosts(category, btn) {
-            currentFilter = category;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderPosts();
-        }
+  function busy(button, state, label) {
+    if (state) {
+      button.dataset.original = button.textContent;
+      button.textContent = label;
+    } else {
+      button.textContent = button.dataset.original || button.textContent;
+    }
+    button.disabled = state;
+  }
 
-        fetchPosts();
-    </script>
+  function updateAuth() {
+    $('authCard').classList.toggle('hidden', !!user);
+    $('publishCard').classList.toggle('hidden', !user);
+    $('userLine').textContent = user
+      ? 'Вход выполнен: ' + user.email
+      : '';
+  }
+
+  async function loadPosts() {
+    if (!client || loadingPosts) return;
+    loadingPosts = true;
+    $('connection').textContent = 'Загрузка...';
+    $('feed').textContent = 'Загрузка публикаций...';
+
+    try {
+      const { data, error } = await client
+        .from('posts')
+        .select('id,title,text,category,author_id,ai_status,ai_category,created_at')
+        .order('created_at', { ascending: false })
+        .limit(100);
+
+      if (error) throw error;
+
+      posts = data || [];
+      $('connection').textContent = 'Supabase подключён';
+      renderPosts();
+    } catch (error) {
+      console.error('Ошибка загрузки публикаций:', error);
+      $('connection').textContent = 'Ошибка базы';
+      $('feed').textContent =
+        'Не удалось загрузить публикации. Проверьте структуру таблицы posts и политики RLS в Supabase.';
+    } finally {
+      loadingPosts = false;
+    }
+  }
+
+  function renderPosts() {
+    const feed = $('feed');
+    feed.replaceChildren();
+
+    const query = $('search').value.trim().toLocaleLowerCase('ru');
+
+    const visible = posts.filter(post => {
+      const categoryMatch = filter === 'Все' || post.category === filter;
+      const content = ((post.title || '') + ' ' + (post.text || ''))
+        .toLocaleLowerCase('ru');
+      return categoryMatch && content.includes(query);
+    });
+
+    if (!visible.length) {
+      const empty = document.createElement('div');
+      empty.className = 'card muted';
+      empty.textContent = 'Публикаций не найдено.';
+      feed.appendChild(empty);
+      return;
+    }
+
+    visible.forEach(post => {
+      const article = document.createElement('article');
+      article.className = 'post';
+
+      const top = document.createElement('div');
+      top.className = 'post-top';
+
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = post.category || 'Без категории';
+
+      const time = document.createElement('time');
+      if (post.created_at) {
+        const date = new Date(post.created_at);
+        time.textContent = Number.isNaN(date.getTime())
+          ? ''
+          : date.toLocaleString('ru-RU');
+      }
+
+      top.append(tag, time);
+
+      const heading = document.createElement('h3');
+      heading.textContent = post.title || 'Публикация';
+
+      const body = document.createElement('div');
+      body.className = 'post-text';
+      body.textContent = post.text || '';
+
+      const ai = document.createElement('div');
+      ai.className = 'ai';
+
+      const strong = document.createElement('strong');
+      strong.textContent = 'ИИ-анализ: ';
+
+      const statuses = {
+        pending: 'Ожидает обработки',
+        processing: 'Обработка выполняется',
+        reviewed: 'Обработка завершена',
+        failed: 'Обработка не выполнена'
+      };
+
+      ai.append(
+        strong,
+        document.createTextNode(
+          (statuses[post.ai_status] || 'Статус не указан') +
+          (post.ai_category ? ' · Категория: ' + post.ai_category : '')
+        )
+      );
+
+      article.append(top, heading, body, ai);
+      feed.appendChild(article);
+    });
+  }
+
+  async function authenticate(register) {
+    clearMessage('authMessage');
+
+    const email = $('email').value.trim();
+    const password = $('password').value;
+    const button = register ? $('registerBtn') : $('loginBtn');
+
+    if (!email || password.length < 8) {
+      showMessage('authMessage',
+        'Укажи почту и пароль длиной не менее 8 символов.', true);
+      return;
+    }
+
+    busy(button, true, 'Подождите...');
+
+    try {
+      const result = register
+        ? await client.auth.signUp({ email, password })
+        : await client.auth.signInWithPassword({ email, password });
+
+      if (result.error) throw result.error;
+
+      if (register && !result.data.session) {
+        showMessage('authMessage',
+          'Аккаунт создан. Проверь почту, подтверди регистрацию, затем войди.');
+      } else {
+        showMessage('authMessage',
+          register ? 'Аккаунт создан.' : 'Вход выполнен.');
+      }
+    } catch (error) {
+      showMessage('authMessage',
+        error.message || 'Не удалось выполнить операцию.', true);
+    } finally {
+      busy(button, false);
+    }
+  }
+
+  async function publish(event) {
+    event.preventDefault();
+    clearMessage('publishMessage');
+
+    if (!user) {
+      showMessage('publishMessage', 'Сначала войди в аккаунт.', true);
+      return;
+    }
+
+    const title = $('title').value.trim();
+    const text = $('description').value.trim();
+    const category = $('category').value;
+
+    if (!title || !text) {
+      showMessage('publishMessage',
+        'Заполни заголовок и описание.', true);
+      return;
+    }
+
+    if (title.length > 120 || text.length > 10000) {
+      showMessage('publishMessage', 'Превышена допустимая длина текста.', true);
+      return;
+    }
+
+    const button = $('publishBtn');
+    busy(button, true, 'Публикуем...');
+
+    try {
+      const { error } = await client.from('posts').insert({
+        title,
+        text,
+        category,
+        author_id: user.id,
+        ai_status: 'pending'
+      });
+
+      if (error) throw error;
+
+      $('title').value = '';
+      $('description').value = '';
+
+      showMessage('publishMessage',
+        'Публикация сохранена. ИИ-анализ ожидает подключения серверного обработчика.');
+
+      await loadPosts();
+    } catch (error) {
+      console.error('Ошибка публикации:', error);
+      showMessage('publishMessage',
+        'Не удалось опубликовать: ' + (error.message || 'ошибка базы данных'),
+        true);
+    } finally {
+      busy(button, false);
+    }
+  }
+
+  async function init() {
+    if (!client) {
+      $('connection').textContent = 'Ошибка SDK';
+      $('feed').textContent = 'Не удалось загрузить библиотеку Supabase.';
+      $('authForm').querySelectorAll('button').forEach(b => b.disabled = true);
+      return;
+    }
+
+    try {
+      const { data, error } = await client.auth.getSession();
+      if (error) throw error;
+
+      user = data.session ? data.session.user : null;
+      updateAuth();
+
+      client.auth.onAuthStateChange((_event, session) => {
+        user = session ? session.user : null;
+        updateAuth();
+      });
+
+      await loadPosts();
+    } catch (error) {
+      console.error(error);
+      $('connection').textContent = 'Ошибка авторизации';
+      showMessage('authMessage',
+        'Не удалось проверить сессию. Обнови страницу и попробуй снова.', true);
+    }
+  }
+
+  $('authForm').addEventListener('submit', event => {
+    event.preventDefault();
+    authenticate(false);
+  });
+
+  $('registerBtn').addEventListener('click', () => authenticate(true));
+  $('postForm').addEventListener('submit', publish);
+
+  $('logoutBtn').addEventListener('click', async () => {
+    const { error } = await client.auth.signOut();
+    if (error) showMessage('publishMessage', error.message, true);
+  });
+
+  $('refreshBtn').addEventListener('click', loadPosts);
+  $('search').addEventListener('input', renderPosts);
+
+  $('filters').addEventListener('click', event => {
+    const button = event.target.closest('[data-filter]');
+    if (!button) return;
+
+    filter = button.dataset.filter;
+    $('filters').querySelectorAll('[data-filter]').forEach(item => {
+      item.classList.toggle('active', item === button);
+    });
+
+    renderPosts();
+  });
+
+  init();
+})();
+</script>
 </body>
 </html>
