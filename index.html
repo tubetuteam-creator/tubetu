@@ -58,6 +58,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 <div class="row"><button class="primary" id="loginBtn" type="submit">Войти</button><button id="registerBtn" type="button">Регистрация</button></div>
 </form>
 <div id="authMessage" class="message hidden" role="status"></div>
+<button id="resendBtn" type="button" class="hidden" style="width:100%;margin-top:10px">Отправить письмо подтверждения повторно</button>
 </section>
 
 <section id="publishCard" class="card hidden">
@@ -136,7 +137,7 @@ async function login(register){
  try{
   const r=register?await db.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+window.location.pathname}}):await db.auth.signInWithPassword({email,password});
   if(r.error)throw r.error;
-  if(register&&!r.data.session){msg('authMessage','Аккаунт создан. Подтверди регистрацию по ссылке в письме, затем войди.');return}
+  if(register&&!r.data.session){$('resendBtn').classList.remove('hidden');msg('authMessage','Если письмо не пришло, нажми кнопку ниже и запроси новое.');return}
   user=r.data.user||(r.data.session&&r.data.session.user)||user;authView();msg('authMessage',register?'Аккаунт создан.':'Вход выполнен.');await load();
  }catch(e){msg('authMessage',e.message||'Не удалось выполнить операцию.',true)}
  finally{busy(btn,false)}
@@ -157,6 +158,7 @@ async function publish(ev){
 }
 $('authForm').addEventListener('submit',e=>{e.preventDefault();login(false)});
 $('registerBtn').addEventListener('click',()=>login(true));
+$('resendBtn').addEventListener('click',async()=>{clear('authMessage');const email=$('email').value.trim();if(!email)return msg('authMessage','Укажи электронную почту.',true);const btn=$('resendBtn');busy(btn,true,'Отправляем...');try{const {error}=await db.auth.resend({type:'signup',email,options:{emailRedirectTo:window.location.origin+window.location.pathname}});if(error)throw error;msg('authMessage','Запрос отправлен. Проверь входящие и папку «Спам».');}catch(e){msg('authMessage',e.message||'Не удалось отправить письмо.',true)}finally{busy(btn,false)}});
 $('postForm').addEventListener('submit',publish);
 $('logoutBtn').addEventListener('click',async()=>{const {error}=await db.auth.signOut();if(error)msg('publishMessage',error.message,true)});
 $('refreshBtn').addEventListener('click',load);
