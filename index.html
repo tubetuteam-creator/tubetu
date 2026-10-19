@@ -134,7 +134,7 @@ async function login(register){
  if(!email||password.length<8)return msg('authMessage','Укажи почту и пароль минимум из 8 символов.',true);
  busy(btn,true,'Подождите...');
  try{
-  const r=register?await db.auth.signUp({email,password}):await db.auth.signInWithPassword({email,password});
+  const r=register?await db.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+window.location.pathname}}):await db.auth.signInWithPassword({email,password});
   if(r.error)throw r.error;
   if(register&&!r.data.session){msg('authMessage','Аккаунт создан. Подтверди регистрацию по ссылке в письме, затем войди.');return}
   user=r.data.user||(r.data.session&&r.data.session.user)||user;authView();msg('authMessage',register?'Аккаунт создан.':'Вход выполнен.');await load();
