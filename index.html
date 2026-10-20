@@ -1,176 +1,73 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08120e">
 <title>TUBETU — People • Business • Resources</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{color-scheme:dark;--bg:#08120e;--panel:#102019;--line:#294334;--text:#edf7ef;--muted:#a1b6a7;--green:#43df80}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif}
-main{max-width:760px;margin:auto;padding:20px 15px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:8px 0 24px}
-h1{font-size:29px;letter-spacing:2px;color:var(--green);margin:0}
-h2{font-size:19px;margin:0 0 10px}
-.muted,.subtitle{color:var(--muted);font-size:13px}
-.card,.post{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:14px}
-label{display:block;color:var(--muted);font-size:13px;margin:12px 0 5px}
-input,textarea,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:#09160f;color:var(--text);font:inherit}
-textarea{min-height:110px;resize:vertical}
-button{padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:#14271e;color:var(--text);font:inherit;cursor:pointer}
-button.primary{background:var(--green);color:#07140b;border-color:var(--green);font-weight:700}
-button:disabled{opacity:.55}
-.row,.toolbar,.filters{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
-.row>*{flex:1}
-.hidden{display:none!important}
+:root{color-scheme:dark;--bg:#08120e;--panel:#102019;--line:#294334;--text:#edf7ef;--muted:#a1b6a7;--green:#43df80;--red:#ffb4b4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:auto;padding:20px 15px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:8px 0 24px}
+h1{font-size:29px;letter-spacing:2px;color:var(--green);margin:0}h2{font-size:19px;margin:0 0 10px}
+.muted,.subtitle{color:var(--muted);font-size:13px}.card,.post{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:16px;margin-bottom:14px}
+label{display:block;color:var(--muted);font-size:13px;margin:12px 0 5px}input,textarea,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:#09160f;color:var(--text);font:inherit}
+textarea{min-height:110px;resize:vertical}button{padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:#14271e;color:var(--text);font:inherit;cursor:pointer}
+button.primary{background:var(--green);color:#07140b;border-color:var(--green);font-weight:700}button:disabled{opacity:.55;cursor:wait}
+.row,.toolbar,.filters{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.row>*{flex:1}.hidden{display:none!important}
 .message{padding:10px;border-radius:8px;background:#173724;color:#c6f8d6;font-size:13px;margin-top:12px;overflow-wrap:anywhere}
-.error{background:#3a2020;color:#ffd0d0}
-.status{font-size:11px;border:1px solid var(--line);border-radius:20px;padding:5px 9px;color:var(--muted)}
-.toolbar input{flex:1;min-width:140px}
-.filter.active{border-color:var(--green);color:var(--green)}
-.post-top{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}
-.tag{border:1px solid #315a40;border-radius:20px;padding:3px 8px;color:var(--green)}
-.post h3{font-size:18px;margin:12px 0 6px;overflow-wrap:anywhere}
-.post-text{white-space:pre-wrap;overflow-wrap:anywhere}
-.ai{border-top:1px solid var(--line);padding-top:9px;margin-top:13px;font-size:12px;color:var(--muted)}
-.ai strong{color:var(--green)}
+.message.error{background:#3a2020;color:#ffd0d0}.status{font-size:11px;border:1px solid var(--line);border-radius:20px;padding:5px 9px;color:var(--muted)}
+.toolbar input{flex:1;min-width:140px}.filter.active{border-color:var(--green);color:var(--green)}
+.post-top{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)}.tag{border:1px solid #315a40;border-radius:20px;padding:3px 8px;color:var(--green)}
+.post h3{font-size:18px;margin:12px 0 6px;overflow-wrap:anywhere}.post-text{white-space:pre-wrap;overflow-wrap:anywhere}
+.ai{border-top:1px solid var(--line);padding-top:9px;margin-top:13px;font-size:12px;color:var(--muted)}.ai strong{color:var(--green)}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 </style>
 </head>
-<body>
-<main>
-<header>
-<div><h1>TUBETU</h1><p class="subtitle">Direct Information Exchange Environment<br>People • Business • Resources</p></div>
-<span id="connection" class="status">Подключение...</span>
-</header>
-
+<body><main>
+<header><div><h1>TUBETU</h1><p class="subtitle">Direct Information Exchange Environment<br>People • Business • Resources</p></div><span id="connection" class="status">Проверка соединения…</span></header>
 <section id="authCard" class="card">
-<h2>Вход в TUBETU</h2>
-<p class="muted">Войди или создай аккаунт, чтобы публиковать материалы.</p>
+<h2>Вход в TUBETU</h2><p class="muted">Войди или создай аккаунт, чтобы публиковать материалы.</p>
 <form id="authForm">
-<label for="email">Электронная почта</label>
-<input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
-<label for="password">Пароль</label>
-<input id="password" type="password" minlength="8" autocomplete="current-password" required placeholder="Минимум 8 символов">
+<label for="email">Электронная почта</label><input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
+<label for="password">Пароль</label><input id="password" type="password" minlength="8" autocomplete="current-password" required placeholder="Минимум 8 символов">
 <div class="row"><button class="primary" id="loginBtn" type="submit">Войти</button><button id="registerBtn" type="button">Регистрация</button></div>
-</form>
-<div id="authMessage" class="message hidden" role="status"></div>
+</form><div id="authMessage" class="message hidden" role="status" aria-live="polite"></div>
 <button id="resendBtn" type="button" class="hidden" style="width:100%;margin-top:10px">Отправить письмо подтверждения повторно</button>
 </section>
-
-<section id="publishCard" class="card hidden">
-<div class="row" style="align-items:center"><h2 style="flex:2;margin:0">Новая публикация</h2><button id="logoutBtn" type="button">Выйти</button></div>
-<p id="userLine" class="muted"></p>
-<form id="postForm">
-<label for="title">Заголовок</label>
-<input id="title" maxlength="120" required placeholder="Название предложения">
-<label for="description">Описание</label>
-<textarea id="description" maxlength="10000" required placeholder="Что предлагаешь, ищешь или хочешь реализовать?"></textarea>
-<label for="category">Категория</label>
-<select id="category"><option value="Идея">Идея / Проект</option><option value="Ресурс">Ресурс / Материал</option><option value="Услуга">Работа / Услуга</option></select>
-<button class="primary" id="publishBtn" type="submit" style="width:100%;margin-top:13px">Опубликовать</button>
-</form>
-<div id="publishMessage" class="message hidden" role="status"></div>
-</section>
-
-<div class="toolbar"><input id="search" type="search" maxlength="150" placeholder="Поиск публикаций..."><button id="refreshBtn" type="button">Обновить</button></div>
-<div class="filters" id="filters">
-<button type="button" class="filter active" data-filter="Все">Все</button>
-<button type="button" class="filter" data-filter="Идея">Идеи</button>
-<button type="button" class="filter" data-filter="Ресурс">Ресурсы</button>
-<button type="button" class="filter" data-filter="Услуга">Услуги</button>
-</div>
-<div id="feed" aria-live="polite"><div class="card muted">Загрузка публикаций...</div></div>
-<footer>TUBETU · People • Business • Resources</footer>
+<section id="publishCard" class="card hidden"><div class="row" style="align-items:center"><h2 style="flex:2;margin:0">Новая публикация</h2><button id="logoutBtn" type="button">Выйти</button></div><p id="userLine" class="muted"></p>
+<form id="postForm"><label for="title">Заголовок</label><input id="title" maxlength="120" required placeholder="Название предложения">
+<label for="description">Описание</label><textarea id="description" maxlength="10000" required placeholder="Что предлагаешь, ищешь или хочешь реализовать?"></textarea>
+<label for="category">Категория</label><select id="category"><option value="Идея">Идея / Проект</option><option value="Ресурс">Ресурс / Материал</option><option value="Услуга">Работа / Услуга</option></select>
+<button class="primary" id="publishBtn" type="submit" style="width:100%;margin-top:13px">Опубликовать</button></form><div id="publishMessage" class="message hidden" role="status"></div></section>
+<div class="toolbar"><input id="search" type="search" maxlength="150" placeholder="Поиск публикаций…"><button id="refreshBtn" type="button">Обновить</button></div>
+<div class="filters" id="filters"><button type="button" class="filter active" data-filter="Все">Все</button><button type="button" class="filter" data-filter="Идея">Идеи</button><button type="button" class="filter" data-filter="Ресурс">Ресурсы</button><button type="button" class="filter" data-filter="Услуга">Услуги</button></div>
+<div id="feed" aria-live="polite"><div class="card muted">Загрузка публикаций…</div></div><footer>TUBETU · People • Business • Resources</footer>
 </main>
-
 <script>
-(function(){
-'use strict';
-const URL='https://zbgfuitelvmkrpzbpcrj.supabase.co';
-const KEY='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
+(()=>{'use strict';
+const SUPABASE_URL='https://zbgfuitelvmkrpzbpcrj.supabase.co';
+const SUPABASE_KEY='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
+// GitHub Pages project path is included intentionally; do not redirect to the domain root.
+const AUTH_REDIRECT='https://tubetuteam-creator.github.io/tubetu/';
 const $=id=>document.getElementById(id);
-const db=window.supabase?window.supabase.createClient(URL,KEY):null;
+const db=window.supabase?.createClient(SUPABASE_URL,SUPABASE_KEY);
 let user=null,posts=[],filter='Все',loading=false;
-
-function msg(id,text,error=false){const e=$(id);e.textContent=text;e.classList.remove('hidden','error');if(error)e.classList.add('error')}
-function clear(id){$(id).textContent='';$(id).classList.add('hidden');$(id).classList.remove('error')}
-function busy(btn,on,label){if(on){btn.dataset.old=btn.textContent;btn.textContent=label}else btn.textContent=btn.dataset.old||btn.textContent;btn.disabled=on}
-function authView(){$('authCard').classList.toggle('hidden',!!user);$('publishCard').classList.toggle('hidden',!user);$('userLine').textContent=user?'Вход выполнен: '+(user.email||''):''}
-
-async function load(){
- if(!db||loading)return;
- loading=true;$('connection').textContent='Загрузка...';$('feed').textContent='Загрузка публикаций...';
- try{
-  const {data,error}=await db.from('posts').select('id,title,text,category,author_id,ai_status,ai_category,created_at').order('created_at',{ascending:false}).limit(100);
-  if(error)throw error;
-  posts=data||[];$('connection').textContent='База подключена';render();
- }catch(e){console.error(e);$('connection').textContent='Ошибка базы';$('feed').textContent='Не удалось загрузить публикации. Проверь таблицу posts и права Supabase.'}
- finally{loading=false}
-}
-function render(){
- const feed=$('feed');feed.replaceChildren();const q=$('search').value.trim().toLocaleLowerCase('ru');
- const list=posts.filter(p=>(filter==='Все'||p.category===filter)&&((p.title||'')+' '+(p.text||'')).toLocaleLowerCase('ru').includes(q));
- if(!list.length){const e=document.createElement('div');e.className='card muted';e.textContent='Публикаций не найдено.';feed.appendChild(e);return}
- for(const p of list){
-  const a=document.createElement('article');a.className='post';
-  const top=document.createElement('div');top.className='post-top';
-  const tag=document.createElement('span');tag.className='tag';tag.textContent=p.category||'Без категории';
-  const time=document.createElement('time');if(p.created_at){const d=new Date(p.created_at);time.textContent=isNaN(d.getTime())?'':d.toLocaleString('ru-RU')}
-  top.append(tag,time);
-  const h=document.createElement('h3');h.textContent=p.title||'Публикация';
-  const body=document.createElement('div');body.className='post-text';body.textContent=p.text||'';
-  const ai=document.createElement('div');ai.className='ai';const strong=document.createElement('strong');strong.textContent='ИИ-анализ: ';
-  const states={pending:'Ожидает обработки',processing:'Обработка выполняется',reviewed:'Обработка завершена',failed:'Обработка не выполнена'};
-  ai.append(strong,document.createTextNode((states[p.ai_status]||'Статус не указан')+(p.ai_category?' · Категория: '+p.ai_category:'')));
-  a.append(top,h,body,ai);feed.appendChild(a);
- }
-}
-async function login(register){
- clear('authMessage');if(!db)return msg('authMessage','Supabase не загрузился. Обнови страницу.',true);
- const email=$('email').value.trim(),password=$('password').value,btn=$(register?'registerBtn':'loginBtn');
- if(!email||password.length<8)return msg('authMessage','Укажи почту и пароль минимум из 8 символов.',true);
- busy(btn,true,'Подождите...');
- try{
-  const r=register?await db.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+window.location.pathname}}):await db.auth.signInWithPassword({email,password});
-  if(r.error)throw r.error;
-  if(register&&!r.data.session){$('resendBtn').classList.remove('hidden');msg('authMessage','Если письмо не пришло, нажми кнопку ниже и запроси новое.');return}
-  user=r.data.user||(r.data.session&&r.data.session.user)||user;authView();msg('authMessage',register?'Аккаунт создан.':'Вход выполнен.');await load();
- }catch(e){msg('authMessage',e.message||'Не удалось выполнить операцию.',true)}
- finally{busy(btn,false)}
-}
-async function publish(ev){
- ev.preventDefault();clear('publishMessage');
- if(!db||!user)return msg('publishMessage','Сначала войди в аккаунт.',true);
- const title=$('title').value.trim(),text=$('description').value.trim(),category=$('category').value;
- if(!title||!text)return msg('publishMessage','Заполни заголовок и описание.',true);
- const btn=$('publishBtn');busy(btn,true,'Публикуем...');
- try{
-  const {error}=await db.from('posts').insert({title,text,category,author_id:user.id});
-  if(error)throw error;
-  $('title').value='';$('description').value='';
-  msg('publishMessage','Публикация сохранена. ИИ-анализ ожидает подключения серверного обработчика.');await load();
- }catch(e){msg('publishMessage','Не удалось опубликовать: '+(e.message||'ошибка базы'),true)}
- finally{busy(btn,false)}
-}
-$('authForm').addEventListener('submit',e=>{e.preventDefault();login(false)});
-$('registerBtn').addEventListener('click',()=>login(true));
-$('resendBtn').addEventListener('click',async()=>{clear('authMessage');const email=$('email').value.trim();if(!email)return msg('authMessage','Укажи электронную почту.',true);const btn=$('resendBtn');busy(btn,true,'Отправляем...');try{const {error}=await db.auth.resend({type:'signup',email,options:{emailRedirectTo:window.location.origin+window.location.pathname}});if(error)throw error;msg('authMessage','Запрос отправлен. Проверь входящие и папку «Спам».');}catch(e){msg('authMessage',e.message||'Не удалось отправить письмо.',true)}finally{busy(btn,false)}});
-$('postForm').addEventListener('submit',publish);
-$('logoutBtn').addEventListener('click',async()=>{const {error}=await db.auth.signOut();if(error)msg('publishMessage',error.message,true)});
-$('refreshBtn').addEventListener('click',load);
-$('search').addEventListener('input',render);
-$('filters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(!b)return;filter=b.dataset.filter;$('filters').querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));render()});
-async function init(){
- if(!db){$('connection').textContent='Ошибка SDK';$('feed').textContent='Не удалось загрузить Supabase.';return}
- try{const {data,error}=await db.auth.getSession();if(error)throw error;user=data.session?data.session.user:null;authView();db.auth.onAuthStateChange((_e,s)=>{user=s?s.user:null;authView()});await load()}
- catch(e){console.error(e);$('connection').textContent='Ошибка авторизации';msg('authMessage','Не удалось проверить сессию. Обнови страницу.',true)}
-}
+function show(id,text,error=false){const el=$(id);el.textContent=text;el.classList.remove('hidden','error');if(error)el.classList.add('error')}
+function hide(id){const el=$(id);el.textContent='';el.classList.add('hidden');el.classList.remove('error')}
+function busy(id,on,label){const b=$(id);if(on){b.dataset.label=b.textContent;b.textContent=label;b.disabled=true}else{b.textContent=b.dataset.label||b.textContent;b.disabled=false}}
+function explainError(e){const m=String(e?.message||e||'Неизвестная ошибка');if(/Invalid login credentials/i.test(m))return 'Неверная почта или пароль. Если аккаунта ещё нет — нажми «Регистрация».';if(/Email not confirmed/i.test(m))return 'Почта ещё не подтверждена. Попроси повторное письмо ниже; если оно не приходит, это проблема доставки/настроек Supabase.';if(/User already registered/i.test(m))return 'Этот адрес уже зарегистрирован. Попробуй войти или запросить письмо подтверждения.';if(/Failed to fetch|NetworkError/i.test(m))return 'Не удалось соединиться с Supabase. Проверь интернет или доступность сервиса.';return m}
+function authView(){ $('authCard').classList.toggle('hidden',!!user);$('publishCard').classList.toggle('hidden',!user);$('userLine').textContent=user?'Вход выполнен: '+(user.email||''):''}
+async function load(){if(!db||loading)return;loading=true;$('connection').textContent='Загрузка…';$('feed').textContent='Загрузка публикаций…';try{const {data,error}=await db.from('posts').select('id,title,text,category,author_id,ai_status,ai_category,created_at').order('created_at',{ascending:false}).limit(100);if(error)throw error;posts=data||[];$('connection').textContent='База подключена';render()}catch(e){console.error('posts.load',e);$('connection').textContent='Ошибка базы';$('feed').textContent='Не удалось загрузить публикации: '+(e.message||'ошибка доступа к таблице posts')}finally{loading=false}}
+function render(){const feed=$('feed');feed.replaceChildren();const q=$('search').value.trim().toLocaleLowerCase('ru');const list=posts.filter(p=>(filter==='Все'||p.category===filter)&&((p.title||'')+' '+(p.text||'')).toLocaleLowerCase('ru').includes(q));if(!list.length){const e=document.createElement('div');e.className='card muted';e.textContent='Публикаций не найдено.';feed.appendChild(e);return}for(const p of list){const a=document.createElement('article');a.className='post';const top=document.createElement('div');top.className='post-top';const tag=document.createElement('span');tag.className='tag';tag.textContent=p.category||'Без категории';const time=document.createElement('time');if(p.created_at){const d=new Date(p.created_at);time.textContent=isNaN(d.getTime())?'':d.toLocaleString('ru-RU')}top.append(tag,time);const h=document.createElement('h3');h.textContent=p.title||'Публикация';const body=document.createElement('div');body.className='post-text';body.textContent=p.text||'';const ai=document.createElement('div');ai.className='ai';const strong=document.createElement('strong');strong.textContent='ИИ-анализ: ';const states={pending:'Ожидает обработки',processing:'Обработка выполняется',reviewed:'Обработка завершена',failed:'Обработка не выполнена'};ai.append(strong,document.createTextNode((states[p.ai_status]||'Статус не указан')+(p.ai_category?' · Категория: '+p.ai_category:'')));a.append(top,h,body,ai);feed.appendChild(a)}}
+async function authenticate(register){hide('authMessage');if(!db)return show('authMessage','Supabase SDK не загрузился. Обнови страницу и проверь соединение.',true);const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<8)return show('authMessage','Укажи корректную почту и пароль минимум из 8 символов.',true);busy(register?'registerBtn':'loginBtn',true,register?'Создаём аккаунт…':'Входим…');try{if(register){const {data,error}=await db.auth.signUp({email,password,options:{emailRedirectTo:AUTH_REDIRECT}});if(error)throw error;if(data.session&&data.user){user=data.user;authView();show('authMessage','Аккаунт создан, вход выполнен.');await load()}else{ $('resendBtn').classList.remove('hidden');show('authMessage','Supabase принял регистрацию, но требует подтверждение почты. Если письмо не приходит, код сайта не может заставить почтовый сервер доставить его. Используй повторную отправку ниже.')}}else{const {data,error}=await db.auth.signInWithPassword({email,password});if(error)throw error;user=data.user;authView();hide('authMessage');await load()}}catch(e){console.error('auth',e);show('authMessage',explainError(e),true);if(register&&/already registered|already been registered/i.test(e.message||''))$('resendBtn').classList.remove('hidden')}finally{busy(register?'registerBtn':'loginBtn',false)}}
+$('authForm').addEventListener('submit',e=>{e.preventDefault();authenticate(false)});$('registerBtn').addEventListener('click',()=>authenticate(true));
+$('resendBtn').addEventListener('click',async()=>{hide('authMessage');if(!db)return show('authMessage','Supabase SDK не загрузился.',true);const email=$('email').value.trim();if(!email)return show('authMessage','Сначала укажи электронную почту.',true);busy('resendBtn',true,'Отправляем запрос…');try{const {error}=await db.auth.resend({type:'signup',email,options:{emailRedirectTo:AUTH_REDIRECT}});if(error)throw error;show('authMessage','Supabase принял запрос повторной отправки. Это не подтверждает доставку письма. Проверь «Спам»; если письма нет, нужно чинить SMTP/лимиты в Supabase.')}catch(e){console.error('auth.resend',e);show('authMessage',explainError(e),true)}finally{busy('resendBtn',false)}});
+$('postForm').addEventListener('submit',async e=>{e.preventDefault();hide('publishMessage');if(!db||!user)return show('publishMessage','Сначала войди в аккаунт.',true);const title=$('title').value.trim(),text=$('description').value.trim(),category=$('category').value;if(!title||!text)return show('publishMessage','Заполни заголовок и описание.',true);busy('publishBtn',true,'Публикуем…');try{const {error}=await db.from('posts').insert({title,text,category,author_id:user.id});if(error)throw error;$('title').value='';$('description').value='';show('publishMessage','Публикация сохранена.');await load()}catch(e){console.error('posts.insert',e);show('publishMessage','Не удалось опубликовать: '+explainError(e),true)}finally{busy('publishBtn',false)}});
+$('logoutBtn').addEventListener('click',async()=>{try{const {error}=await db.auth.signOut();if(error)throw error;user=null;authView()}catch(e){show('publishMessage',explainError(e),true)}});
+$('refreshBtn').addEventListener('click',load);$('search').addEventListener('input',render);$('filters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(!b)return;filter=b.dataset.filter;$('filters').querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));render()});
+async function init(){if(!db){$('connection').textContent='Ошибка SDK';$('feed').textContent='Не удалось загрузить Supabase SDK. Проверь подключение к интернету.';return}try{const {data,error}=await db.auth.getSession();if(error)throw error;user=data.session?.user||null;authView();db.auth.onAuthStateChange((_event,session)=>{user=session?.user||null;authView()});await load()}catch(e){console.error('init',e);$('connection').textContent='Ошибка подключения';$('feed').textContent='Не удалось инициализировать Supabase: '+(e.message||'ошибка')}}
 init();
 })();
-</script>
-</body>
-</html>
+</script></body></html>
