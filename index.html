@@ -135,7 +135,7 @@ async function login(register){
  if(!email||password.length<8)return msg('authMessage','Укажи почту и пароль минимум из 8 символов.',true);
  busy(btn,true,'Подождите...');
  try{
-  const r=register?await db.auth.signUp({email,password,options:{emailRedirectTo:'https://tubetuteam-creator.github.io/tubetu/'}}):await db.auth.signInWithPassword({email,password});
+  const r=register?await db.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin+window.location.pathname}}):await db.auth.signInWithPassword({email,password});
   if(r.error)throw r.error;
   if(register&&!r.data.session){$('resendBtn').classList.remove('hidden');msg('authMessage','Если письмо не пришло, нажми кнопку ниже и запроси новое.');return}
   user=r.data.user||(r.data.session&&r.data.session.user)||user;authView();msg('authMessage',register?'Аккаунт создан.':'Вход выполнен.');await load();
@@ -158,7 +158,7 @@ async function publish(ev){
 }
 $('authForm').addEventListener('submit',e=>{e.preventDefault();login(false)});
 $('registerBtn').addEventListener('click',()=>login(true));
-$('resendBtn').addEventListener('click',async()=>{clear('authMessage');const email=$('email').value.trim();if(!email)return msg('authMessage','Укажи электронную почту.',true);const btn=$('resendBtn');busy(btn,true,'Отправляем...');try{const {error}=await db.auth.resend({type:'signup',email,options:{emailRedirectTo:'https://tubetuteam-creator.github.io/tubetu/'}});if(error)throw error;msg('authMessage','Запрос отправлен. Проверь входящие и папку «Спам».');}catch(e){msg('authMessage',e.message||'Не удалось отправить письмо.',true)}finally{busy(btn,false)}});
+$('resendBtn').addEventListener('click',async()=>{clear('authMessage');const email=$('email').value.trim();if(!email)return msg('authMessage','Укажи электронную почту.',true);const btn=$('resendBtn');busy(btn,true,'Отправляем...');try{const {error}=await db.auth.resend({type:'signup',email,options:{emailRedirectTo:window.location.origin+window.location.pathname}});if(error)throw error;msg('authMessage','Запрос отправлен. Проверь входящие и папку «Спам».');}catch(e){msg('authMessage',e.message||'Не удалось отправить письмо.',true)}finally{busy(btn,false)}});
 $('postForm').addEventListener('submit',publish);
 $('logoutBtn').addEventListener('click',async()=>{const {error}=await db.auth.signOut();if(error)msg('publishMessage',error.message,true)});
 $('refreshBtn').addEventListener('click',load);
