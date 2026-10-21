@@ -102,7 +102,7 @@ footer{text-align:center;color:#718591;font-size:11px;padding:30px 10px 12px;let
 const SUPABASE_URL='https://zbgfuitelvmkrpzbpcrj.supabase.co';
 const SUPABASE_KEY='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
 // GitHub Pages project path is included intentionally; do not redirect to the domain root.
-const AUTH_REDIRECT='https://tubetuteam-creator.github.io/tubetu/';
+const AUTH_REDIRECT='https://tubetuteam-creator.github.io/tubetu/?mode=recovery';
 const $=id=>document.getElementById(id);
 const db=window.supabase?.createClient(SUPABASE_URL,SUPABASE_KEY);
 let user=null,posts=[],filter='Все',loading=false,registerMode=false,recoveryMode=false;
@@ -123,7 +123,7 @@ $('forgotPassword').addEventListener('click',async()=>{hide('authMessage');if(!d
 $('postForm').addEventListener('submit',async e=>{e.preventDefault();hide('publishMessage');if(!db||!user)return show('publishMessage','Сначала войди в аккаунт.',true);const title=$('title').value.trim(),text=$('description').value.trim(),category=$('category').value;if(!title||!text)return show('publishMessage','Заполни заголовок и описание.',true);busy('publishBtn',true,'Публикуем…');try{const {error}=await db.from('posts').insert({title,text,category,author_id:user.id});if(error)throw error;$('title').value='';$('description').value='';show('publishMessage','Публикация сохранена.');await load()}catch(e){console.error('posts.insert',e);show('publishMessage','Не удалось опубликовать: '+explainError(e),true)}finally{busy('publishBtn',false)}});
 $('logoutBtn').addEventListener('click',async()=>{try{const {error}=await db.auth.signOut();if(error)throw error;user=null;authView()}catch(e){show('publishMessage',explainError(e),true)}});
 $('feedRefreshBtn').addEventListener('click',load);$('refreshBtn').addEventListener('click',()=>{location.reload()});$('search').addEventListener('input',render);$('filters').addEventListener('click',e=>{const b=e.target.closest('[data-filter]');if(!b)return;filter=b.dataset.filter;$('filters').querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));render()});
-function hasRecoveryMarker(){const hash=new URLSearchParams(location.hash.replace(/^#/,'')).get('type');const query=new URLSearchParams(location.search).get('type');return hash==='recovery'||query==='recovery'}
+function hasRecoveryMarker(){const hash=new URLSearchParams(location.hash.replace(/^#/,''));const query=new URLSearchParams(location.search);return query.get('mode')==='recovery'||query.get('type')==='recovery'||hash.get('type')==='recovery'||(hash.has('access_token')&&hash.get('type')==='recovery')}
 async function init(){if(!db){$('connection').textContent='Ошибка SDK';$('feed').textContent='Не удалось загрузить Supabase SDK. Проверь подключение к интернету.';return}try{const recoveryLink=hasRecoveryMarker();const {data,error}=await db.auth.getSession();if(error)throw error;user=data.session?.user||null;authView();if(recoveryLink)setRecoveryMode();db.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'){setRecoveryMode();return}user=session?.user||null;if(recoveryMode){$('authCard').classList.remove('hidden');$('publishCard').classList.add('hidden');return}authView()});await load()}catch(e){console.error('init',e);$('connection').textContent='Ошибка подключения';$('feed').textContent='Не удалось инициализировать Supabase: '+(e.message||'ошибка')}}
 init();
 })();
