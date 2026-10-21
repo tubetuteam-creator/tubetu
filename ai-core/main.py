@@ -58,6 +58,7 @@ def rate_limit(request: Request) -> None:
  key = request.client.host if request.client else "unknown"
  now = time.monotonic(); q = rate[key]
  while q and now-q[0] > 60: q.popleft()
+ if q and now - q[-1] < 1.0: raise HTTPException(429, "Не чаще одного запроса в секунду. Попробуйте через мгновение.")
  if len(q) >= MAX_PER_MINUTE: raise HTTPException(429, "Слишком много запросов. Попробуйте позже.")
  q.append(now)
 
