@@ -1,0 +1,22 @@
+name: TUBETU AI Core checks
+on:
+  push:
+    paths:
+      - 'ai-core/**'
+      - '.github/workflows/tubetu-ai-core.yml'
+  pull_request:
+    paths:
+      - 'ai-core/**'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai-core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
