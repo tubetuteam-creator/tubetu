@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08120e">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08120e"><link rel="manifest" href="/tubetu/manifest.webmanifest"><link rel="icon" href="/tubetu/icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/tubetu/icon.svg">
 <title>TUBETU — Direct Information Exchange Environment</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -185,5 +185,5 @@ window.addEventListener('popstate',e=>{if(recoveryMode)return;const v=(location.
 async function init(){if(!db){$('connection').textContent='SDK недоступен';return}try{const {data,error}=await db.auth.getSession();if(error)throw error;user=data.session&&data.session.user||null;updateAuthUI();db.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'){openRecovery();return}user=session&&session.user||null;if(recoveryMode){$('view-auth').classList.add('active');return}updateAuthUI()});await loadPosts();if(recoveryMarker())openRecovery();else{const v=(location.hash||'#home').slice(1);navigate(v,false)}}catch(e){console.error('init',e);$('connection').textContent='Ошибка подключения'}}
 renderHome();renderExplore();init();
 })();
-</script>
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/tubetu/sw.js").catch(()=>{}))}</script>
 </body></html>
