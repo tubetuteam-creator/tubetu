@@ -1,0 +1,19 @@
+{
+  "id": "/tubetu/",
+  "name": "TUBETU",
+  "short_name": "TUBETU",
+  "description": "People • Business • Resources",
+  "start_url": "/tubetu/",
+  "scope": "/tubetu/",
+  "display": "standalone",
+  "background_color": "#08120e",
+  "theme_color": "#08120e",
+  "icons": [
+    {
+      "src": "/tubetu/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
