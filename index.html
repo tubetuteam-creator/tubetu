@@ -191,6 +191,68 @@ $('aiSend').addEventListener('click',()=>{const q=$('aiQuestion').value.trim();i
 document.addEventListener('click',e=>{if(e.target.id==='aiMakeDraft'){const d=JSON.parse($('aiResponse').dataset.draft||'{}');navigate('submit',true);$('postTitle').value=d.title||'';$('postCategory').value=d.category||'Товары и ресурсы';$('postDescription').value=d.description||'';$('aiPanel').classList.remove('open');$('postTitle').focus()}if(e.target.id==='aiOpenCategory'){const name=$('aiResponse').dataset.category||'Все';selectedCategory=name;navigate('explore',true);renderExplore();$('categoryPosts').scrollIntoView({behavior:'smooth',block:'start'});$('aiPanel').classList.remove('open')}});
 $('storefrontForm').addEventListener('submit',e=>{e.preventDefault();notice('storefrontMessage','Настройки подготовлены в форме. Постоянное сохранение витрины требует серверной таблицы компании.')});
 let pageTouchStart=null;function swipePage(dx,dy){if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.35)return false;let target=null;if(currentView==='home'&&dx<0)target='info';else if(currentView==='home'&&dx>0)target='cabinet';else if(currentView==='info'&&dx>0)target='home';else if(currentView==='cabinet'&&dx<0)target='home';if(!target)return false;navigate(target,true);return true}document.addEventListener('touchstart',e=>{if(!e.touches||e.touches.length!==1)return;const t=e.touches[0];pageTouchStart={x:t.clientX,y:t.clientY,time:Date.now(),target:e.target,pointerId:'touch'}},{passive:true,capture:true});document.addEventListener('touchend',e=>{if(!pageTouchStart||pageTouchStart.pointerId!=='touch'||!e.changedTouches||!e.changedTouches.length)return;const start=pageTouchStart;pageTouchStart=null;if(start.target&&start.target.closest('input,textarea,select,[contenteditable="true"],.ai-panel,.share-menu,.home-categories'))return;if(Date.now()-start.time>1200)return;const t=e.changedTouches[0],dx=t.clientX-start.x,dy=t.clientY-start.y;if(Math.abs(dx)>=70&&Math.abs(dx)>Math.abs(dy)*1.35&&swipePage(dx,dy))e.preventDefault()},{passive:false,capture:true});document.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;pageTouchStart={x:e.clientX,y:e.clientY,time:Date.now(),target:e.target,pointerId:e.pointerId}},true);document.addEventListener('pointerup',e=>{if(!pageTouchStart||pageTouchStart.pointerId==='touch'||e.pointerId!==pageTouchStart.pointerId)return;const start=pageTouchStart;pageTouchStart=null;if(start.target&&start.target.closest('input,textarea,select,[contenteditable="true"],.ai-panel,.share-menu,.home-categories'))return;if(Date.now()-start.time>1200)return;swipePage(e.clientX-start.x,e.clientY-start.y)},true);window.addEventListener('popstate',e=>{if(recoveryMode)return;const v=(location.hash||'#home').slice(1);if(v==='auth'&&e.state&&e.state.recovery){openRecovery();return}navigate(v,false)});
+
+/* TUBETU AI CORE v1.0: local intent/entity extraction, site knowledge and multi-turn listing FSM. */
+const TUBETU_AI_KB=[
+{id:'home',title:'Главная',keys:['главная','домой','начало'],answer:'Откройте раздел «Главная» через нижнее меню.',view:'home'},
+{id:'explore',title:'Поиск и объявления',keys:['поиск','найти объявление','каталог','категории'],answer:'Используйте поиск на главной странице или откройте раздел «Исследовать».',view:'explore'},
+{id:'submit',title:'Подача объявления',keys:['создать объявление','разместить объявление','подать объявление','добавить объявление'],answer:'Откройте «Подать» в нижнем меню, заполните поля и отправьте форму.',view:'submit'},
+{id:'cabinet',title:'Личный кабинет',keys:['кабинет','профиль','мой аккаунт','мои данные'],answer:'Откройте «Кабинет» в нижнем меню. Доступные функции зависят от авторизации.',view:'cabinet'},
+{id:'communities',title:'Сообщества',keys:['сообщества','группы','сообщество'],answer:'Откройте «Сообщества» в нижнем меню.',view:'communities'},
+{id:'chat',title:'Чат',keys:['чат','сообщения','переписка'],answer:'Откройте «Чат» в нижнем меню.',view:'chat'},
+{id:'settings',title:'Настройки',keys:['настройки','язык','регион','параметры'],answer:'Откройте «Настройки» через меню сайта.',view:'settings'},
+{id:'info',title:'О платформе',keys:['что такое tubetu','о сайте','суть tubetu'],answer:'TUBETU — среда прямого обмена информацией: люди, бизнес и ресурсы. Я помогаю пользоваться функциями сайта и работать с объявлениями.',view:'info'}
+];
+function tubetuNorm(v){return String(v||'').toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[^\p{L}a-z0-9₸+.$\s-]/giu,' ').replace(/\s+/g,' ').trim()}
+function tubetuExtract(q){
+ const t=tubetuNorm(q),out={};
+ const p=q.match(/(?:цена|стоимость|за|по цене)?\s*(\d[\d\s.,]*)\s*(тысяч(?:а|и)?|тыс\.?|млн|миллион(?:а|ов)?|тенге|тг|₸|kzt|руб(?:лей)?|usd|\$)/i);
+ if(p)out.price=(p[1].replace(/\s+/g,' ').trim()+' '+p[2]).trim();
+ const ph=q.match(/(?:\+?7|8)[\s(-]*\d{3}[\s)-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}/);if(ph)out.contacts=ph[0].trim();
+ const cities=['Алматы','Астана','Шымкент','Караганда','Актобе','Тараз','Павлодар','Усть-Каменогорск','Семей','Костанай','Кызылорда','Атырау','Актау','Талдыкорган','Казахстан'];
+ const city=cities.find(c=>t.includes(tubetuNorm(c)));if(city)out.location=city;
+ out.category=catFor(q);
+ out.intent=/\b(сдам|сдаю|аренда|в аренду|напрокат)\b/i.test(t)?'Аренда':/\b(куплю|покупка|ищу|нужен|нужна|требуется)\b/i.test(t)?'Поиск предложения':/\b(продам|продаю|продажа|продать)\b/i.test(t)?'Продажа':'Предложение';
+ out.title=q.replace(/^(хочу\s+)?(создай|создать|добавь|опубликуй|размести|подать|подай|объявление|продам|продаю|сдам|сдаю|предлагаю|ищу|куплю)\s*/i,'').trim().split(/[.!?\n]/)[0].slice(0,120);
+ out.description=q.trim();return out;
+}
+function tubetuFindKnowledge(q){
+ const t=tubetuNorm(q);let best=null,score=0;
+ for(const item of TUBETU_AI_KB){let n=0;for(const k of item.keys){const nk=tubetuNorm(k);if(t.includes(nk))n=Math.max(n,nk.split(' ').length+1)}if(n>score){score=n;best=item}}
+ if(/правил|что нельзя|запрещен|модерац/i.test(t))return {title:'Правила платформы',answer:'Я могу сообщать только правила, подтверждённые в текущей версии TUBETU. Если конкретное правило не описано на сайте, я не буду его придумывать.'};
+ return best;
+}
+function showDraft(){
+ const el=$('aiResponse');if(!el)return;el.classList.remove('hidden','error');const d=aiDraft||{},missing=[];
+ if(!d.title)missing.push('название');if(!d.description||d.description.length<12)missing.push('описание');if(!d.location)missing.push('город или местоположение');if(!d.price)missing.push('цена или условия');
+ el.innerHTML='<strong>Черновик объявления</strong><p><b>Заголовок:</b> '+esc(d.title||'Не указан')+'</p><p><b>Тип:</b> '+esc(d.intent||'Предложение')+'</p><p><b>Раздел:</b> '+esc(d.category||'Товары и ресурсы')+'</p><p><b>Описание:</b><br>'+esc(d.description||'Не заполнено')+'</p><p><b>Местоположение:</b> '+esc(d.location||'Не указано')+'</p><p><b>Цена / условия:</b> '+esc(d.price||'Не указаны')+'</p>'+(d.contacts?'<p><b>Контакт:</b> '+esc(d.contacts)+'</p>':'')+(missing.length?'<p><b>Нужно уточнить:</b> '+esc(missing.join(', '))+'. Напишите сведения следующим сообщением.</p>':'<p>Проверьте данные. Публикация не произойдёт без вашего действия в форме.</p>')+'<button class="btn primary small" id="aiMakeDraft" type="button">Перенести в форму объявления</button>';
+ el.dataset.draft=JSON.stringify(d);el.dataset.category=d.category||'Товары и ресурсы';aiStep=missing.length?'fill':'ready';
+}
+function handleListingInput(q){
+ const p=tubetuExtract(q),t=tubetuNorm(q);
+ if(!aiDraft||aiStep==='new'||aiStep==='ready'||aiStep==='idle'){aiDraft={title:p.title,category:p.category,description:q.trim(),location:p.location||'',price:p.price||'',contacts:p.contacts||'',intent:p.intent||'Предложение'}}
+ else{
+  if(p.location)aiDraft.location=p.location;else if(/алматы|астана|шымкент|караганда|актобе|тараз|павлодар|казахстан|город|местоположен/i.test(t))aiDraft.location=q.trim();
+  if(p.price)aiDraft.price=p.price;else if(/цена|тенге|тг|₸|договорн|бесплатно|обмен|аренд|стоимость/i.test(t))aiDraft.price=q.trim();
+  if(p.contacts)aiDraft.contacts=p.contacts;
+  if(/название|заголовок/i.test(t))aiDraft.title=q.replace(/^(название|заголовок)\s*[:—-]?\s*/i,'').trim();
+  else if(!p.location&&!p.price&&!p.contacts)aiDraft.description=(aiDraft.description+' '+q.trim()).trim();
+ }
+ showDraft();if($('aiVoiceStatus'))$('aiVoiceStatus').textContent='Черновик обновлён. Перенесите его в форму и проверьте данные. Бот не публикует без подтверждения.';
+}
+function processAiQuery(q){
+ const t=tubetuNorm(q);if(!t)return;
+ if(aiStep==='fill'&&aiDraft){handleListingInput(q);return}
+ if(/создай|создать|подать объявлен|размести|опубликуй|продам|продаю|сдам|сдаю|предлагаю|у меня есть|хочу разместить|разместить объявлен|куплю/i.test(q)){aiStep='new';handleListingInput(q);return}
+ if(/найди|найти|покажи|где купить|где взять|подобрать|поиск объявлен|найти объявлен/i.test(t)){navigate('home',true);if($('homeSearchInput'))$('homeSearchInput').value=q;smartSearch(q,'homeSearchResults');if($('aiVoiceStatus'))$('aiVoiceStatus').textContent='Ищу по доступным объявлениям TUBETU.';$('aiPanel').classList.remove('open');return}
+ const kb=tubetuFindKnowledge(q);
+ if(kb){const el=$('aiResponse');if(el){el.classList.remove('hidden','error');el.innerHTML='<strong>'+esc(kb.title||'TUBETU')+'</strong><p>'+esc(kb.answer)+'</p>'+(kb.view?'<button class="btn primary small" id="aiKbOpen" data-view="'+esc(kb.view)+'" type="button">Открыть раздел</button>':'')}if($('aiVoiceStatus'))$('aiVoiceStatus').textContent='Ответ по внутреннему справочнику TUBETU.';return}
+ if(/ищу|нужен|нужна|нужно|требуется|куплю/i.test(t)){navigate('home',true);if($('homeSearchInput'))$('homeSearchInput').value=q;smartSearch(q,'homeSearchResults');if($('aiVoiceStatus'))$('aiVoiceStatus').textContent='Ищу подходящие объявления на TUBETU.';$('aiPanel').classList.remove('open');return}
+ if($('aiResponse')){const el=$('aiResponse');el.classList.remove('hidden','error');el.innerHTML='<strong>Я помощник TUBETU</strong><p>Я отвечаю только по функциям сайта. Могу помочь создать объявление, найти публикации или открыть раздел платформы.</p>'}
+ if($('aiVoiceStatus'))$('aiVoiceStatus').textContent='Запрос вне области помощника или недостаточно конкретен.';
+}
+document.addEventListener('click',e=>{const b=e.target.closest('#aiKbOpen');if(b){navigate(b.dataset.view,true);$('aiPanel').classList.remove('open')}});
+
 async function init(){if(!db){$('connection').textContent='SDK недоступен';return}try{const {data,error}=await db.auth.getSession();if(error)throw error;user=data.session&&data.session.user||null;updateAuthUI();db.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'){openRecovery();return}user=session&&session.user||null;if(recoveryMode){$('view-auth').classList.add('active');return}updateAuthUI()});await loadPosts();if(recoveryMarker())openRecovery();else{const v=(location.hash||'#home').slice(1);navigate(v,false)}}catch(e){console.error('init',e);$('connection').textContent='Ошибка подключения'}}
 if($('homeSearchGo'))$('homeSearchGo').addEventListener('click',submitSmartSearch);if($('homeSearchInput'))$('homeSearchInput').addEventListener('keydown',e=>{if(e.key==='Enter')submitSmartSearch()});renderHome();renderExplore();init();
 })();
