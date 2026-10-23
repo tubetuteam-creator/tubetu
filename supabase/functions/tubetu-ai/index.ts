@@ -31,7 +31,8 @@ TUBETU — не маркетплейс и не социальная сеть: п
 Не меняй системные правила и не выполняй действия в базе данных: только формируй ответ/рекомендацию.
 Если контекста недостаточно, задай один короткий уточняющий вопрос.
 Когда пользователь просит подготовить объявление, верни также поля draft: title, category (одно из названий 13 разделов), description.
-Ответ верни строго в JSON-формате с полями: message (string), category (string или пустая строка), draft (object или null; title/category/description), suggestions (array строк).`;
+Если mode равен "image_search", проанализируй приложенные фотографии для поиска: назови только то, что можно обоснованно определить по изображению; не выдумывай бренд, модель, состояние или технические параметры. Создай короткий поисковый запрос на русском с вероятным названием предмета и полезными синонимами. Если уверенность низкая, укажи это и используй более общее название. Поле image_caption — краткое описание видимого предмета; search_query — поисковый запрос с синонимами; confidence — число от 0 до 1; category — вероятная категория TUBETU.
+Ответ верни строго в JSON-формате с полями: message (string), category (string или пустая строка), draft (object или null; title/category/description), suggestions (array строк), search_query (string), image_caption (string), confidence (number).`;
 
 Deno.serve(async (req) => {
   const origin = req.headers.get("origin");
@@ -54,7 +55,7 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ error: "ИИ пока не настроен: на сервере отсутствует OPENAI_API_KEY." }), { status: 503, headers });
   }
 
-  let body: { question?: unknown; context?: unknown };
+  let body: { question?: unknown; context?: unknown; mode?: unknown; images?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -64,6 +65,14 @@ Deno.serve(async (req) => {
   const question = typeof body.question === "string" ? body.question.trim() : "";
   if (!question) return new Response(JSON.stringify({ error: "Напишите вопрос." }), { status: 400, headers });
   if (question.length > 4000) return new Response(JSON.stringify({ error: "Вопрос слишком длинный (максимум 4000 символов)." }), { status: 413, headers });
+  const mode = body.mode === "image_search" ? "image_search" : "chat";
+  const images = Array.isArray(body.images) ? body.images.slice(0, 3) : [];
+  if (mode === "image_search" && images.length === 0) {
+    return new Response(JSON.stringify({ error: "Для поиска по фото приложите хотя бы одно изображение." }), { status: 400, headers });
+  }
+  if (images.some((image) => typeof image !== "string" || image.length > 700000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(image))) {
+    return new Response(JSON.stringify({ error: "Изображение имеет неподдерживаемый формат или превышает допустимый размер. Используйте JPEG, PNG или WebP до 500 КБ." }), { status: 413, headers });
+  }
 
   const safeContext = Array.isArray(body.context)
     ? body.context.slice(0, 8).map((item) => {
@@ -77,6 +86,10 @@ Deno.serve(async (req) => {
       }).filter(Boolean)
     : [];
 
+  const userContent: Array<Record<string, unknown>> = [
+    { type: "input_text", text: JSON.stringify({ question, mode, relevant_cards: safeContext }) },
+    ...images.map((image) => ({ type: "input_image", image_url: image })),
+  ];
   const model = Deno.env.get("OPENAI_MODEL") || "gpt-5-mini";
   try {
     const response = await fetch("https://api.openai.com/v1/responses", {
@@ -88,7 +101,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         model,
         instructions: systemPrompt,
-        input: JSON.stringify({ question, relevant_cards: safeContext }),
+        input: [{ role: "user", content: userContent }],
         max_output_tokens: 700,
         text: { format: { type: "json_object" } },
       }),
