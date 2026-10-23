@@ -70,8 +70,8 @@ Deno.serve(async (req) => {
   if (mode === "image_search" && images.length === 0) {
     return new Response(JSON.stringify({ error: "Для поиска по фото приложите хотя бы одно изображение." }), { status: 400, headers });
   }
-  if (images.some((image) => typeof image !== "string" || image.length > 700000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(image))) {
-    return new Response(JSON.stringify({ error: "Изображение имеет неподдерживаемый формат или превышает допустимый размер. Используйте JPEG, PNG или WebP до 500 КБ." }), { status: 413, headers });
+  if (images.some((image) => typeof image !== "string" || image.length > 560000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(image))) {
+    return new Response(JSON.stringify({ error: "Изображение имеет неподдерживаемый формат или превышает допустимый размер. Используйте JPEG, PNG или WebP до 400 КБ." }), { status: 413, headers });
   }
 
   const safeContext = Array.isArray(body.context)
