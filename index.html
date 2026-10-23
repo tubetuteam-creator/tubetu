@@ -80,7 +80,7 @@
 </button>
 </section>
 </section>
-<section id="view-explore" class="content-view"><div class="page-intro"><div class="eyebrow">Навигация по среде</div><h1>Разделы TUBETU</h1><p>Выберите направление. Внутри каждого раздела карточки строятся по общей модели «Предлагаю» / «Ищу» с возможностью продажи, аренды, обмена или бесплатной передачи.</p></div><div class="toolbar"><input class="field" id="categorySearch" placeholder="Найти раздел…" type="search"></div><div class="grid" id="allCategories"></div><div id="gameClusterView" class="game-cluster-view hidden"></div><div class="section-head"><div><h2 id="categoryPostsTitle">Демонстрационные объявления</h2><p id="categoryPostsHint">Вымышленные карточки для тестирования. Они не сохраняются в Supabase.</p></div><div class="right"><button class="btn small" id="demoToggle">Скрыть тестовые объявления</button></div></div><div id="categoryPosts" class="post-list"></div></section>
+<section id="view-explore" class="content-view"><div class="toolbar"><input class="field" id="categorySearch" placeholder="Найти раздел…" type="search"></div><div class="grid" id="allCategories"></div><div id="gameClusterView" class="game-cluster-view hidden"></div><div class="section-head"><div><h2 id="categoryPostsTitle">Демонстрационные объявления</h2><p id="categoryPostsHint">Вымышленные карточки для тестирования. Они не сохраняются в Supabase.</p></div><div class="right"><button class="btn small" id="demoToggle">Скрыть тестовые объявления</button></div></div><div id="categoryPosts" class="post-list"></div></section>
 <section id="view-projects" class="content-view"><div class="page-intro"><div class="eyebrow">Ядро платформы TUBETU</div><h1>Проекты и идеи</h1><p>Среда для создания, развития и соединения проектов, замыслов, команд и людей. Идея может стать проектом, а проект — вернуться к переосмыслению. Жёсткой границы между ними нет: важна стадия развития.</p></div>
 <div id="projectCategoryDetail" class="project-category-detail hidden"></div>
 <div class="panel project-core-intro"><div class="eyebrow">Главный принцип</div><h2>Не соцсеть и не маркетплейс</h2><p>TUBETU помогает находить людей, команды, партнёров, знания и ресурсы для реализации замыслов. Контент, деньги и реклама — вспомогательные инструменты вокруг ядра.</p><div class="project-flow"><span>Идея</span><b>↔</b><span>Проект</span><b>↔</b><span>Люди и ресурсы</span></div></div>
@@ -306,7 +306,7 @@ function openGameCluster(){gamePath=[];const view=$('gameClusterView');document.
 function openGameNode(title){const node=currentGameNode();const child=(node?node.children||gameTaxonomy:gameTaxonomy).find(x=>x.title===title);if(!child)return;gamePath.push(title);renderGameCluster()}
 function backGameCluster(){if(gamePath.length){gamePath.pop();renderGameCluster()}else closeGameCluster()}
 function closeGameCluster(){const view=$('gameClusterView');view.classList.add('hidden');view.innerHTML='';document.querySelectorAll('#view-explore > *').forEach(el=>el.classList.remove('hidden'));renderExplore()}
-function renderGameCluster(){const view=$('gameClusterView');const node=currentGameNode();const items=gamePath.length?(node?.children||[]):gameTaxonomy;const title=gamePath.length?(node?.title||'Игры'):'Игры';const description=gamePath.length?(node?.description||'Выберите нужное направление.'):'Отдельный игровой кластер TUBETU — не подраздел IT-проектов и не подраздел контента. Выберите направление, затем откройте нужную категорию.';view.innerHTML='<button type="button" class="btn small" data-game-back>← '+(gamePath.length?'Назад':'К разделам TUBETU')+'</button><div class="game-breadcrumbs"><span>Игры</span>'+gamePath.map(x=>'<b>›</b><span>'+esc(x)+'</span>').join('')+'</div><div class="page-intro game-cluster-intro"><div class="eyebrow">Игровой кластер</div><h1>'+esc(title)+'</h1><p>'+esc(description)+'</p></div>'+(items.length?'<div class="game-category-grid">'+items.map(item=>'<button type="button" class="game-category-card" data-game-node="'+esc(item.title)+'"><strong>'+esc(item.title)+'</strong><span>'+esc(item.description||'Откройте подраздел и выберите конкретное направление.')+'</span><small>'+(item.children?'Открыть подраздел →':'Открыть →')+'</small></button>').join('')+'</div>':'<div class="panel game-leaf-panel"><h2>'+esc(title)+'</h2><p>'+esc(node?.description||'В этом направлении можно размещать предложения, запросы, искать участников и обмениваться игровыми ресурсами.')+'</p><button type="button" class="btn primary" data-game-posts>Перейти к объявлениям игр</button></div>')+'<div class="panel game-cluster-note"><strong>Внутри направления</strong><p>Можно искать, предлагать, обменивать, собирать команды и находить сообщества. Карточки и объявления подключаются отдельно от структуры разделов.</p></div>'}
+function renderGameCluster(){const view=$('gameClusterView');const node=currentGameNode();const items=gamePath.length?(node?.children||[]):gameTaxonomy;const title=gamePath.length?(node?.title||'Игры'):'Игры';view.innerHTML='<button type="button" class="game-back-arrow" data-game-back aria-label="Назад" title="Назад">←</button><h2 class="game-cluster-title">'+esc(title)+'</h2>'+(items.length?'<div class="game-category-grid">'+items.map(item=>'<button type="button" class="game-category-card" data-game-node="'+esc(item.title)+'"><strong>'+esc(item.title)+'</strong><span class="game-card-arrow" aria-hidden="true">→</span></button>').join('')+'</div>':'<div class="panel game-leaf-panel"><h2>'+esc(title)+'</h2><button type="button" class="btn primary" data-game-posts>Открыть объявления</button></div>')}
 function renderExplore(){const q=$('categorySearch').value.trim().toLocaleLowerCase('ru');$('allCategories').innerHTML=categoryMarkup(categories.filter(c=>(c[0]+' '+c[2]).toLocaleLowerCase('ru').includes(q)));const list=allVisiblePosts().filter(p=>selectedCategory==='Все'||p.category===selectedCategory);$('categoryPostsTitle').textContent=selectedCategory==='Все'?'Объявления по всем разделам':selectedCategory;$('categoryPostsHint').textContent=demoEnabled?'Демонстрационные карточки помечены «ТЕСТ» и хранятся только в коде сайта. Реальные публикации загружаются из Supabase.':'Тестовые карточки скрыты. Показаны реальные публикации из Supabase.';renderPosts('categoryPosts',list,'В этом разделе пока нет объявлений.');$('demoToggle').textContent=demoEnabled?'Скрыть тестовые объявления':'Показать тестовые объявления';}
 const projectTaxonomy={
 'Бизнес-проект':{title:'Бизнес-проекты',description:'Проекты действующего или создаваемого бизнеса.',children:[
@@ -588,20 +588,16 @@ document.getElementById('storeCreateBtn')?.addEventListener('click',()=>{admin.h
 .project-leaf-panel{margin:12px 0 20px}
 @media(max-width:650px){.project-detail-grid{grid-template-columns:1fr}.project-detail-card{padding:15px}}
 /* TUBETU Games cluster hierarchy */
-.game-cluster-view{min-width:0;margin:14px 0}
-.game-breadcrumbs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:17px 0 9px;font-size:12px;color:var(--muted)}
-.game-breadcrumbs span:last-child{color:#a9f2c8;font-weight:750}
-.game-breadcrumbs b{color:var(--green)}
-.game-cluster-intro{margin:8px 0 18px}
-.game-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:12px 0 20px}
-.game-category-card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0;padding:18px;text-align:left;border:1px solid #2a4139;border-radius:15px;background:linear-gradient(145deg,#111f22,#0b151a);color:var(--text)}
+.game-cluster-view{min-width:0;margin:8px 0}
+.game-back-arrow{display:flex;align-items:center;justify-content:center;width:40px;height:40px;margin:0 0 12px;border:1px solid #2a4139;border-radius:12px;background:#101d1a;color:#a9f2c8;font-size:25px;cursor:pointer}
+.game-back-arrow:hover{border-color:#63e6a2}
+.game-cluster-title{margin:0 0 16px;font-size:22px;color:var(--text)}
+.game-category-grid{display:grid;grid-template-columns:1fr;gap:9px;margin:0 0 18px}
+.game-category-card{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:15px;text-align:left;border:1px solid #2a4139;border-radius:13px;background:linear-gradient(145deg,#111f22,#0b151a);color:var(--text)}
 .game-category-card:hover{border-color:#63e6a2}
 .game-category-card strong{font-size:15px;color:#e8fff0}
-.game-category-card span{font-size:12px;line-height:1.55;color:#c0d0d1}
-.game-category-card small{margin-top:auto;color:#76dca1;font-size:11px}
-.game-cluster-note{margin-top:18px}
-.game-cluster-note p{margin-bottom:0;color:var(--muted);font-size:13px}
-@media(max-width:650px){.game-category-grid{grid-template-columns:1fr}.game-category-card{padding:15px}}
+.game-card-arrow{font-size:20px;color:#76dca1;flex-shrink:0}
+.game-leaf-panel{margin-top:8px}
 /* TUBETU Projects & Ideas core structure */
 .project-core-intro{border-color:#315744;background:linear-gradient(145deg,#10271c,#0b151a)}
 .project-core-intro h2{font-size:clamp(22px,3vw,30px);margin:8px 0}
