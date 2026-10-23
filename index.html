@@ -29,6 +29,16 @@
 .header-icon#siteMenuOpen{font-size:26px;font-weight:800;color:#63e6a2;border:1px solid #315744;border-radius:11px;background:#102019}
 @media(max-width:480px){.site-menu{top:8px;right:8px;width:calc(100vw - 16px);max-height:calc(100dvh - 16px);padding:14px;border-radius:18px}.site-menu-grid{grid-template-columns:1fr}.site-menu-grid button{min-height:48px}}
 
+
+/* TUBETU home sections: clean labels, larger cards, fit viewport width */
+.home-sections-heading{margin:10px 0 12px!important;align-items:center!important}
+.home-sections-heading h2{font-size:24px!important;margin:0!important;letter-spacing:-.02em}
+.home-category-rail{overflow:visible!important;margin:0 0 22px!important}
+#homeCategories.home-categories{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;flex-wrap:initial!important;overflow:visible!important;gap:10px!important;padding:0!important}
+#homeCategories .tile{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important;width:100%!important;min-width:0!important;min-height:76px!important;padding:14px 16px!important;border-radius:14px!important;background:linear-gradient(145deg,#101e22,#0b1519)!important;border:1px solid #294139!important;text-align:left!important}
+#homeCategories .tile .ico{font-size:27px!important;flex:0 0 30px!important;color:#63e6a2!important}
+#homeCategories .tile strong{font-size:14px!important;line-height:1.2!important;white-space:normal!important;overflow-wrap:anywhere}
+@media(max-width:420px){#homeCategories.home-categories{gap:8px!important}#homeCategories .tile{min-height:72px!important;padding:11px 10px!important;gap:8px!important}#homeCategories .tile .ico{font-size:24px!important;flex-basis:26px!important}#homeCategories .tile strong{font-size:12px!important}}
 </style></head>
 <body>
 <div class="shell">
@@ -37,7 +47,7 @@
 
 <div class="home-smart-search"><div class="home-smart-input search-tools"><button class="search-tool attach-tool" id="homeAttachBtn" type="button" aria-label="Прикрепить фотографии" title="Прикрепить фотографии">＋</button><input class="field" id="homeSearchInput" type="search" placeholder="Что ищете?"><input id="homeSearchPhotos" type="file" accept="image/*" multiple hidden><button class="search-tool compact-search-btn" id="homeSearchGo" type="button" aria-label="Поиск" title="Поиск">⌕</button><button class="search-tool ai-search-tool compact-ai-btn" id="homeAiSearchBtn" type="button" aria-label="Открыть TUBETU AI" title="Внутренний искусственный интеллект TUBETU">AI</button></div><div id="homeSearchPhotoStatus" class="smart-search-hints" aria-live="polite">＋ Добавьте фотографии или опишите, что ищете. AI поможет уточнить запрос.</div><div class="smart-search-hints">Поиск по предложениям, запросам, категориям и описаниям</div><div id="homeSearchResults" class="smart-search-results" hidden></div></div>
 <div class="home-intent-grid"><button class="home-intent offer" data-nav="submit" data-post-kind="offer"><span class="intent-symbol">↗</span><span><strong>У меня есть</strong><small>Предложить ресурс, услугу или идею</small></span><span class="intent-arrow">→</span></button><button class="home-intent need" data-nav="submit" data-post-kind="need"><span class="intent-symbol">⌕</span><span><strong>Мне нужно</strong><small>Опубликовать запрос и найти связь</small></span><span class="intent-arrow">→</span></button></div>
-<div class="home-section-title"><div><span class="eyebrow">Навигация по среде</span><h2>Исследовать разделы</h2></div><button class="btn small" data-nav="explore">Все разделы ↗</button></div>
+<div class="home-section-title home-sections-heading"><h2>Разделы</h2></div>
 <div class="home-category-rail"><div class="home-categories" id="homeCategories"></div></div>
 <div class="home-section-title feed-title"><div><span class="eyebrow">Возможности среды</span><h2>Что происходит</h2><p>Примеры предложений и направлений для обмена.</p></div><button class="btn small" data-nav="explore">Все объявления ↗</button></div><div id="homePosts" class="post-list"><div class="empty">Загружаем публикации…</div></div>
 </section>
