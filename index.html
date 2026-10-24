@@ -72,13 +72,7 @@
 <div class="home-section-title home-sections-heading"><h2>Разделы</h2></div>
 <div class="home-category-rail"><div class="home-categories" id="homeCategories"></div></div>
 <div class="home-feed-separator" aria-hidden="true"></div><div id="homePosts" class="post-list"><div class="empty">Загружаем публикации…</div></div>
-<section class="home-about-link" aria-label="Информация о платформе TUBETU">
-<button class="home-about-link-button" type="button" data-nav="info">
-<span class="home-about-link-icon" aria-hidden="true">ⓘ</span>
-<span class="home-about-link-copy"><strong>О платформе TUBETU</strong><small>Что это за среда и как она работает</small></span>
-<span class="home-about-link-arrow" aria-hidden="true">→</span>
-</button>
-</section>
+<div class="home-about-link"><button class="home-about-link-button" type="button" data-nav="info">О проекте</button></div>
 </section>
 <section id="view-explore" class="content-view"><div class="toolbar"><input class="field" id="categorySearch" placeholder="Найти раздел…" type="search"></div><div class="grid" id="allCategories"></div><div id="gameClusterView" class="game-cluster-view hidden"></div><div id="sectionClusterView" class="game-cluster-view hidden"></div><div class="section-head"><div><h2 id="categoryPostsTitle">Демонстрационные объявления</h2><p id="categoryPostsHint">Вымышленные карточки для тестирования. Они не сохраняются в Supabase.</p></div><div class="right"><button class="btn small" id="demoToggle">Скрыть тестовые объявления</button></div></div><div id="categoryPosts" class="post-list"></div></section>
 <section id="view-projects" class="content-view"><div class="page-intro"><div class="eyebrow">Ядро платформы TUBETU</div><h1>Проекты и идеи</h1><p>Среда для создания, развития и соединения проектов, замыслов, команд и людей. Идея может стать проектом, а проект — вернуться к переосмыслению. Жёсткой границы между ними нет: важна стадия развития.</p></div>
@@ -498,14 +492,9 @@ if($('homeSearchGo'))$('homeSearchGo').addEventListener('click',submitSmartSearc
 })();
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/tubetu/sw.js").catch(()=>{}))}</script>
 <style>
-.home-about-link{margin:22px 0 28px}
-.home-about-link-button{width:100%;display:flex;align-items:center;gap:13px;text-align:left;padding:16px 18px;border:1px solid #315744;border-radius:15px;background:linear-gradient(110deg,#10231b,#0c171b);color:var(--text);transition:border-color .15s,background .15s}
-.home-about-link-button:hover{border-color:var(--green);background:linear-gradient(110deg,#143323,#0c171b)}
-.home-about-link-icon{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border:1px solid #376b4e;border-radius:11px;background:#143323;color:var(--green);font-size:23px}
-.home-about-link-copy{display:flex;flex:1;flex-direction:column;gap:3px;min-width:0}
-.home-about-link-copy strong{font-size:15px}
-.home-about-link-copy small{font-size:12px;color:var(--muted)}
-.home-about-link-arrow{font-size:24px;color:var(--green)}
+.home-about-link{margin:18px 0 8px;text-align:center}
+.home-about-link-button{display:inline-block;padding:4px 8px;border:0;background:transparent;color:var(--muted);font-size:12px;line-height:1.4}
+.home-about-link-button:hover{color:var(--green)}
 </style>
 </body></html>
 <style>.home-whitebook{margin-top:28px;margin-bottom:28px;border-color:#315744;background:linear-gradient(145deg,#10231b,#0c171b);padding:clamp(18px,3vw,30px)}.home-whitebook h2{font-size:clamp(22px,3vw,30px);color:#dfffea}.home-whitebook p{font-size:15px;line-height:1.75;color:#c3d4cd}.home-whitebook .btn{margin-top:8px}</style>
