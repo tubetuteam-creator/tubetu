@@ -376,23 +376,28 @@ function projectCardsForPath(){
 }
 function renderProjectCategory(){
  const detail=$('projectCategoryDetail');
+ if(!detail)return;
  document.querySelectorAll('#view-projects > :not(#projectCategoryDetail)').forEach(el=>el.classList.add('hidden'));
  detail.classList.remove('hidden');
- const node=projectCurrentNode();
  const root=!projectCategoryPath.length;
- const children=root?Object.entries(projectTaxonomy).map(([key,item])=>({title:item.title,description:item.description,key})):node?.children||[];
+ const node=projectCurrentNode();
+ const children=root?Object.entries(projectTaxonomy).map(([key,item])=>({title:item.title,description:item.description,key})):((node&&node.children)||[]);
  const leaf=!root&&children.length===0;
- const title=root?'Проекты и идеи':node?.title||'Проекты и идеи';
- const description=root?'Выберите «Проекты» или «Идеи». В каждом направлении есть собственные подразделы, как в разделе «Игры».':node?.description||'';
- detail.dataset.category=node?.title||'Проекты и идеи';
- const crumbs=projectCategoryPath.map((part,i)=>'<span>'+esc(i===0?(projectTaxonomy[part]?.title||part):part)+'</span>'+(i<projectCategoryPath.length-1?'<b>›</b>':'')).join('');
- const projectPhotos=[];
-const cards=children.map(child=>{const image=projectPhotos.find(([name])=>name===child.title)?.[1];return '<button type="button" class="project-detail-card" '+(root?'data-project-filter="'+esc(child.key)+'"':'data-project-node="'+esc(child.title)+'"')+(image?' style="background-image:linear-gradient(180deg,rgba(4,12,15,.08),rgba(4,12,15,.9)),url(https://images.unsplash.com/'+image+'?auto=format&fit=crop&w=700&q=80)"':'')+'><strong>'+esc(child.title)+'</strong><span>'+esc(child.description||'Открыть подраздел')+'</span><small>Открыть раздел <b>→</b></small></button>'}).join('');
+ const title=root?'Проекты и идеи':(node&&node.title)||'Проекты и идеи';
+ const description=root?'Выберите одно из двух направлений. Дальше структура раскрывается по уровням, как в разделе «Игры».':(node&&node.description)||'';
+ detail.dataset.category=(node&&node.title)||'Проекты и идеи';
+ const crumbs=projectCategoryPath.map((part,i)=>'<span>'+esc(i===0?((projectTaxonomy[part]&&projectTaxonomy[part].title)||part):part)+'</span>'+(i<projectCategoryPath.length-1?'<b>›</b>':'')).join('');
+ const cards=children.map((child,i)=>{
+   const rootCard=root?' project-root-card':'';
+   const action=root?'data-project-filter="'+esc(child.key)+'"':'data-project-node="'+esc(child.title)+'"';
+   const symbol=root?(child.key==='projects'?'↗':'✦'):'›';
+   return '<button type="button" class="project-detail-card'+rootCard+'" '+action+'><span class="project-card-index">'+symbol+'</span><strong>'+esc(child.title)+'</strong><span>'+esc(child.description||'Открыть подраздел')+'</span><small>'+ (root?'Открыть направление':'Открыть подраздел')+' <b>→</b></small></button>';
+ }).join('');
  const leafPanel=leaf?'<div class="panel project-leaf-panel"><div class="eyebrow">Раздел открыт</div><h3>'+esc(title)+'</h3><p>'+esc(description)+'</p><p>Создайте карточку именно в этом направлении или посмотрите публикации по теме.</p><button type="button" class="btn primary" data-project-add>＋ Создать карточку в этом разделе</button></div>':'';
- const posts=projectCardsForPath();
- const listings='<div class="game-listings-head">Карточки</div><div class="game-listings post-list">'+(posts.length?posts.map(cardMarkup).join(''):'<div class="empty"><strong>Пока нет карточек</strong>Публикации по этому направлению появятся здесь.</div>')+'</div>';
- detail.innerHTML='<div class="project-top-row"><button type="button" class="project-back-arrow" data-project-back aria-label="Назад" title="Назад">←</button><h2 class="project-cluster-title">'+esc(title)+'</h2><button type="button" class="project-forward-arrow" data-project-forward aria-label="Вперёд" title="Вперёд" '+(projectHistoryIndex<projectHistory.length-1?'':'disabled')+'>→</button><button type="button" class="game-communities-link" data-project-communities>Сообщества</button><div class="project-crumbs">'+(root?'<span>Главный раздел</span>':crumbs)+'</div></div><div class="page-intro project-detail-intro"><div class="eyebrow">TUBETU · Проекты и идеи</div><p>'+esc(description)+'</p></div>'+(children.length?'<div class="project-detail-grid">'+cards+'</div>':'')+leafPanel+listings+'<div class="project-actions-inline"><span>Создавать</span><b>↔</b><span>Обсуждать</span><b>↔</b><span>Искать людей и ресурсы</span></div>';
- detail.scrollIntoView({behavior:'auto',block:'start'});
+ const posts=root?[]:projectCardsForPath();
+ const listings=root?'':('<div class="game-listings-head">Карточки по направлению</div><div class="game-listings post-list">'+(posts.length?posts.map(cardMarkup).join(''):'<div class="empty"><strong>Пока нет карточек</strong>Публикации по этому направлению появятся здесь.</div>')+'</div>');
+ detail.innerHTML='<div class="project-top-row"><button type="button" class="project-back-arrow" data-project-back aria-label="Назад" title="Назад" '+(root?'disabled':'')+'>←</button><h2 class="project-cluster-title">'+esc(title)+'</h2><button type="button" class="project-forward-arrow" data-project-forward aria-label="Вперёд" title="Вперёд" '+(projectHistoryIndex<projectHistory.length-1?'':'disabled')+'>→</button><button type="button" class="game-communities-link" data-project-communities>Сообщества</button><div class="project-crumbs">'+(root?'<span>Главный раздел</span>':crumbs)+'</div></div><div class="page-intro project-detail-intro"><div class="eyebrow">TUBETU · Проекты и идеи</div><p>'+esc(description)+'</p></div>'+(children.length?'<div class="project-detail-grid'+(root?' project-root-grid':'')+'">'+cards+'</div>':'')+leafPanel+listings+(!root?'<div class="project-actions-inline"><span>Создавать</span><b>↔</b><span>Обсуждать</span><b>↔</b><span>Искать людей и ресурсы</span></div>':'');
+ if(!root)detail.scrollIntoView({behavior:'auto',block:'start'});
 }
 function renderProjects(){const q=$('projectSearch').value.trim().toLocaleLowerCase('ru');let list=allVisiblePosts().filter(p=>((p.category||'').toLocaleLowerCase('ru').includes('проект')||(p.category||'').toLocaleLowerCase('ru').includes('иде'))&&((p.title||'')+' '+(p.text||'')).toLocaleLowerCase('ru').includes(q));if(projectFilter==='Ищу')list=list.filter(p=>/ищу|нужен|нужна|требуется/i.test((p.title||'')+' '+(p.text||'')));if(projectFilter==='Предлагаю')list=list.filter(p=>/предлагаю|есть|готов/i.test((p.title||'')+' '+(p.text||'')));renderPosts('projectPosts',list,'Разместите первую идею, проект или запрос о поиске команды.')}
 function renderCabinet(){const signed=!!user;$('cabinetSignedOut').classList.toggle('hidden',signed);$('cabinetSignedIn').classList.toggle('hidden',!signed);if(signed){$('profileName').textContent=user.user_metadata&&user.user_metadata.username||'Участник TUBETU';$('profileEmail').textContent=user.email||'';renderPosts('myPosts',posts.filter(p=>p.author_id===user.id),'Вы ещё не публиковали карточки.');$('b2bActiveCount').textContent=posts.filter(p=>p.author_id===user.id).length}}
@@ -656,4 +661,15 @@ document.getElementById('storeCreateBtn')?.addEventListener('click',()=>{admin.h
 .project-action-chips{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
 .project-action-chips span{padding:7px 10px;border:1px solid #315744;border-radius:999px;background:#10241b;color:#c9f5d9;font-size:11px;font-weight:650}
 @media(max-width:650px){.project-type-grid,.project-ideas-grid{grid-template-columns:1fr}.project-type-card{padding:15px}.project-flow{gap:6px}.project-flow span{padding:8px 10px;font-size:11px}}
+
+/* Projects & Ideas: two-card entry screen, then nested taxonomy */
+#view-projects #projectCategoryDetail{display:block;min-height:220px}
+#view-projects #projectCategoryDetail.hidden{display:none}
+#view-projects .project-root-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
+#view-projects .project-root-card{min-height:205px;justify-content:center;align-items:flex-start;text-align:left;padding:22px;border-radius:18px;background:linear-gradient(145deg,#132b21,#0b1719);border-color:#365b48;gap:12px}
+#view-projects .project-root-card strong{font-size:23px;line-height:1.2}
+#view-projects .project-root-card span:not(.project-card-index){font-size:13px;line-height:1.55}
+#view-projects .project-root-card .project-card-index{width:42px;height:42px;font-size:21px}
+#view-projects .project-root-card small{font-size:12px}
+@media(max-width:600px){#view-projects .project-root-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#view-projects .project-root-card{min-height:190px;padding:13px 11px}#view-projects .project-root-card strong{font-size:18px}#view-projects .project-root-card span:not(.project-card-index){font-size:11px}}
 </style>
