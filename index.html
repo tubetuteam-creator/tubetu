@@ -380,32 +380,24 @@ function renderProjectCategory(){
  if(!detail)return;
  const root=projectCategoryPath.length===0;
  const node=root?null:projectCurrentNode();
- const children=root?[
-  {key:'projects',title:'Проекты',description:'Бизнес-проекты, IT, производство, франшизы, технологии, стартапы, команды, инвестиции и партнёрство.'},
-  {key:'ideas',title:'Идеи',description:'Бизнес-, творческие, медиа-, социальные и образовательные идеи.'}
+ const items=root?[
+  {key:'projects',title:'Проекты'},
+  {key:'ideas',title:'Идеи'}
  ]:((node&&node.children)||[]);
- const leaf=!root&&children.length===0;
  const title=root?'Проекты и идеи':(node&&node.title)||'Проекты и идеи';
- const description=root?'Выберите направление. Внутри каждого — отдельная структура с подразделами, как в разделе «Игры».':(node&&node.description)||'';
- detail.dataset.category=(node&&node.title)||'Проекты и идеи';
- const crumbs=projectCategoryPath.map((part,i)=>'<span>'+esc(i===0?((projectTaxonomy[part]&&projectTaxonomy[part].title)||part):part)+'</span>'+(i<projectCategoryPath.length-1?'<b>›</b>':'')).join('');
- const cards=children.map(child=>{
-  const action=root?'data-project-filter="'+esc(child.key)+'"':'data-project-node="'+esc(child.title)+'"';
-  return '<button type="button" class="project-detail-card'+(root?' project-root-card':'')+'" '+action+'><span class="project-card-index">'+(root?(child.key==='projects'?'↗':'✦'):'›')+'</span><strong>'+esc(child.title)+'</strong><span>'+esc(child.description||'Открыть подраздел')+'</span><small>'+(root?'Открыть направление':'Открыть подраздел')+' <b>→</b></small></button>';
- }).join('');
- const leafPanel=leaf?'<div class="panel project-leaf-panel"><div class="eyebrow">Раздел открыт</div><h3>'+esc(title)+'</h3><p>'+esc(description)+'</p><p>Создайте карточку в этом направлении или посмотрите публикации по теме.</p><button type="button" class="btn primary" data-project-add>＋ Создать карточку в этом разделе</button></div>':'';
  const posts=projectCardsForPath();
- const listings='<div class="game-listings-head">'+(root?'Свежие объявления по проектам и идеям':'Карточки по направлению')+'</div><div class="game-listings post-list">'+(posts.length?posts.map(cardMarkup).join(''):'<div class="empty"><strong>Пока нет объявлений</strong>Новые публикации в проектах и идеях будут отображаться здесь.</div>')+'</div>';
+ const cards=items.map(item=>'<button type="button" class="game-category-card project-simple-card" '+(root?'data-project-filter="'+esc(item.key)+'"':'data-project-node="'+esc(item.title)+'"')+'><strong>'+esc(item.title)+'</strong><span class="game-card-arrow">→</span></button>').join('');
+ const listing='<div class="game-listings-head">'+(root?'Свежие объявления':'Карточки по направлению')+'</div><div class="game-listings post-list">'+(posts.length?posts.map(cardMarkup).join(''):'<div class="empty"><strong>Пока нет объявлений</strong>Новые публикации будут отображаться здесь.</div>')+'</div>';
+ const crumbs=projectCategoryPath.map((part,i)=>'<span>'+esc(i===0?(projectTaxonomy[part]?.title||part):part)+'</span>'+(i<projectCategoryPath.length-1?'<b>›</b>':'')).join('');
  detail.classList.remove('hidden');
- detail.innerHTML='<div class="project-top-row"><button type="button" class="project-back-arrow" data-project-back aria-label="Назад">←</button><h2 class="project-cluster-title">'+esc(title)+'</h2><button type="button" class="project-forward-arrow" data-project-forward aria-label="Вперёд" '+(projectHistoryIndex<projectHistory.length-1?'':'disabled')+'>→</button><button type="button" class="game-communities-link" data-project-communities>Сообщества</button><div class="project-crumbs">'+(root?'<span>Главный раздел</span>':crumbs)+'</div></div><div class="page-intro project-detail-intro"><div class="eyebrow">TUBETU · Проекты и идеи</div><p>'+esc(description)+'</p></div><div class="project-detail-grid'+(root?' project-root-grid':'')+'">'+cards+'</div>'+leafPanel+listings+(!root?'<div class="project-actions-inline"><span>Создавать</span><b>↔</b><span>Обсуждать</span><b>↔</b><span>Искать людей и ресурсы</span></div>':'');
  detail.style.display='block';
+ detail.innerHTML='<div class="game-top-row project-top-row"><button type="button" class="game-back-arrow project-back-arrow" data-project-back aria-label="Назад" title="Назад">←</button><h2 class="game-cluster-title project-cluster-title">'+esc(title)+'</h2><button type="button" class="game-forward-arrow project-forward-arrow" data-project-forward aria-label="Вперёд" title="Вперёд" '+(projectHistoryIndex<projectHistory.length-1?'':'disabled')+'>→</button><button type="button" class="game-communities-link" data-project-communities>Сообщества</button></div>'+(root?'':'<div class="project-crumbs">'+crumbs+'</div>')+(items.length?'<div class="game-category-grid project-simple-grid">'+cards+'</div>':'<div class="empty"><strong>'+esc(title)+'</strong><p>В этом подразделе пока нет вложенных категорий.</p><button type="button" class="btn primary" data-project-add>＋ Создать карточку</button></div>')+listing;
  detail.querySelectorAll('[data-project-filter]').forEach(button=>button.addEventListener('click',event=>{event.stopPropagation();openProjectCategory(button.dataset.projectFilter)}));
  detail.querySelectorAll('[data-project-node]').forEach(button=>button.addEventListener('click',event=>{event.stopPropagation();openProjectNode(button.dataset.projectNode)}));
- const backButton=detail.querySelector('[data-project-back]');if(backButton)backButton.addEventListener('click',event=>{event.stopPropagation();if(projectHistoryIndex>0)closeProjectCategory();else navigate('home',true)});
- const forwardButton=detail.querySelector('[data-project-forward]');if(forwardButton)forwardButton.addEventListener('click',event=>{event.stopPropagation();forwardProjectCategory()});
- const communitiesButton=detail.querySelector('[data-project-communities]');if(communitiesButton)communitiesButton.addEventListener('click',event=>{event.stopPropagation();navigate('communities',true)});
- const addButton=detail.querySelector('[data-project-add]');if(addButton)addButton.addEventListener('click',event=>{event.stopPropagation();const category=detail.dataset.category||'Проект или идея';navigate('submit',true);if($('postCategory'))$('postCategory').value='Проекты и идеи';if($('postTitle'))$('postTitle').value=category;if($('postDescription'))$('postDescription').value='';if($('postKind'))$('postKind').value=/идея/i.test(category)?'Идея':'Проект'});
- detail.scrollIntoView({behavior:'auto',block:'start'});
+ const back=detail.querySelector('[data-project-back]');if(back)back.addEventListener('click',event=>{event.stopPropagation();if(projectHistoryIndex>0)closeProjectCategory();else navigate('home',true)});
+ const forward=detail.querySelector('[data-project-forward]');if(forward)forward.addEventListener('click',event=>{event.stopPropagation();forwardProjectCategory()});
+ const communities=detail.querySelector('[data-project-communities]');if(communities)communities.addEventListener('click',event=>{event.stopPropagation();navigate('communities',true)});
+ const add=detail.querySelector('[data-project-add]');if(add)add.addEventListener('click',event=>{event.stopPropagation();const category=detail.dataset.category||title;navigate('submit',true);if($('postCategory'))$('postCategory').value='Проекты и идеи';if($('postTitle'))$('postTitle').value=category;if($('postKind'))$('postKind').value=/идея/i.test(category)?'Идея':'Проект'});
 }
 function renderProjects(){const q=$('projectSearch').value.trim().toLocaleLowerCase('ru');let list=allVisiblePosts().filter(p=>((p.category||'').toLocaleLowerCase('ru').includes('проект')||(p.category||'').toLocaleLowerCase('ru').includes('иде'))&&((p.title||'')+' '+(p.text||'')).toLocaleLowerCase('ru').includes(q));if(projectFilter==='Ищу')list=list.filter(p=>/ищу|нужен|нужна|требуется/i.test((p.title||'')+' '+(p.text||'')));if(projectFilter==='Предлагаю')list=list.filter(p=>/предлагаю|есть|готов/i.test((p.title||'')+' '+(p.text||'')));renderPosts('projectPosts',list,'Разместите первую идею, проект или запрос о поиске команды.')}
 function renderCabinet(){const signed=!!user;$('cabinetSignedOut').classList.toggle('hidden',signed);$('cabinetSignedIn').classList.toggle('hidden',!signed);if(signed){$('profileName').textContent=user.user_metadata&&user.user_metadata.username||'Участник TUBETU';$('profileEmail').textContent=user.email||'';renderPosts('myPosts',posts.filter(p=>p.author_id===user.id),'Вы ещё не публиковали карточки.');$('b2bActiveCount').textContent=posts.filter(p=>p.author_id===user.id).length}}
@@ -690,4 +682,12 @@ document.getElementById('storeCreateBtn')?.addEventListener('click',()=>{admin.h
 #view-projects .project-root-card span:not(.project-card-index){font-size:13px;line-height:1.5;color:#c0d0d1}
 #view-projects .project-root-card .project-card-index{width:38px;height:38px;font-size:20px}
 @media(max-width:600px){#view-projects .project-root-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}#view-projects .project-root-card{min-height:180px;padding:13px 10px}#view-projects .project-root-card strong{font-size:18px}#view-projects .project-root-card span:not(.project-card-index){font-size:11px}}
+
+/* Keep Projects/Ideas navigation visually identical to Games */
+#view-projects .project-simple-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}
+#view-projects .project-simple-card{min-height:145px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+#view-projects .project-simple-card strong{font-size:18px;text-align:center}
+#view-projects .project-simple-card .game-card-arrow{color:var(--accent,#63e6a2)}
+#view-projects .project-crumbs{display:flex;gap:8px;align-items:center;justify-content:center;margin:8px 0 18px;color:#92b7a7;flex-wrap:wrap}
+@media(max-width:600px){#view-projects .project-simple-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#view-projects .project-simple-card{min-height:125px}}
 </style>
