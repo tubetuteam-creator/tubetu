@@ -1,0 +1,6 @@
+# Optional dependencies for self-hosted photo recognition.
+# Install only on a host intended to load a vision model.
+torch
+transformers>=4.49.0
+accelerate
+Pillow
