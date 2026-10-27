@@ -14,6 +14,7 @@ Never expose the service-role key to browser JavaScript or commit a real secret.
 
 ## API
 - `GET /health`
+- `POST /ai/photo-listing` body `{"images":["data:image/png;base64,..."]}` accepts up to 5 JPEG/PNG/WebP images (8 MB each) and validates MIME/signature. Until a real vision model is installed, it returns `recognition_unavailable` rather than inventing a result.
 - `POST /ai/query` body `{"text":"Продам перфоратор за 25000 тенге в Алматы"}`
 - `POST /ai/publish` requires `Authorization: Bearer <Supabase access token>`, body `{"text":"confirm","confirm_publish":true,"draft":{...}}`
 - `GET /ai/store-stats` intentionally returns 501 until the actual store, billing and view-event schema is verified.
@@ -27,3 +28,7 @@ The API uses the existing `posts(title,text,category,author_id)` shape seen in t
 - The rules engine is not a generative model. It does not provide perfect Russian/Kazakh understanding, reliable price valuation, or a guarantee against every attack.
 - Local speech-to-text is not bundled; Vosk/Whisper deployment requires model files, compute, and integration.
 - Payment provider, subscription enforcement, storefront CRUD, analytics events, Kazakh translations and full integration tests remain to be configured against real project infrastructure.
+
+## Photo recognition status
+
+The photo-listing API boundary and upload validation are implemented, but actual visual recognition is **not implemented yet**. Next steps: choose an open-weight vision model, confirm available compute, add a model adapter and tests, then deploy and connect the frontend only after a real-image test succeeds. The endpoint currently returns a clear unavailable status by design.
