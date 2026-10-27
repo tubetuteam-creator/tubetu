@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from supabase import create_client, Client
 from photo_listing import ImageInputError, validate_photo_request, unavailable_response
-from vision_adapter import recognize as recognize_photos
+from vision_adapter import recognize as recognize_photos, model_ready
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
@@ -91,7 +91,7 @@ def get_user(token: str):
 
 @app.get("/health")
 def health():
- return {"ok": True, "service":"TUBETU AI Core", "database_configured": db is not None, "external_llm": False}
+ return {"ok": True, "service":"TUBETU AI Core", "database_configured": db is not None, "external_llm": False, "vision_model_configured": model_ready()}
 
 @app.post("/ai/photo-listing")
 def photo_listing(payload: dict[str, Any], request: Request):
