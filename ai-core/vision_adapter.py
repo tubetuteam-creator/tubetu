@@ -11,7 +11,6 @@ import os
 import threading
 from typing import Any
 
-from PIL import Image
 
 MODEL_ID = os.getenv("TUBETU_VISION_MODEL_ID", "").strip()
 _lock = threading.Lock()
@@ -57,7 +56,8 @@ def _load_model():
     return _processor, _model, _device
 
 
-def _image_from_bytes(raw: bytes) -> Image.Image:
+def _image_from_bytes(raw: bytes):
+    from PIL import Image
     with Image.open(io.BytesIO(raw)) as image:
         image.verify()
     with Image.open(io.BytesIO(raw)) as image:
