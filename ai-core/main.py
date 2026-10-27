@@ -6,6 +6,7 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from supabase import create_client, Client
+from photo_listing import ImageInputError, validate_photo_request, unavailable_response
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
@@ -90,6 +91,17 @@ def get_user(token: str):
 @app.get("/health")
 def health():
  return {"ok": True, "service":"TUBETU AI Core", "database_configured": db is not None, "external_llm": False}
+
+@app.post("/ai/photo-listing")
+async def photo_listing(payload: dict[str, Any], request: Request):
+ rate_limit(request)
+ try:
+  # Decode and validate payloads before any model call. No image data is logged or stored.
+  validate_photo_request(payload)
+ except ImageInputError as exc:
+  raise HTTPException(400, str(exc))
+ # Intentionally explicit until a real self-hosted vision model is installed.
+ return unavailable_response()
 
 @app.post("/ai/query")
 def query(payload: Query, request: Request, authorization: str | None = Header(default=None)):
