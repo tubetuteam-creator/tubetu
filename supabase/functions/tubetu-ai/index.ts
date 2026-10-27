@@ -65,10 +65,10 @@ Deno.serve(async (req) => {
   const question = typeof body.question === "string" ? body.question.trim() : "";
   if (!question) return new Response(JSON.stringify({ error: "Напишите вопрос." }), { status: 400, headers });
   if (question.length > 4000) return new Response(JSON.stringify({ error: "Вопрос слишком длинный (максимум 4000 символов)." }), { status: 413, headers });
-  const mode = body.mode === "image_search" ? "image_search" : "chat";
-  const images = Array.isArray(body.images) ? body.images.slice(0, 3) : [];
-  if (mode === "image_search" && images.length === 0) {
-    return new Response(JSON.stringify({ error: "Для поиска по фото приложите хотя бы одно изображение." }), { status: 400, headers });
+  const mode = body.mode === "image_search" || body.mode === "create_listing" ? body.mode : "chat";
+  const images = Array.isArray(body.images) ? body.images.slice(0, mode === "create_listing" ? 5 : 3) : [];
+  if ((mode === "image_search" || mode === "create_listing") && images.length === 0) {
+    return new Response(JSON.stringify({ error: mode === "create_listing" ? "Для создания объявления приложите хотя бы одно изображение." : "Для поиска по фото приложите хотя бы одно изображение." }), { status: 400, headers });
   }
   if (images.some((image) => typeof image !== "string" || image.length > 560000 || !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(image))) {
     return new Response(JSON.stringify({ error: "Изображение имеет неподдерживаемый формат или превышает допустимый размер. Используйте JPEG, PNG или WebP до 400 КБ." }), { status: 413, headers });
@@ -86,8 +86,13 @@ Deno.serve(async (req) => {
       }).filter(Boolean)
     : [];
 
+  const modeInstruction = mode === "create_listing"
+    ? "РЕЖИМ СОЗДАНИЯ ОБЪЯВЛЕНИЯ ПО ФОТО: внимательно проанализируй все приложенные изображения и определи видимый предмет. Подготовь черновик объявления по тому, что реально видно. Заполни draft.title, draft.category и draft.description. Категорию выбери строго из списка 13 разделов. Не выдумывай бренд, модель, технические характеристики, цену, состояние, комплектность или местоположение, если этого нельзя достоверно определить по фото. Если информации недостаточно, опиши предмет нейтрально и добавь в suggestions вопросы для уточнения. Верни непустые title и description."
+    : mode === "image_search"
+    ? "РЕЖИМ ПОИСКА ПО ФОТО: распознай видимый предмет и подготовь search_query, image_caption, confidence и category."
+    : "РЕЖИМ ОБЩЕГО ДИАЛОГА: ответь на вопрос пользователя.";
   const userContent: Array<Record<string, unknown>> = [
-    { type: "input_text", text: JSON.stringify({ question, mode, relevant_cards: safeContext }) },
+    { type: "input_text", text: JSON.stringify({ question, mode, mode_instruction: modeInstruction, relevant_cards: safeContext }) },
     ...images.map((image) => ({ type: "input_image", image_url: image })),
   ];
   const model = Deno.env.get("OPENAI_MODEL") || "gpt-5-mini";
