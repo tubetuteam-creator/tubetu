@@ -9,7 +9,7 @@ const corsHeaders = {
   "Vary": "Origin",
 };
 
-const systemPrompt = `Ты — TUBETU AI, помощник платформы TUBETU — среды прямого обмена информацией (People • Business • Resources).
+const systemPrompt = `Ты — 2B2 AI, помощник платформы TUBETU — среды прямого обмена информацией (People • Business • Resources).
 Отвечай на языке пользователя, обычно на русском. Будь кратким, точным и полезным.
 TUBETU — не маркетплейс и не социальная сеть: платформа помогает людям, компаниям и сообществам находить друг друга через предложения, запросы и прямые договорённости.
 13 тематических разделов:
@@ -78,11 +78,16 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ error: "Некорректный JSON-запрос." }), { status: 400, headers });
   }
 
-  const question = typeof body.question === "string" ? body.question.trim() : "";
-  if (!question) return new Response(JSON.stringify({ error: "Напишите вопрос." }), { status: 400, headers });
-  if (question.length > 4000) return new Response(JSON.stringify({ error: "Вопрос слишком длинный (максимум 4000 символов)." }), { status: 413, headers });
+  let question = typeof body.question === "string" ? body.question.trim() : "";
   const mode = body.mode === "image_search" || body.mode === "create_listing" ? body.mode : "chat";
   const images = Array.isArray(body.images) ? body.images.slice(0, mode === "create_listing" ? 5 : 3) : [];
+  if (!question && images.length > 0) {
+    question = mode === "image_search"
+      ? "Определи предмет на фотографии и подготовь поисковый запрос."
+      : "Распознай предметы на фотографиях и подготовь черновик объявления.";
+  }
+  if (!question) return new Response(JSON.stringify({ error: "Добавьте фото или напишите вопрос." }), { status: 400, headers });
+  if (question.length > 4000) return new Response(JSON.stringify({ error: "Вопрос слишком длинный (максимум 4000 символов)." }), { status: 413, headers });
   if (mode === "image_search" && images.length === 0) {
     return new Response(JSON.stringify({ error: "Для поиска по фото приложите хотя бы одно изображение." }), { status: 400, headers });
   }
