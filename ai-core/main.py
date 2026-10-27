@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from supabase import create_client, Client
 from photo_listing import ImageInputError, validate_photo_request, unavailable_response
+from vision_adapter import recognize as recognize_photos
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
@@ -93,15 +94,27 @@ def health():
  return {"ok": True, "service":"TUBETU AI Core", "database_configured": db is not None, "external_llm": False}
 
 @app.post("/ai/photo-listing")
-async def photo_listing(payload: dict[str, Any], request: Request):
+def photo_listing(payload: dict[str, Any], request: Request):
  rate_limit(request)
  try:
-  # Decode and validate payloads before any model call. No image data is logged or stored.
-  validate_photo_request(payload)
+  # Decode and validate payloads before model inference. Images are not logged or stored.
+  images = validate_photo_request(payload)
  except ImageInputError as exc:
   raise HTTPException(400, str(exc))
- # Intentionally explicit until a real self-hosted vision model is installed.
- return unavailable_response()
+ note = payload.get("note", "")
+ if not isinstance(note, str):
+  raise HTTPException(400, "Поле note должно быть текстом.")
+ try:
+  result = recognize_photos(images, note=note)
+  if not result.get("ok") and result.get("kind") == "recognition_unavailable":
+   return result
+  return result
+ except RuntimeError:
+  # Keep the upload form usable if optional model dependencies are not installed.
+  raise HTTPException(503, "Модель распознавания не готова на сервере. Фотографии не потеряны.")
+ except Exception:
+  # Do not leak stack traces, file contents, or internal server details.
+  raise HTTPException(503, "Не удалось обработать фотографии. Попробуйте позже или заполните карточку вручную.")
 
 @app.post("/ai/query")
 def query(payload: Query, request: Request, authorization: str | None = Header(default=None)):
