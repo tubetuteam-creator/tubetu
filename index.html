@@ -298,11 +298,12 @@ function forwardGameCluster(){if(gameHistoryIndex<gameHistory.length-1){gameHist
 function closeGameCluster(){const view=$('gameClusterView');view.classList.add('hidden');view.innerHTML='';document.querySelectorAll('#view-explore > *').forEach(el=>el.classList.remove('hidden'));renderExplore();history.pushState({tubetuView:'explore'},'','#explore')}
 function restoreLocationRoute(){
 const raw=(location.hash||'#home').slice(1),parts=raw.split('?'),view=parts[0]||'home',params=new URLSearchParams(parts.slice(1).join('?'));
-if(view==='projects'){navigate('explore',false);showSectionCluster('Проекты и идеи',[],true);return}navigate(view,false);
+if(view==='projects'&&!params.has('project')){navigate('explore',false);showSectionCluster('Проекты и идеи',[],true);return}
+navigate(view,false);
 if(view==='explore'){
 const encodedGame=params.get('game'),encodedSection=params.get('section');
 if(encodedGame){
-try{const path=JSON.parse(encodedGame);if(Array.isArray(path)&&path.every(x=>typeof x==='string')){let list=gameTaxonomy;const valid=[];for(const part of path){const item=list.find(x=>x.title===part);if(!item)break;valid.push(part);list=item.children||[]}openGameCluster(valid,true)}}catch(e){console.warn('Не удалось восстановить раздел игр',e)}
+try{const path=JSON.parse(encodedGame);if(Array.isArray(path)&&path.every(x=>typeof x==='string')){let list=gameTaxonomy;const valid=[];for(const part of path){const item=list.find(x=>x.title===part);if(!item)break;valid.push(part);list=item.children||[]}if(valid.length)openGameCluster(valid,true)}}catch(e){console.warn('Не удалось восстановить раздел игр',e)}
 }else if(encodedSection){
 const root=encodedSection;let path=[];
 try{const p=JSON.parse(params.get('path')||'[]');if(Array.isArray(p)&&p.every(x=>typeof x==='string'))path=p}catch(e){console.warn('Не удалось восстановить путь раздела',e)}
