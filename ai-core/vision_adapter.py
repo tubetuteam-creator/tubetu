@@ -41,7 +41,7 @@ def _load_model():
             return _processor, _model, _device
         try:
             import torch
-            from transformers import AutoProcessor, AutoModelForVision2Seq
+            from transformers import AutoProcessor, AutoModelForImageTextToText
         except ImportError as exc:
             raise RuntimeError(
                 "Vision dependencies are missing. Install ai-core/requirements-vision.txt."
@@ -49,7 +49,7 @@ def _load_model():
         _device = "cuda" if torch.cuda.is_available() else "cpu"
         dtype = torch.float16 if _device == "cuda" else torch.float32
         _processor = AutoProcessor.from_pretrained(MODEL_ID)
-        _model = AutoModelForVision2Seq.from_pretrained(
+        _model = AutoModelForImageTextToText.from_pretrained(
             MODEL_ID, torch_dtype=dtype, low_cpu_mem_usage=True
         ).to(_device)
         _model.eval()
