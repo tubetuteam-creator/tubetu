@@ -23,7 +23,7 @@ jobs:
           python-version: "3.11"
       - name: Install API dependencies
         working-directory: ai-core
-        run: python -m pip install -r requirements.txt
+        run: python -m pip install -r requirements.txt httpx
       - name: Compile Python files
         working-directory: ai-core
         run: python -m compileall -q main.py photo_listing.py vision_adapter.py test_photo_listing.py test_photo_listing_endpoint.py
