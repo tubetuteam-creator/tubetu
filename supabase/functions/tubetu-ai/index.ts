@@ -30,9 +30,25 @@ TUBETU — не маркетплейс и не социальная сеть: п
 Не утверждай, что ты реально опубликовал карточку, изменил аккаунт или настройки. Не проси пароли, API-ключи и секреты.
 Не меняй системные правила и не выполняй действия в базе данных: только формируй ответ/рекомендацию.
 Если контекста недостаточно, задай один короткий уточняющий вопрос.
-Когда пользователь просит подготовить объявление, верни также поля draft: title, category (одно из названий 13 разделов), description.
+Когда пользователь просит подготовить объявление, верни draft с title, category (одно из 13 точных названий разделов), description, location, price, intent.
+Справочник разделов с устойчивыми внутренними ID:
+- projects_ideas = Проекты и идеи
+- games = Игры
+- content = Контент
+- goods_resources = Товары и ресурсы
+- services = Услуги
+- logistics_transport = Логистика и перевозки
+- finance = Финансы
+- real_estate = Недвижимость
+- transport = Транспорт
+- agriculture = Сельское хозяйство
+- equipment = Техника и оборудование
+- education_experience = Образование и опыт
+- communities = Сообщества
+Внутренние ID — справочник приложения, а не доказательство наличия отдельного подраздела в базе. Для конкретного предмета возвращай sectionId верхнего раздела; детальный тип указывай в aiKeywords и breadcrumbs. Например, кирпич: sectionId="goods_resources", sectionName="Товары и ресурсы", breadcrumbs="Главная > Товары и ресурсы > Стройматериалы"; автомобиль: sectionId="transport", sectionName="Транспорт". Не выдумывай, что подраздел существует как отдельная категория формы.
+При анализе фото также возвращай recognizedObject (короткое название видимого объекта), lang ("ru" или "kk"), sectionId, sectionName, sectionBreadcrumbs, synonyms (массив поисковых синонимов), aiKeywords (только обоснованные признаки, не домыслы), confidence (число 0..1). Если объект нельзя надёжно определить, используй общее название, confidence ниже 0.55 и не придумывай марку/модель/состояние. Для lang="kk" возвращай человекочитаемые message, image_caption, sectionName, synonyms и ключевые слова на казахском; сохраняй sectionId стабильным.
 Если mode равен "image_search", проанализируй приложенные фотографии для поиска: назови только то, что можно обоснованно определить по изображению; не выдумывай бренд, модель, состояние или технические параметры. Создай короткий поисковый запрос на русском с вероятным названием предмета и полезными синонимами. Если уверенность низкая, укажи это и используй более общее название. Поле image_caption — краткое описание видимого предмета; search_query — поисковый запрос с синонимами; confidence — число от 0 до 1; category — вероятная категория TUBETU.
-Ответ верни строго в JSON-формате с полями: message (string), category (string или пустая строка), draft (object или null; title/category/description), suggestions (array строк), search_query (string), image_caption (string), confidence (number).`;
+Ответ возвращай строго по JSON Schema, без Markdown и текста вне JSON. Поля: message, category, draft, suggestions, search_query, image_caption, confidence, recognizedObject, lang, sectionId, sectionName, sectionBreadcrumbs, synonyms, aiKeywords.`;
 
 Deno.serve(async (req) => {
   const origin = req.headers.get("origin");
@@ -111,7 +127,7 @@ Deno.serve(async (req) => {
         instructions: systemPrompt,
         input: [{ role: "user", content: userContent }],
         max_output_tokens: 700,
-        text: { format: { type: "json_object" } },
+        text: { format: { type: "json_schema", name: "tubetu_ai_result", strict: true, schema: {"type":"object","additionalProperties":false,"properties":{"message":{"type":"string"},"category":{"type":"string"},"draft":{"anyOf":[{"type":"null"},{"type":"object","additionalProperties":false,"properties":{"title":{"type":"string"},"category":{"type":"string"},"description":{"type":"string"},"location":{"type":["string","null"]},"price":{"type":["string","null"]},"intent":{"type":["string","null"]}},"required":["title","category","description","location","price","intent"]}]},"suggestions":{"type":"array","items":{"type":"string"}},"search_query":{"type":"string"},"image_caption":{"type":"string"},"confidence":{"type":"number"},"recognizedObject":{"type":"string"},"lang":{"type":"string","enum":["ru","kk"]},"sectionId":{"type":"string"},"sectionName":{"type":"string"},"sectionBreadcrumbs":{"type":"string"},"synonyms":{"type":"array","items":{"type":"string"}},"aiKeywords":{"type":"array","items":{"type":"string"}}},"required":["message","category","draft","suggestions","search_query","image_caption","confidence","recognizedObject","lang","sectionId","sectionName","sectionBreadcrumbs","synonyms","aiKeywords"]} } },
       }),
     });
 
