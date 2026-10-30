@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080e12">
+<title>Тысяча — TUBETU</title>
+<style>
+:root{color-scheme:dark;--bg:#080e12;--panel:#111b22;--line:#2b463b;--green:#63e6a2;--muted:#9aadb5;--gold:#e7c778}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0,#17382e 0,#0b151b 45%,#080e12 80%);color:#eef5f7;font:15px/1.45 Inter,system-ui,sans-serif;min-height:100vh}
+button{font:inherit;cursor:pointer;color:inherit}.wrap{max-width:1050px;margin:auto;padding:16px 16px 36px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #294338;padding:8px 0 16px}.brand{font-weight:900;letter-spacing:.16em;font-size:22px}.brand small{display:block;font-size:10px;letter-spacing:.08em;color:var(--muted);font-weight:500}.top a{color:var(--green);text-decoration:none;font-size:13px}.heading{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:20px 0}.heading h1{margin:0;font-size:clamp(25px,5vw,38px)}.heading p{margin:5px 0 0;color:var(--muted);font-size:13px}.scoreboard{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:16px 0}.player{border:1px solid var(--line);border-radius:14px;background:#101d21;padding:12px;min-width:0}.player.active{border-color:var(--green);box-shadow:0 0 0 1px #63e6a233}.player strong{display:block;font-size:13px}.points{font-size:24px;font-weight:850;color:var(--green);margin-top:3px}.sub{font-size:11px;color:var(--muted)}.table{position:relative;border:1px solid #36704f;border-radius:24px;background:radial-gradient(ellipse,#1c6341,#10402e 65%,#0c2a20);min-height:280px;padding:20px;box-shadow:inset 0 0 35px #06170f,0 14px 35px #0005;display:flex;flex-direction:column;align-items:center;justify-content:space-between;overflow:hidden}.table:before{content:"";position:absolute;inset:12px;border:1px solid #ffffff18;border-radius:18px;pointer-events:none}.opponents{display:flex;justify-content:space-around;width:100%;gap:12px;z-index:1}.seat{text-align:center;font-size:12px;color:#e6f7ec}.seat .back{display:flex;justify-content:center;margin:7px auto 0}.center{z-index:1;text-align:center;margin:10px}.status{font-weight:800;color:#d7ffe6}.hint{font-size:12px;color:#c1dfce;margin-top:4px}.trick{display:flex;gap:12px;justify-content:center;align-items:center;min-height:105px;z-index:1}.played{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:#e6f7ec}.hand{display:flex;justify-content:center;flex-wrap:wrap;gap:7px;margin:16px 0 10px}.card{width:53px;height:76px;border-radius:9px;background:#f5f4ed;color:#17232a;border:1px solid #d6d7d0;box-shadow:0 3px 7px #0005;display:flex;flex-direction:column;justify-content:space-between;padding:5px 6px;font-weight:850;user-select:none;transition:transform .14s,border-color .14s}.card.red{color:#c43e46}.card .rank{font-size:17px;line-height:1}.card .suit{font-size:19px;align-self:flex-end;line-height:1}.card.back{background:repeating-linear-gradient(45deg,#174a35,#174a35 5px,#1d6847 5px,#1d6847 10px);border:2px solid #d6e9db;color:transparent}.card.playable:hover{transform:translateY(-7px)}.card.selected{transform:translateY(-12px);outline:2px solid var(--gold)}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0}.btn{border:1px solid #355346;background:#14241f;border-radius:11px;padding:10px 15px;font-size:13px;font-weight:750}.btn.primary{background:var(--green);color:#07180f;border-color:var(--green)}.btn:disabled{opacity:.35;cursor:not-allowed}.panel{background:#101a20;border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0}.panel h3{font-size:14px;margin:0 0 8px}.log{font-size:12px;color:#c0d0d1;max-height:100px;overflow:auto}.chips{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}.chip{font-size:11px;color:#c8f3d9;background:#10271c;border:1px solid #315744;border-radius:99px;padding:5px 9px}.modal{position:fixed;inset:0;background:#000a;display:none;place-items:center;padding:18px;z-index:5}.modal.show{display:grid}.dialog{width:min(440px,100%);background:#111e25;border:1px solid #3b644e;border-radius:18px;padding:20px;box-shadow:0 20px 70px #0009}.dialog h2{margin:0 0 8px}.dialog p{color:var(--muted);font-size:13px}.dialog .hand{margin:14px 0}.dialog .card{width:58px;height:82px}.toast{color:var(--gold);font-size:12px;text-align:center;min-height:18px}
+@media(max-width:600px){.wrap{padding:10px 10px 28px}.table{min-height:245px;padding:15px 8px}.scoreboard{gap:6px}.player{padding:9px}.points{font-size:20px}.card{width:43px;height:65px;padding:4px}.card .rank{font-size:15px}.card .suit{font-size:16px}.hand{gap:4px}.heading{align-items:start;flex-direction:column}.top{padding-top:4px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand">TUBETU<small>PEOPLE • BUSINESS • RESOURCES</small></div><a href="../../index.html">← На главную TUBETU</a></header>
+<section class="heading"><div><h1>Тысяча <span style="color:var(--green)">1000</span></h1><p>Классическая партия на троих · против двух ботов</p></div><button class="btn" id="newGame">↻ Новая партия</button></section>
+<div class="scoreboard" id="scoreboard"></div>
+<section class="table">
+ <div class="opponents"><div class="seat" id="seat1">Бот 1<div class="back"></div></div><div class="seat" id="seat2">Бот 2<div class="back"></div></div></div>
+ <div class="center"><div class="status" id="status">Подготовка к раздаче</div><div class="hint" id="hint">Нажмите «Новая партия»</div><div class="chips" id="tableChips"></div></div>
+ <div class="trick" id="trick"></div>
+ <div class="seat">ВАША ПОЗИЦИЯ</div>
+</section>
+<div class="toast" id="toast"></div>
+<div class="hand" id="hand"></div>
+<div class="actions" id="actions"></div>
+<div class="panel"><h3>История партии</h3><div class="log" id="log">Партия ещё не началась.</div></div>
+<div class="panel"><h3>Правила этой версии</h3><div class="sub">24 карты (9, валет, дама, король, 10, туз); 7 карт каждому и 3 в прикупе. Торговля от 100 с шагом 5. Марьяжи: пики 40, трефы 60, бубны 80, червы 100. Бочка — 880 очков. Цель — набрать 1000. Это тестовая реализация классической основы; спорные региональные нюансы можно будет настроить отдельно.</div></div>
+</div>
+<div class="modal" id="talonModal"><div class="dialog"><h2>Прикуп открыт</h2><p>Вы выиграли торговлю. Прикуп добавлен к вашей руке. Выберите две карты для сброса — по одной каждому сопернику.</p><div class="hand" id="talonHand"></div><div class="actions"><button class="btn primary" id="confirmDiscard" disabled>Передать выбранные карты</button></div></div></div>
+<script>
+(()=> {
+const SUITS=['♠','♣','♦','♥'], RANKS=['9','J','Q','K','10','A'];
+const VALUES={9:0,J:2,Q:3,K:4,10:10,A:11}, MARRIAGE={ '♠':40,'♣':60,'♦':80,'♥':100};
+const names=['Вы','Бот 1','Бот 2'];
+let players=[],talon=[],phase='idle',dealer=0,turn=0,bid=0,bidder=-1,passed=[],selected=[],trick=[],leadSuit=null,trump=null,leader=0,round=0,logs=[],lastWinner=-1,marriageAnnounced={};
+const $=id=>document.getElementById(id);
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const card=(s,r)=>({s,r,id:s+r});
+const points=c=>VALUES[c.r];
+const suitName=s=>({'♠':'пики','♣':'трефы','♦':'бубны','♥':'червы'}[s]);
+const log=t=>{logs.unshift(t);$('log').innerHTML=logs.slice(0,12).map(x=>'• '+x).join('<br>')};
+function deck(){return shuffle(SUITS.flatMap(s=>RANKS.map(r=>card(s,r))))}
+function rank(c){return RANKS.indexOf(c.r)}
+function sortHand(h){h.sort((a,b)=>SUITS.indexOf(a.s)-SUITS.indexOf(b.s)||rank(a)-rank(b))}
+function render(){
+ $('scoreboard').innerHTML=players.map((p,i)=>'<div class="player '+(phase!=='idle'&&turn===i?'active':'')+'"><strong>'+names[i]+'</strong><div class="points">'+p.score+'</div><div class="sub">Заказ: '+(p.contract||'—')+' · Взятки: '+p.tricks+'</div><div class="sub">'+(p.barrel?'🛢️ Бочка':'')+(p.bolts?' · 🔩 Болты: '+p.bolts:'')+'</div></div>').join('');
+ [1,2].forEach(i=>{$('seat'+i).innerHTML=names[i]+'<div class="back">'+Array.from({length:players[i]?.hand.length||0},()=>'<div class="card back"></div>').join('')+'</div>'});
+ $('hand').innerHTML=(players[0]?.hand||[]).map(c=>cardHTML(c,phase==='play')).join('');
+ $('status').textContent=({auction:'Торговля за прикуп',discard:'Передача карт',play:'Розыгрыш взяток',idle:'Партия завершена'})[phase]||'Тысяча';
+ $('hint').textContent=phase==='auction'?'Текущая ставка: '+bid+' · Ход: '+names[turn]:phase==='play'?'Ход: '+names[turn]+' · Козырь: '+(trump?suitName(trump):'ещё не объявлен'):'';
+ $('tableChips').innerHTML=(bid?'<span class="chip">Ставка '+bid+'</span>':'')+(trump?'<span class="chip">Козырь '+trump+'</span>':'')+'<span class="chip">Раунд '+round+'</span>';
+ $('trick').innerHTML=trick.map(t=>'<div class="played">'+names[t.player]+cardHTML(t.card,false)+'</div>').join('');
+ renderActions();
+}
+function cardHTML(c,clickable){return '<button class="card '+('♦♥'.includes(c.s)?'red ':'')+(clickable?'playable':'')+'" '+(clickable?'data-card="'+c.id+'"':'disabled')+'><span class="rank">'+c.r+'</span><span class="suit">'+c.s+'</span></button>'}
+function renderActions(){
+ let a='';
+ if(phase==='idle')a='<button class="btn primary" id="start">Начать раздачу</button>';
+ if(phase==='auction'&&turn===0)a='<button class="btn" id="pass">Пас</button><button class="btn primary" id="raise">Повысить до '+(bid+5)+'</button>';
+ if(phase==='play'&&turn===0)a='<button class="btn" id="marriage">Объявить марьяж</button><button class="btn" id="passMarriage">Без объявления</button>';
+ $('actions').innerHTML=a;
+ $('start')?.addEventListener('click',deal);$('pass')?.addEventListener('click',()=>auctionAction(false));$('raise')?.addEventListener('click',()=>auctionAction(true));
+ $('marriage')?.addEventListener('click',announceMarriage);$('passMarriage')?.addEventListener('click',()=>playCard(null));
+}
+function deal(){
+ round++;phase='auction';players=names.map((n)=>({hand:[],score:0,tricks:0,contract:0,barrel:false,bolts:0,passed:false,won:0}));
+ // Keep scores across deals
+ if(window.savedScores)players.forEach((p,i)=>p.score=window.savedScores[i]||0);
+ const d=deck();for(let r=0;r<7;r++)for(let i=0;i<3;i++)players[i].hand.push(d.pop());talon=d.slice(0,3);players.forEach(p=>sortHand(p.hand));
+ bid=100;bidder=dealer;turn=(dealer+1)%3;passed=[];trick=[];trump=null;marriageAnnounced={};logs=[];log('Раздача. Начальная ставка 100.');render();if(turn!==0)setTimeout(botAuction,700);
+}
+function auctionAction(raise){
+ if(phase!=='auction'||turn!==0)return;
+ if(raise){bid+=5;bidder=0;log('Вы повышаете до '+bid+'.')}else{passed.push(0);log('Вы — пас.')}
+ nextAuction();
+}
+function botAuction(){
+ if(phase!=='auction'||turn===0)return;
+ const p=players[turn],strength=p.hand.reduce((n,c)=>n+points(c),0);
+ const can= !passed.includes(turn)&&strength>=(bid-65)&&bid<=(turn===1?150:145);
+ if(can){bid+=5;bidder=turn;log(names[turn]+' повышает до '+bid+'.')}else{passed.push(turn);log(names[turn]+' — пас.')}
+ nextAuction();
+}
+function nextAuction(){
+ const active=[0,1,2].filter(i=>!passed.includes(i));
+ if(active.length<=1||passed.length>=2){if(bidder<0){dealer=(dealer+1)%3;deal();return}finishAuction();return}
+ turn=(turn+1)%3;while(passed.includes(turn))turn=(turn+1)%3;render();if(turn!==0)setTimeout(botAuction,650);
+}
+function finishAuction(){
+ players[bidder].contract=bid;players[bidder].hand.push(...talon);sortHand(players[bidder].hand);phase='discard';selected=[];renderDiscard();$('talonModal').classList.add('show');
+}
+function renderDiscard(){
+ $('talonHand').innerHTML=players[bidder].hand.map(c=>'<button class="card '+('♦♥'.includes(c.s)?'red ':'')+(selected.includes(c.id)?'selected':'')+'" data-discard="'+c.id+'"><span class="rank">'+c.r+'</span><span class="suit">'+c.s+'</span></button>').join('');
+ $('talonHand').querySelectorAll('[data-discard]').forEach(b=>b.onclick=()=>{const id=b.dataset.discard;if(selected.includes(id))selected=selected.filter(x=>x!==id);else if(selected.length<2)selected.push(id);renderDiscard();$('confirmDiscard').disabled=selected.length!==2});
+ $('confirmDiscard').onclick=confirmDiscard;
+}
+function confirmDiscard(){
+ const p=players[bidder],cards=selected.map(id=>p.hand.find(c=>c.id===id));p.hand=p.hand.filter(c=>!selected.includes(c.id));players[(bidder+1)%3].hand.push(cards[0]);players[(bidder+2)%3].hand.push(cards[1]);players.forEach(p=>sortHand(p.hand));
+ $('talonModal').classList.remove('show');phase='play';turn=bidder;leader=bidder;trick=[];trump=null;log(names[bidder]+' взял прикуп и заказал '+bid+'.');render();if(turn!==0)setTimeout(botPlay,750);
+}
+function legalCards(p){if(!trick.length)return p.hand.slice();const lead=trick[0].card.s;const follow=p.hand.filter(c=>c.s===lead);if(follow.length)return follow;return p.hand.slice()}
+function beats(a,b,lead){if(a.s===b.s)return rank(a)>rank(b);if(trump&&a.s===trump&&b.s!==trump)return true;if(b.s===trump&&a.s!==trump)return false;return a.s===lead&&b.s!==lead}
+function playCard(c){
+ if(phase!=='play'||turn!==0)return;
+ if(!c){const m=marriageOptions(players[0]);if(m.length){announceMarriage(m[0],true);return}}
+ else doPlay(0,c);
+}
+function doPlay(i,c){
+ const p=players[i];p.hand=p.hand.filter(x=>x.id!==c.id);trick.push({player:i,card:c});if(!trump&&c.r==='K'&&p.hand.some(x=>x.s===c.s&&x.r==='Q')){}
+ log(names[i]+' сыграл '+c.r+c.s+'.');
+ if(trick.length<3){turn=(i+1)%3;render();if(turn!==0)setTimeout(botPlay,700);return}
+ let win=trick[0];for(const t of trick.slice(1))if(beats(t.card,win.card,trick[0].card.s))win=t;
+ const won=trick.slice();players[win.player].tricks++;players[win.player].won+=won.reduce((n,t)=>n+points(t.card),0);
+ log(names[win.player]+' забирает взятку ('+won.reduce((n,t)=>n+points(t.card),0)+' очков).');
+ lastWinner=win.player;trick=[];leader=win.player;turn=win.player;render();
+ if(players.every(p=>p.hand.length===0)){finishRound();return}
+ if(turn!==0)setTimeout(botPlay,700);
+}
+function botPlay(){
+ if(phase!=='play'||turn===0)return;const p=players[turn],legal=legalCards(p);
+ let c=legal[Math.floor(Math.random()*legal.length)];
+ // Bots lead with high cards; otherwise use a low legal card
+ if(!trick.length)c=legal.slice().sort((a,b)=>points(b)-points(a))[0];
+ else c=legal.slice().sort((a,b)=>points(a)-points(b))[0];
+ doPlay(turn,c);
+}
+function marriageOptions(p){return SUITS.filter(s=>p.hand.some(c=>c.s===s&&c.r==='K')&&p.hand.some(c=>c.s===s&&c.r==='Q')&&!marriageAnnounced[s])}
+function announceMarriage(s,fromPass=false){
+ if(phase!=='play'||turn!==0)return;
+ const opts=marriageOptions(players[0]);s=s||opts[0];if(!s){$('toast').textContent='В руке нет не объявленных марьяжей.';return}
+ marriageAnnounced[s]=true;if(!trump)trump=s;
+ const val=MARRIAGE[s];players[0].won+=val;log('Вы объявили марьяж '+s+' — '+val+' очков. Козырь: '+suitName(s)+'.');$('toast').textContent='Марьяж '+val+' очков — козырь '+suitName(s);
+ render();if(fromPass)doPlay(0,legalCards(players[0])[0]);
+}
+function finishRound(){
+ const declarer=players[bidder];const made=declarer.won>=bid;
+ players.forEach((p,i)=>{
+  let score=Math.round(p.won/10)*10;
+  if(i===bidder){if(made){score=Math.max(bid,Math.round(p.won/10)*10);p.bolts=0}else{score=-bid;p.bolts++;}}
+  p.score+=score;p.barrel=p.score>=880&&p.score<1000;
+ });
+ window.savedScores=players.map(p=>p.score);
+ log((made?'Заказ выполнен. ':'Заказ не выполнен. ')+names[bidder]+' получает '+(made?'зачёт '+bid:'штраф −'+bid)+'.');
+ const winner=players.findIndex(p=>p.score>=1000);
+ phase='idle';dealer=(dealer+1)%3;render();
+ $('hint').textContent=winner>=0?names[winner]+' набрал 1000 и победил.':'Раунд завершён. Нажмите «Начать раздачу» для продолжения.';
+ $('toast').textContent=winner>=0?'🏆 Победитель: '+names[winner]:'Счёт раунда сохранён.';
+}
+$('newGame').onclick=()=>{window.savedScores=[0,0,0];dealer=0;deal()};
+$('start').onclick=deal;
+render();
+})();
+</script>
+</body></html>
