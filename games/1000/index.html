@@ -149,7 +149,6 @@ function finishRound(){
  $('toast').textContent=winner>=0?'🏆 Победитель: '+names[winner]:'Счёт раунда сохранён.';
 }
 $('newGame').onclick=()=>{window.savedScores=[0,0,0];dealer=0;deal()};
-$('start')?.addEventListener('click',deal);
 $('hand').addEventListener('click',e=>{const b=e.target.closest('[data-card]');if(!b||phase!=='play'||turn!==0)return;const c=players[0].hand.find(x=>x.id===b.dataset.card);if(!c)return;const legal=legalCards(players[0]);if(!legal.some(x=>x.id===c.id)){$('toast').textContent='Нужно положить карту той же масти.';return;}doPlay(0,c);});
 render();
 })();
