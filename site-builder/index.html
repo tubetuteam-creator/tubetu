@@ -1,132 +1,110 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#060a12">
-<title>TUBETU — Модульный конструктор сайтов</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070a12">
+<title>TUBETU — Ultra Business Engine</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-:root{--bg-main:#060a12;--panel-bg:rgba(12,19,32,.94);--accent-green:#22c55e;--accent-glow:rgba(34,197,94,.25);--border-color:rgba(34,197,94,.2);--text-main:#f3f4f6}
-*{box-sizing:border-box}body{background:var(--bg-main);color:var(--text-main);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;overflow-x:hidden;padding-bottom:20px}
-.tubetu-card{background:var(--panel-bg);backdrop-filter:blur(16px);border:1px solid var(--border-color);box-shadow:0 8px 24px rgba(0,0,0,.35);border-radius:1rem}
-.accent-btn{background:var(--accent-green);color:#06110a;font-weight:800;transition:.2s}.accent-btn:hover{opacity:.9;transform:translateY(-1px)}
-.tab-btn.active{border-bottom:2px solid var(--accent-green);color:var(--accent-green);font-weight:800}
-.field{width:100%;background:rgba(0,0,0,.6);border:1px solid #374151;border-radius:11px;padding:10px 12px;color:#e5e7eb;font-size:12px;outline:none}.field:focus{border-color:var(--accent-green)}
-label{display:block;font-size:11px;color:#d1d5db;font-weight:750;text-transform:uppercase;margin:0 0 5px}
-.preview-theme{--preview-accent:#22c55e;--preview-bg:#0b1220;--preview-panel:#101b2b;--preview-text:#f3f4f6;--preview-muted:#9ca3af;background:var(--preview-bg);color:var(--preview-text);transition:.2s}
-.preview-theme.industrial{--preview-accent:#f59e0b;--preview-bg:#151515;--preview-panel:#222;--preview-text:#f5f5f5;--preview-muted:#aaa}
-.preview-theme.luxury{--preview-accent:#60a5fa;--preview-bg:#091321;--preview-panel:#12243a;--preview-text:#f4f7fb;--preview-muted:#aab9cc}
-.preview-theme.minimal{--preview-accent:#16834c;--preview-bg:#f4f6f4;--preview-panel:#fff;--preview-text:#17231c;--preview-muted:#607066}
-.preview-theme .pv-accent{color:var(--preview-accent)}.preview-theme .pv-panel{background:var(--preview-panel);border-color:color-mix(in srgb,var(--preview-accent) 25%,transparent)}.preview-theme .pv-muted{color:var(--preview-muted)}
-.preview-theme .pv-btn{background:var(--preview-accent);color:#07130b}
-.preview-theme .pv-border{border-color:color-mix(in srgb,var(--preview-accent) 25%,transparent)}
-.preview-theme.minimal .pv-soft{background:#e8f2eb}.preview-theme.minimal .pv-card{background:#fff;border-color:#dce5de}
-#qrcode img{margin:0 auto;border-radius:8px;padding:6px;background:#fff}
-.photo-row{display:grid;grid-template-columns:86px minmax(0,1fr) 34px;gap:9px;align-items:center}.photo-row img{width:86px;height:70px;object-fit:cover;border-radius:9px;border:1px solid #334155}
-.item-row{display:grid;grid-template-columns:minmax(0,1fr) 120px 34px;gap:8px;align-items:center}.item-row input{min-width:0}
-.remove-btn{height:36px;border:1px solid #713b45;color:#fca5a5;background:#351a21;border-radius:9px}
-.preview-mobile{max-width:390px!important;margin-left:auto;margin-right:auto}
-@media(max-width:640px){main{padding:10px!important}.item-row{grid-template-columns:minmax(0,1fr) 90px 32px}.preview-mobile{max-width:100%!important}}
+:root{--tb-bg:#070a12;--tb-card:rgba(15,22,36,.88);--tb-accent:#10b981;--tb-glow:rgba(16,185,129,.3);--tb-border:rgba(16,185,129,.25);--tb-text:#f8fafc}
+*{box-sizing:border-box}body{margin:0;background:var(--tb-bg);color:var(--tb-text);font-family:Segoe UI,system-ui,sans-serif;overflow-x:hidden;padding-bottom:24px}
+.panel{background:var(--tb-card);backdrop-filter:blur(20px);border:1px solid var(--tb-border);box-shadow:0 15px 35px #0009;border-radius:18px}
+.main-btn{background:var(--tb-accent);color:#00130d;font-weight:800;box-shadow:0 0 15px var(--tb-glow);transition:.2s}
+.main-btn:hover{transform:translateY(-2px);box-shadow:0 0 25px var(--tb-glow)}
+.tab-btn.active{border-bottom:3px solid var(--tb-accent);color:var(--tb-accent);font-weight:800}
+.hero{background:linear-gradient(135deg,#10b981,#3b82f6 55%,#8b5cf6);border-radius:16px}
+input,textarea,select{color-scheme:dark}input[type=range]{accent-color:#10b981}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#10b981;border-radius:5px}
+#qrcode img{margin:auto;border-radius:10px;padding:8px;background:white}
+@media(max-width:1023px){main{padding:12px!important}.preview-shell{min-height:620px!important}}
 </style>
 </head>
 <body class="min-h-screen">
-<header class="sticky top-0 z-40 bg-[#060a12]/95 backdrop-blur-md border-b border-emerald-500/20 px-4 py-3 flex justify-between items-center gap-3">
- <div class="flex items-center gap-2.5 min-w-0"><div class="w-9 h-9 shrink-0 bg-emerald-500/20 border border-emerald-500/50 rounded-xl flex items-center justify-center text-emerald-400 font-extrabold text-lg">T↗</div><div class="min-w-0"><div class="font-bold text-white text-sm">TUBETU <span class="text-[10px] text-emerald-400 font-mono font-normal">Business · Builder</span></div><div class="text-[10px] text-gray-400">People · Business · Resources</div></div></div>
- <div class="flex items-center gap-2 shrink-0"><button id="preview-toggle-btn" class="bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 px-3 py-2 rounded-xl text-xs font-bold"><i class="fa-solid fa-eye mr-1"></i> Превью</button><button id="save-btn" class="bg-slate-800 border border-slate-600 text-gray-200 px-3 py-2 rounded-xl text-xs font-bold"><i class="fa-regular fa-floppy-disk mr-1"></i> Сохранить</button></div>
+<header class="sticky top-0 z-50 bg-[#070a12]/95 backdrop-blur border-b border-white/10 px-4 sm:px-8 py-3 flex justify-between items-center gap-3">
+ <div class="flex items-center gap-3 min-w-0"><div class="w-10 h-10 shrink-0 bg-emerald-500 rounded-2xl flex items-center justify-center text-black font-black text-xl">T↔</div><div class="min-w-0"><div class="font-extrabold tracking-wider">TUBETU <span class="text-[10px] text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 rounded px-2 py-1">v4.0 DEMO</span></div><div class="text-[10px] text-gray-400">Конструктор персональных сайтов и бизнес-витрин</div></div></div>
+ <button onclick="publishSite()" class="main-btn rounded-xl px-3 sm:px-5 py-2.5 text-[10px] sm:text-xs uppercase tracking-wider whitespace-nowrap"><i class="fa-solid fa-rocket mr-1"></i> Предпросмотр публикации</button>
 </header>
-<main class="max-w-7xl mx-auto w-full p-4 grid grid-cols-1 lg:grid-cols-12 gap-5">
-<section id="builder-controls" class="lg:col-span-7 flex flex-col gap-4 min-w-0">
- <div class="tubetu-card p-2 flex overflow-x-auto gap-1 text-xs text-gray-400">
-  <button class="tab-btn active px-3 py-2 whitespace-nowrap" data-tab="tab-main">📝 Основное</button><button class="tab-btn px-3 py-2 whitespace-nowrap" data-tab="tab-design">🎨 Темы и дизайн</button><button class="tab-btn px-3 py-2 whitespace-nowrap" data-tab="tab-portfolio">📁 Портфолио</button><button class="tab-btn px-3 py-2 whitespace-nowrap" data-tab="tab-catalog">📦 Каталог услуг</button><button class="tab-btn px-3 py-2 whitespace-nowrap" data-tab="tab-calc">🧮 Калькуляторы</button><button class="tab-btn px-3 py-2 whitespace-nowrap" data-tab="tab-afisha">📅 Афиша</button><button class="tab-btn px-3 py-2 whitespace-nowrap" data-tab="tab-stats">📊 Статистика</button>
- </div>
- <div id="tab-main" class="tab-content tubetu-card p-5 flex flex-col gap-4">
-  <h2 class="text-sm font-bold text-emerald-400"><i class="fa-solid fa-address-card mr-1"></i> Название, описание и контакты</h2>
-  <div><label for="in-name">Название витрины / компании</label><input id="in-name" class="field" value="BuildKey — Строительство и ремонт"></div>
-  <div><label for="in-desc">Краткое описание деятельности</label><textarea id="in-desc" rows="3" class="field">Строительство, ремонт и реализация проектов под ключ. Перегородки КНАУФ, отделка крупноформатным керамогранитом в Алматы.</textarea></div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><div><label for="in-phone">Телефон / WhatsApp</label><input id="in-phone" class="field" value="" placeholder="+7 ..."></div><div><label for="in-address">Город / адрес</label><input id="in-address" class="field" value="Алматы, Казахстан"></div></div>
-  <div class="bg-black/40 border border-emerald-500/30 p-4 rounded-xl flex flex-col gap-2"><div class="flex justify-between items-center gap-2"><span class="text-[11px] text-emerald-400 font-bold uppercase">Предварительный адрес страницы</span><button id="copy-url" class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded">Скопировать</button></div><div id="out-url" class="text-xs text-emerald-300 font-mono break-all bg-gray-950 px-3 py-2 rounded-lg">Адрес появится здесь</div><p class="text-[10px] text-gray-500">Это макет адреса. Реальная ссылка появится после подключения публикации.</p></div>
- </div>
- <div id="tab-design" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
-  <h2 class="text-sm font-bold text-emerald-400"><i class="fa-solid fa-palette mr-1"></i> Темы оформления витрины</h2>
-  <div class="grid grid-cols-2 gap-3">
-   <button data-theme="emerald" class="theme-choice p-3 bg-black/50 border border-emerald-500 rounded-xl text-left"><b class="text-xs text-emerald-400">TUBETU Emerald</b><div class="text-[10px] text-gray-400">Тёмная тема и зелёный</div></button>
-   <button data-theme="industrial" class="theme-choice p-3 bg-black/50 border border-orange-500/50 rounded-xl text-left"><b class="text-xs text-orange-400">Industrial Orange</b><div class="text-[10px] text-gray-400">Графит и оранжевый</div></button>
-   <button data-theme="luxury" class="theme-choice p-3 bg-black/50 border border-blue-500/50 rounded-xl text-left"><b class="text-xs text-blue-400">Executive Blue</b><div class="text-[10px] text-gray-400">Сапфир и серебро</div></button>
-   <button data-theme="minimal" class="theme-choice p-3 bg-gray-200 border border-gray-400 rounded-xl text-left"><b class="text-xs text-gray-900">Clean Minimal</b><div class="text-[10px] text-gray-600">Светлый строгий стиль</div></button>
+<main class="max-w-[1700px] mx-auto w-full p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+<section class="lg:col-span-6 flex flex-col gap-5 min-w-0">
+ <nav class="panel p-2 flex overflow-x-auto gap-1 text-xs text-gray-400">
+  <button onclick="switchTab('styles')" id="btn-styles" class="tab-btn active px-4 py-3 whitespace-nowrap">🎨 1. Архитектура</button>
+  <button onclick="switchTab('info')" id="btn-info" class="tab-btn px-4 py-3 whitespace-nowrap">📝 2. Данные</button>
+  <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn px-4 py-3 whitespace-nowrap">🧮 3. Квиз и сметы</button>
+  <button onclick="switchTab('qr')" id="btn-qr" class="tab-btn px-4 py-3 whitespace-nowrap">🎯 4. QR и ссылка</button>
+ </nav>
+ <div id="tab-styles" class="tab-content panel p-5 sm:p-6 flex flex-col gap-4">
+  <h2 class="text-sm font-bold text-emerald-400 uppercase tracking-wider border-b border-white/10 pb-3"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Авторские форматы сайтов</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+   <button onclick="setTheme('quiz')" class="theme-choice p-4 bg-black/40 border border-emerald-500/50 rounded-xl text-left"><b class="text-xs text-emerald-400">1. Quiz-Landing & Сметы</b><p class="text-[10px] text-gray-400 mt-1">Интерактивный опрос и расчёт стоимости</p></button>
+   <button onclick="setTheme('pop')" class="theme-choice p-4 bg-black/40 border border-blue-500/40 rounded-xl text-left"><b class="text-xs text-blue-400">2. Creative Pop & Energy</b><p class="text-[10px] text-gray-400 mt-1">Яркий, сочный, динамичный дизайн</p></button>
+   <button onclick="setTheme('executive')" class="theme-choice p-4 bg-black/40 border border-teal-500/40 rounded-xl text-left"><b class="text-xs text-teal-300">3. Executive Advisory</b><p class="text-[10px] text-gray-400 mt-1">Строгий стиль для консалтинга</p></button>
+   <button onclick="setTheme('luxe')" class="theme-choice p-4 bg-black/40 border border-amber-500/40 rounded-xl text-left"><b class="text-xs text-amber-400">4. Grand Luxe Hospitality</b><p class="text-[10px] text-gray-400 mt-1">Премиальный золотой и сапфировый</p></button>
+   <button onclick="setTheme('organic')" class="theme-choice p-4 bg-black/40 border border-pink-400/40 rounded-xl text-left"><b class="text-xs text-pink-300">5. Organic E-Commerce</b><p class="text-[10px] text-gray-400 mt-1">Мягкий стиль каталога и магазина</p></button>
+   <button onclick="setTheme('spotlight')" class="theme-choice p-4 bg-black/40 border border-slate-400/40 rounded-xl text-left"><b class="text-xs text-slate-200">6. Fashion Spotlight</b><p class="text-[10px] text-gray-400 mt-1">Глянцевая витрина бренда и акций</p></button>
+   <button onclick="setTheme('corporate')" class="theme-choice p-4 bg-black/40 border border-violet-400/40 rounded-xl text-left sm:col-span-2"><b class="text-xs text-violet-300">7. Corporate Portfolio</b><p class="text-[10px] text-gray-400 mt-1">Корпоративный сайт с услугами, портфолио и контактами</p></button>
   </div>
-  <div class="text-[11px] text-gray-500">Выбранная тема меняет только оформление публичной страницы, а не интерфейс платформы.</div>
  </div>
- <div id="tab-portfolio" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
-  <div class="flex justify-between items-center gap-2"><h2 class="text-sm font-bold text-emerald-400"><i class="fa-solid fa-images mr-1"></i> Портфолио объектов</h2><label class="accent-btn px-3 py-2 rounded-lg text-xs cursor-pointer">＋ Добавить фото<input id="portfolio-files" type="file" accept="image/*" multiple hidden></label></div>
-  <div class="text-[10px] text-gray-500">Выбирайте несколько фотографий сразу или добавляйте их по очереди — предыдущие не удаляются.</div><div id="portfolio-list" class="flex flex-col gap-3"></div>
+ <div id="tab-info" class="tab-content panel p-5 sm:p-6 hidden flex-col gap-4">
+  <h2 class="text-sm font-bold text-emerald-400 uppercase border-b border-white/10 pb-3"><i class="fa-solid fa-address-card mr-2"></i>Данные бренда и контакты</h2>
+  <label class="text-[11px] text-gray-300 font-bold">Название витрины<input id="in-name" value="Название вашей компании" oninput="updateAll()" class="mt-1 w-full bg-black/60 border border-gray-700 rounded-xl px-3 py-3 text-xs text-emerald-300"></label>
+  <label class="text-[11px] text-gray-300 font-bold">Описание<textarea id="in-desc" oninput="updateAll()" rows="3" class="mt-1 w-full bg-black/60 border border-gray-700 rounded-xl p-3 text-xs">Кратко расскажите о вашей компании, услугах и преимуществах.</textarea></label>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+   <label class="text-[11px] text-gray-300 font-bold">WhatsApp / телефон<input id="in-phone" value="" placeholder="77001234567" oninput="updateAll()" class="mt-1 w-full bg-black/60 border border-gray-700 rounded-xl p-3 text-xs"></label>
+   <label class="text-[11px] text-gray-300 font-bold">Город / локация<input id="in-city" value="Алматы" oninput="updateAll()" class="mt-1 w-full bg-black/60 border border-gray-700 rounded-xl p-3 text-xs"></label>
+  </div>
  </div>
- <div id="tab-catalog" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
-  <div class="flex justify-between items-center gap-2"><h2 class="text-sm font-bold text-emerald-400"><i class="fa-solid fa-boxes-stacked mr-1"></i> Прайс-лист и каталог</h2><button id="add-catalog" class="accent-btn px-3 py-2 rounded-lg text-xs">＋ Добавить услугу</button></div><div id="catalog-list" class="flex flex-col gap-3"></div>
+ <div id="tab-quiz" class="tab-content panel p-5 sm:p-6 hidden flex-col gap-4">
+  <h2 class="text-sm font-bold text-emerald-400 uppercase border-b border-white/10 pb-3"><i class="fa-solid fa-calculator mr-2"></i>Настройка сметного квиза</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+   <label class="text-[10px] text-gray-300">Перегородки КНАУФ С112 (₸ / м²)<input type="number" min="0" id="in-rate-s112" value="4500" oninput="calculateQuiz()" class="mt-1 w-full bg-black/60 border border-gray-700 rounded-xl p-3 text-sm text-emerald-400"></label>
+   <label class="text-[10px] text-gray-300">Укладка керамогранита (₸ / м²)<input type="number" min="0" id="in-rate-tile" value="6500" oninput="calculateQuiz()" class="mt-1 w-full bg-black/60 border border-gray-700 rounded-xl p-3 text-sm text-emerald-400"></label>
+  </div>
+  <p class="text-xs text-gray-500">Расчёт предварительный: итоговая цена уточняется после согласования объёма и состава работ.</p>
  </div>
- <div id="tab-calc" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
-  <h2 class="text-sm font-bold text-emerald-400"><i class="fa-solid fa-calculator mr-1"></i> Интерактивный калькулятор сметы</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3"><div><label for="in-price-s112">Монтаж перегородок (₸ / м²)</label><input type="number" min="0" id="in-price-s112" value="4500" class="field"></div><div><label for="in-price-tile">Укладка керамогранита (₸ / м²)</label><input type="number" min="0" id="in-price-tile" value="6500" class="field"></div></div>
-  <p class="text-[10px] text-gray-500">Пример простого расчёта. Состав и формулы сметы можно будет расширить.</p>
+ <div id="tab-qr" class="tab-content panel p-5 sm:p-6 hidden flex-col items-center gap-4 text-center">
+  <h2 class="text-sm font-bold text-emerald-400 uppercase">QR-код и адрес (демо)</h2><div id="qrcode" class="min-h-[120px]"></div>
+  <div class="w-full bg-black/50 border border-emerald-500/30 p-3 rounded-xl flex justify-between items-center gap-2"><span id="out-url" class="text-xs text-emerald-300 font-mono truncate">Адрес появится после настройки</span><button onclick="copyURL()" class="text-[10px] bg-emerald-500/20 text-emerald-300 px-3 py-2 rounded-lg font-bold">Копировать</button></div>
+  <p class="text-[10px] text-amber-300">Адрес и QR пока демонстрационные. Публичный адрес будет работать после подключения публикации сайтов.</p>
  </div>
- <div id="tab-afisha" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
-  <h2 class="text-sm font-bold text-emerald-400"><i class="fa-solid fa-calendar-days mr-1"></i> Афиша и объявления</h2><div><label for="in-afisha">Объявление / событие</label><input id="in-afisha" class="field" placeholder="Например: Открыт набор в команду"></div>
- </div>
- <div id="tab-stats" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
-  <h2 class="text-sm font-bold text-emerald-400"><i class="fa-solid fa-chart-line mr-1"></i> Статистика витрины</h2>
-  <div class="grid grid-cols-3 gap-2 text-center"><div class="bg-black/50 p-3 rounded-xl border border-emerald-500/20"><div class="text-[10px] text-gray-400">Просмотры</div><div class="text-lg font-bold">—</div></div><div class="bg-black/50 p-3 rounded-xl border border-emerald-500/20"><div class="text-[10px] text-gray-400">Переходы</div><div class="text-lg font-bold">—</div></div><div class="bg-black/50 p-3 rounded-xl border border-emerald-500/20"><div class="text-[10px] text-gray-400">Заявки</div><div class="text-lg font-bold">—</div></div></div><p class="text-[11px] text-amber-300">Реальная статистика появится после публикации. Демонстрационные цифры не подставляем.</p>
- </div>
- <div class="tubetu-card p-4 flex flex-col items-center gap-2 text-center"><span class="text-xs font-bold text-emerald-400 uppercase">QR-код предпросмотра</span><div id="qrcode" class="min-h-4"></div><p class="text-[10px] text-gray-400">QR сейчас ведёт на предварительный адрес, а не на опубликованный сайт.</p></div>
- <div id="publish-note" class="text-[11px] text-amber-300 px-1" aria-live="polite">Черновик работает в режиме просмотра. Облачное сохранение и публикация ещё не подключены.</div>
 </section>
-<section id="builder-preview" class="lg:col-span-5 flex flex-col gap-3 min-w-0">
- <div class="text-xs font-bold text-gray-400 flex justify-between items-center px-1"><span>ПРЕДПРОСМОТР ВИТРИНЫ TUBETU</span><span class="text-emerald-400 text-[10px] font-mono">● LIVE</span></div>
- <div class="flex justify-end gap-2"><button id="desktop-view" class="text-[10px] border border-emerald-500/40 text-emerald-300 px-3 py-1.5 rounded-lg">Компьютер</button><button id="mobile-view" class="text-[10px] border border-gray-700 text-gray-400 px-3 py-1.5 rounded-lg">Телефон</button></div>
- <div id="preview-card" class="preview-theme tubetu-card p-5 flex flex-col gap-4 border relative overflow-hidden">
-  <div class="flex items-start justify-between border-b border-white/10 pb-4"><div class="flex items-center gap-3 min-w-0"><div class="w-12 h-12 shrink-0 pv-soft border pv-border rounded-xl flex items-center justify-center pv-accent font-extrabold text-xl" id="prev-avatar">BK</div><div class="min-w-0"><h3 class="font-extrabold text-base break-words" id="prev-title">BuildKey</h3><div class="text-[11px] pv-muted" id="prev-address">Алматы, Казахстан</div></div></div><span class="text-[9px] pv-accent font-bold shrink-0">TUBETU</span></div>
-  <p class="text-xs leading-relaxed pv-muted whitespace-pre-line" id="prev-desc"></p>
-  <div id="prev-afisha-box" class="hidden pv-soft pv-border border p-3 rounded-xl text-xs font-semibold flex items-center gap-2"><i class="fa-solid fa-bullhorn pv-accent"></i><span id="prev-afisha-text"></span></div>
-  <div id="portfolio-preview-wrap" class="flex flex-col gap-2"><span class="text-[11px] font-bold pv-accent uppercase">Портфолио выполненных работ</span><div class="grid grid-cols-2 gap-2" id="prev-portfolio-grid"></div></div>
-  <div class="flex flex-col gap-2"><span class="text-[11px] font-bold pv-accent uppercase">Услуги и цены</span><div class="flex flex-col gap-2" id="prev-catalog-grid"></div></div>
-  <div class="pv-panel pv-border border p-4 rounded-xl flex flex-col gap-3" id="preview-calculator"><span class="text-xs font-bold"> <i class="fa-solid fa-calculator pv-accent mr-1"></i> Онлайн-калькулятор</span><div class="flex justify-between items-center text-xs gap-3"><label for="calc-type" class="normal-case m-0">Вид работы:</label><select id="calc-type" class="field !w-2/3"></select></div><div class="flex justify-between items-center text-xs"><label for="calc-sq" class="normal-case m-0">Площадь (м²):</label><input type="number" min="0" id="calc-sq" value="50" class="field !w-24 text-center"></div><div class="flex justify-between items-center border-t border-white/10 pt-2 text-xs"><span class="pv-muted">Предварительно:</span><b class="text-sm pv-accent font-mono" id="calc-result-sum">225 000 ₸</b></div></div>
-  <div id="preview-contact" class="flex flex-col gap-1 text-xs pv-muted border-t border-white/10 pt-3"></div>
-  <div class="grid grid-cols-2 gap-2 pt-1"><a id="prev-wa-btn" href="#" target="_blank" rel="noopener" class="pv-btn py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 font-bold"><i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp</a><button id="request-btn" class="bg-gray-800 text-gray-200 py-2.5 rounded-xl text-xs font-bold border border-gray-700">Запросить цену</button></div>
-  <div class="text-[9px] pv-muted border-t border-white/10 pt-3 flex justify-between"><span id="preview-foot">Ваша витрина</span><span>Создано в TUBETU</span></div>
+<section class="lg:col-span-6 flex flex-col gap-3 min-w-0">
+ <div class="text-xs font-bold text-gray-400 flex justify-between px-1"><span>ПРЕДПРОСМОТР ВИТРИНЫ</span><span class="text-emerald-400 text-[10px] font-mono">● LIVE SYNC</span></div>
+ <div id="preview-wrapper" class="panel preview-shell flex flex-col overflow-hidden min-h-[700px] border-emerald-500/40">
+  <div class="flex justify-between items-center px-5 py-4 bg-black/50 border-b border-white/10"><div class="flex items-center gap-3"><div id="prev-avatar" class="w-9 h-9 bg-emerald-500 text-black font-black rounded-xl flex items-center justify-center">В</div><div><div id="prev-name" class="font-extrabold text-sm">Название вашей компании</div><div id="prev-city" class="text-[10px] text-gray-400">Алматы</div></div></div><i class="fa-solid fa-bars text-gray-300"></i></div>
+  <div id="prev-hero" class="hero p-6 m-4 min-h-[220px] flex flex-col justify-end text-white shadow-2xl"><span class="bg-black/30 border border-white/20 text-[9px] px-2 py-1 rounded-full uppercase w-max mb-2">Официальная витрина</span><h1 id="prev-title" class="text-2xl sm:text-3xl font-black uppercase leading-tight">Название вашей компании</h1></div>
+  <div class="p-5 flex flex-col gap-4 flex-1 bg-black/20"><p id="prev-desc" class="text-xs text-gray-300 leading-relaxed">Кратко расскажите о вашей компании, услугах и преимуществах.</p>
+   <div class="bg-black/60 border border-emerald-500/30 p-4 rounded-xl flex flex-col gap-3"><div class="flex justify-between items-center border-b border-white/10 pb-2"><span class="text-xs font-bold text-emerald-400 uppercase"><i class="fa-solid fa-list-check mr-1"></i>Расчёт онлайн</span><span class="text-[10px] text-gray-400">Квиз · 2 шага</span></div>
+    <label class="text-[11px] text-gray-300">Выберите услугу<select id="quiz-type" onchange="calculateQuiz()" class="mt-1 w-full bg-gray-900 border border-gray-700 text-xs p-2.5 rounded-lg text-emerald-400"><option value="s112">Перегородка КНАУФ С112</option><option value="tile">Укладка керамогранита</option></select></label>
+    <div class="flex justify-between text-[11px] text-gray-300"><span>Площадь</span><b class="text-emerald-400"><span id="quiz-sq-val">50</span> м²</b></div><input type="range" id="quiz-sq-range" min="10" max="500" value="50" oninput="calculateQuiz()">
+    <div class="bg-gray-950 p-3 rounded-lg flex justify-between items-center"><span class="text-[10px] text-gray-400">Предварительная смета</span><b id="quiz-total-sum" class="text-base text-emerald-400">225 000 ₸</b></div>
+   </div>
+   <a id="prev-wa-btn" href="#" target="_blank" rel="noopener" class="main-btn py-3.5 px-4 rounded-xl text-xs uppercase tracking-wider text-center block"><i class="fa-brands fa-whatsapp mr-1"></i>Отправить расчёт в WhatsApp</a>
+  </div>
+  <div class="py-3 text-center text-[10px] text-gray-500 border-t border-white/5 bg-black/40">POWERED BY TUBETU © 2026</div>
  </div>
- <p class="text-[10px] text-gray-500">Правая часть — демонстрационный просмотр будущей публичной страницы. Кнопки связи используют только введённые вами контакты.</p>
 </section>
 </main>
 <script>
-(function(){
-const $=id=>document.getElementById(id);
-let portfolioItems=[],catalogItems=[{title:'Монтаж КНАУФ С112',price:'4 500 ₸ / м²'},{title:'Облицовка керамогранитом',price:'6 500 ₸ / м²'}],theme='emerald';
-const themes={emerald:'#22c55e',industrial:'#f59e0b',luxury:'#60a5fa',minimal:'#16834c'};
-const slugify=s=>String(s||'').toLowerCase().replace(/[а-яё]/g,c=>({'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'}[c])).replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,48)||'company';
-function switchTab(id){document.querySelectorAll('.tab-content').forEach(x=>{x.classList.add('hidden');x.classList.remove('flex')});document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));$(id).classList.remove('hidden');$(id).classList.add('flex');document.querySelector('[data-tab="'+id+'"]').classList.add('active')}
-document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
-function renderPortfolio(){const list=$('portfolio-list'),grid=$('prev-portfolio-grid');list.replaceChildren();grid.replaceChildren();$('portfolio-preview-wrap').classList.toggle('hidden',portfolioItems.length===0);portfolioItems.forEach((it,i)=>{const row=document.createElement('div');row.className='photo-row bg-black/30 border border-gray-700 rounded-xl p-2';const img=document.createElement('img');img.src=it.src;img.alt=it.title||'Фото объекта';const input=document.createElement('input');input.className='field';input.value=it.title;input.placeholder='Название / описание';input.oninput=()=>{it.title=input.value;renderPortfolioPreview()};const del=document.createElement('button');del.className='remove-btn';del.textContent='×';del.onclick=()=>{portfolioItems.splice(i,1);renderPortfolio()};row.append(img,input,del);list.append(row);const card=document.createElement('div');card.className='pv-card pv-border border rounded-lg overflow-hidden';const pimg=document.createElement('img');pimg.src=it.src;pimg.alt=it.title;pimg.className='w-full h-28 object-cover';const cap=document.createElement('div');cap.className='p-2 text-[10px]';cap.textContent=it.title||'Выполненная работа';card.append(pimg,cap);grid.append(card)})}
-function renderPortfolioPreview(){const grid=$('prev-portfolio-grid');[...grid.children].forEach((card,i)=>{const caption=card.querySelector('div');if(caption&&portfolioItems[i])caption.textContent=portfolioItems[i].title||'Выполненная работа'})}
-function renderCatalog(){const list=$('catalog-list'),grid=$('prev-catalog-grid');list.replaceChildren();grid.replaceChildren();catalogItems.forEach((it,i)=>{const row=document.createElement('div');row.className='item-row bg-black/20 border border-gray-700 rounded-xl p-2';const n=document.createElement('input');n.className='field';n.value=it.title;n.placeholder='Название услуги';n.oninput=()=>{it.title=n.value;renderCatalogPreview()};const p=document.createElement('input');p.className='field';p.value=it.price;p.placeholder='Цена';p.oninput=()=>{it.price=p.value;renderCatalogPreview()};const d=document.createElement('button');d.className='remove-btn';d.textContent='×';d.onclick=()=>{catalogItems.splice(i,1);renderCatalog()};row.append(n,p,d);list.append(row);const card=document.createElement('div');card.className='pv-card pv-border border rounded-lg p-3 flex justify-between items-center gap-3 text-xs';const title=document.createElement('span');title.className='break-words';title.textContent=it.title;const price=document.createElement('b');price.className='pv-accent whitespace-nowrap';price.textContent=it.price;card.append(title,price);grid.append(card)})}
-function renderCatalogPreview(){renderCatalog()}
-function calcTotal(){const sq=Math.max(0,Number($('calc-sq').value)||0),type=$('calc-type').value,price=type==='tile'?Number($('in-price-tile').value)||0:Number($('in-price-s112').value)||0;$('calc-result-sum').textContent=(sq*price).toLocaleString('ru-RU')+' ₸'}
-function updateSite(){const name=$('in-name').value.trim()||'Витрина',desc=$('in-desc').value.trim()||'Описание компании',address=$('in-address').value.trim(),phone=$('in-phone').value.trim(),digits=phone.replace(/\D/g,'');$('prev-title').textContent=name;$('preview-foot').textContent=name;$('prev-desc').textContent=desc;$('prev-address').textContent=address;$('prev-avatar').textContent=[...name].slice(0,2).join('').toUpperCase();$('preview-contact').textContent=[address,phone].filter(Boolean).join(' · ');$('prev-wa-btn').href=digits?'https://wa.me/'+digits:'#';$('prev-wa-btn').style.opacity=digits?'1':'.45';$('prev-wa-btn').setAttribute('aria-disabled',digits?'false':'true');const afisha=$('in-afisha').value.trim();$('prev-afisha-box').classList.toggle('hidden',!afisha);$('prev-afisha-text').textContent=afisha;$('out-url').textContent='https://tubetu.kz/site/'+slugify(name);const q=$('qrcode');q.replaceChildren();if(window.QRCode){try{new QRCode(q,{text:$('out-url').textContent,width:110,height:110,colorDark:'#060a12',colorLight:'#ffffff'})}catch(e){}}renderPortfolio();renderCatalog();calcTotal()}
-function applyTheme(t){theme=t;$('preview-card').className='preview-theme tubetu-card p-5 flex flex-col gap-4 border relative overflow-hidden '+t;document.querySelectorAll('[data-theme]').forEach(b=>b.classList.toggle('ring-2',b.dataset.theme===t));$('preview-card').style.setProperty('--preview-accent',themes[t]);}
-function saveDraft(){const data={fields:Object.fromEntries(['in-name','in-desc','in-phone','in-address','in-price-s112','in-price-tile','in-afisha'].map(id=>[id,$(id).value])),catalogItems,portfolioItems,theme};try{localStorage.setItem('tubetu-gemini-builder-draft',JSON.stringify(data));$('publish-note').textContent='Черновик сохранён на этом устройстве.'}catch(e){$('publish-note').textContent='Не удалось сохранить черновик: возможно, слишком много фотографий. Удалите часть изображений и повторите.'}}
-function loadDraft(){try{const d=JSON.parse(localStorage.getItem('tubetu-gemini-builder-draft')||'null');if(!d)return;Object.entries(d.fields||{}).forEach(([id,v])=>{if($(id))$(id).value=v});if(Array.isArray(d.catalogItems))catalogItems=d.catalogItems;if(Array.isArray(d.portfolioItems))portfolioItems=d.portfolioItems;applyTheme(d.theme||'emerald')}catch(e){}}
-function addPhotos(files){[...files].filter(f=>f.type.startsWith('image/')).forEach(file=>{const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const scale=Math.min(1,1200/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);portfolioItems.push({title:file.name.replace(/\.[^.]+$/,''),src:canvas.toDataURL('image/jpeg',.78)});renderPortfolio()};img.src=reader.result};reader.readAsDataURL(file)})}
-['in-name','in-desc','in-phone','in-address','in-price-s112','in-price-tile','in-afisha'].forEach(id=>$(id).addEventListener('input',updateSite));
-$('calc-sq').addEventListener('input',calcTotal);$('calc-type').addEventListener('change',calcTotal);
-$('calc-type').innerHTML='<option value="s112">Монтаж перегородок С112</option><option value="tile">Укладка керамогранита</option>';
-$('add-catalog').onclick=()=>{catalogItems.push({title:'Новая услуга',price:'По запросу'});renderCatalog()};
-$('portfolio-files').addEventListener('change',e=>{addPhotos(e.target.files);e.target.value=''});
-document.querySelectorAll('[data-theme]').forEach(b=>b.addEventListener('click',()=>applyTheme(b.dataset.theme)));
-$('copy-url').onclick=async()=>{try{await navigator.clipboard.writeText($('out-url').textContent);$('publish-note').textContent='Предварительный адрес скопирован. Он заработает после подключения публикации.'}catch(e){$('publish-note').textContent=$('out-url').textContent}};
-$('save-btn').onclick=saveDraft;
-$('preview-toggle-btn').onclick=()=>{const hidden=$('builder-controls').classList.toggle('hidden');$('builder-preview').classList.toggle('lg:col-span-5',!hidden);$('builder-preview').classList.toggle('lg:col-span-12',hidden);$('preview-toggle-btn').innerHTML=hidden?'<i class="fa-solid fa-pen mr-1"></i> Редактор':'<i class="fa-solid fa-eye mr-1"></i> Превью'};
-$('desktop-view').onclick=()=>{$('preview-card').classList.remove('preview-mobile')};$('mobile-view').onclick=()=>{$('preview-card').classList.add('preview-mobile')};
-$('request-btn').onclick=()=>{$('publish-note').textContent='Демонстрация: отправка заявок ещё не подключена. После настройки сервера запросы будут поступать владельцу страницы.'};
-loadDraft();renderPortfolio();renderCatalog();updateSite();
-})();
+let currentTheme='quiz';
+const themes={
+ quiz:['linear-gradient(135deg,#10b981,#059669)','#10b981'],
+ pop:['linear-gradient(135deg,#f43f5e,#3b82f6)','#2563eb'],
+ executive:['radial-gradient(circle at top right,#0f362c,#06110e)','#2dd4bf'],
+ luxe:['linear-gradient(to bottom,#1e1b4b,#09090b)','#d6a83e'],
+ organic:['linear-gradient(135deg,#fbcfe8,#f472b6)','#ec4899'],
+ spotlight:['linear-gradient(135deg,#334155,#0f172a)','#475569'],
+ corporate:['linear-gradient(135deg,#312e81,#0f172a 65%,#10b981)','#10b981']
+};
+function switchTab(id){document.querySelectorAll('.tab-content').forEach(x=>x.classList.add('hidden'));document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+id).classList.remove('hidden');document.getElementById('btn-'+id).classList.add('active')}
+function setTheme(theme){currentTheme=theme;const [bg,accent]=themes[theme]||themes.quiz;document.getElementById('prev-hero').style.background=bg;document.getElementById('prev-wa-btn').style.background=accent;document.querySelectorAll('.theme-choice').forEach(x=>x.classList.remove('ring-2','ring-emerald-400'));event.currentTarget.classList.add('ring-2','ring-emerald-400')}
+function updateAll(){const name=document.getElementById('in-name').value.trim()||'Ваша компания';const desc=document.getElementById('in-desc').value.trim()||'Описание компании';const city=document.getElementById('in-city').value.trim()||'Город';document.getElementById('prev-name').textContent=name;document.getElementById('prev-title').textContent=name;document.getElementById('prev-desc').textContent=desc;document.getElementById('prev-city').textContent=city;document.getElementById('prev-avatar').textContent=[...name][0].toUpperCase();calculateQuiz();const slug=name.toLowerCase().replace(/[^a-zа-яё0-9]+/gi,'-').replace(/^-|-$/g,'').replace(/ё/g,'e').replace(/[а-я]/g,c=>String.fromCharCode(c.charCodeAt(0)-1071));const url='https://tubetu.kz/site/'+(slug||'company');document.getElementById('out-url').textContent=url;const q=document.getElementById('qrcode');q.innerHTML='';if(window.QRCode)new QRCode(q,{text:url,width:120,height:120,colorDark:'#070a12',colorLight:'#ffffff'})}
+function calculateQuiz(){const type=document.getElementById('quiz-type').value;const sq=Number(document.getElementById('quiz-sq-range').value);document.getElementById('quiz-sq-val').textContent=sq;const a=Math.max(0,Number(document.getElementById('in-rate-s112').value)||0);const b=Math.max(0,Number(document.getElementById('in-rate-tile').value)||0);const total=sq*(type==='s112'?a:b);const formatted=total.toLocaleString('ru-RU')+' ₸';document.getElementById('quiz-total-sum').textContent=formatted;const phone=document.getElementById('in-phone').value.replace(/\D/g,'');const label=type==='s112'?'Перегородка КНАУФ С112':'Укладка керамогранита';const msg=encodeURIComponent('Здравствуйте! Расчёт с витрины TUBETU:\nУслуга: '+label+'\nПлощадь: '+sq+' м²\nПредварительная сумма: '+formatted);const link=document.getElementById('prev-wa-btn');link.href=phone.length>=10?'https://wa.me/'+phone+'?text='+msg:'#';link.style.opacity=phone.length>=10?'1':'.55';link.title=phone.length>=10?'Открыть WhatsApp':'Сначала укажите номер WhatsApp в настройках'}
+function copyURL(){const value=document.getElementById('out-url').textContent;if(navigator.clipboard?.writeText)navigator.clipboard.writeText(value).then(()=>alert('Скопировано')).catch(()=>alert(value));else alert(value)}
+function publishSite(){alert('Это демонстрационный предпросмотр. Реальная публикация, персональный адрес и приём заявок будут подключены отдельно.')}
+window.addEventListener('load',updateAll);
 </script>
-</body></html>
+</body>
+</html>
