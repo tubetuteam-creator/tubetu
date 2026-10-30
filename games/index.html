@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080e12">
+<title>Игровой центр — TUBETU</title>
+<style>
+:root{color-scheme:dark;--bg:#080e12;--panel:#111b22;--line:#2b3c46;--text:#eef5f7;--muted:#96a9b5;--green:#63e6a2}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -18%,#17382e 0%,#0b151b 42%,#080e12 78%);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1100px;margin:auto;padding:22px 18px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:18px;border-bottom:1px solid #263a34}.brand{font-size:24px;font-weight:900;letter-spacing:.13em;color:var(--green)}.back{color:#b7d9c7;text-decoration:none;font-size:13px}.intro{padding:34px 0 22px}.eyebrow{color:var(--green);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:800}.intro h1{font-size:clamp(30px,5vw,46px);line-height:1.05;margin:9px 0}.intro p{color:var(--muted);max-width:650px;margin:0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{display:flex;flex-direction:column;justify-content:space-between;min-height:160px;padding:17px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(20,33,42,.96),rgba(12,22,29,.97));text-decoration:none;color:var(--text);transition:border-color .15s,transform .15s}.card:hover{border-color:#548269;transform:translateY(-2px)}.icon{font-size:27px}.card h2{font-size:16px;margin:8px 0 4px}.card p{font-size:12px;color:var(--muted);margin:0}.status{align-self:flex-start;margin-top:15px;padding:4px 9px;border:1px solid #315744;border-radius:99px;color:var(--green);font-size:10px;font-weight:800}.soon{opacity:.72}.soon .status{border-color:#45535a;color:#aab8bf}
+footer{text-align:center;color:#708590;font-size:11px;padding:28px 0 0}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card{min-height:145px;padding:13px}.card h2{font-size:14px}}
+@media(max-width:420px){.grid{gap:8px}.card{min-height:142px;padding:11px}.card p{font-size:11px}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div class="brand">TUBETU</div><a class="back" href="/tubetu/">← На главную</a></header>
+<section class="intro"><div class="eyebrow">People • Business • Resources</div><h1>Игровой центр</h1><p>Выберите игру. Здесь будут собраны настольные, карточные и логические игры TUBETU.</p></section>
+<section class="grid" aria-label="Список игр">
+<a class="card" href="/tubetu/games/1000/"><div><div class="icon">🃏</div><h2>Тысяча (1000)</h2><p>Карточная игра на троих</p></div><span class="status">Открыть игру</span></a>
+<div class="card soon"><div><div class="icon">🎴</div><h2>Дурак подкидной</h2><p>Карточная игра до 6 игроков</p></div><span class="status">Готовится</span></div>
+<div class="card soon"><div><div class="icon">🎲</div><h2>Нарды короткие</h2><p>Дуэль на игровом поле</p></div><span class="status">Готовится</span></div>
+<div class="card soon"><div><div class="icon">♟️</div><h2>Шахматы</h2><p>Классическая стратегия</p></div><span class="status">Готовится</span></div>
+<div class="card soon"><div><div class="icon">🚢</div><h2>Морской бой</h2><p>Тактическая игра</p></div><span class="status">Готовится</span></div>
+<div class="card soon"><div><div class="icon">🔢</div><h2>2048</h2><p>Числовая головоломка</p></div><span class="status">Готовится</span></div>
+<div class="card soon"><div><div class="icon">❌</div><h2>Крестики-нолики 5 в ряд</h2><p>Логическая стратегия</p></div><span class="status">Готовится</span></div>
+<div class="card soon"><div><div class="icon">🎡</div><h2>Колесо фортуны</h2><p>Аркадная игра</p></div><span class="status">Готовится</span></div>
+<div class="card soon"><div><div class="icon">👑</div><h2>Пасьянс «Косынка»</h2><p>Карточная игра для одного</p></div><span class="status">Готовится</span></div>
+<div class="card soon"><div><div class="icon">💻</div><h2>Виселица</h2><p>Угадай зашифрованное слово</p></div><span class="status">Готовится</span></div>
+</section>
+<footer>TUBETU · Игровой центр</footer>
+</main>
+</body>
+</html>
