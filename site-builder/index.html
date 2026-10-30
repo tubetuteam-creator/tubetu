@@ -44,11 +44,34 @@
 .landing-types .type-choice{min-height:260px!important}
 @media(max-width:850px){.landing-types .type-group-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.landing-catalog-head{align-items:flex-start;margin-top:24px}.landing-catalog-head p{font-size:11px}.scroll-hint{font-size:10px}.landing-catalog-scroll{height:72vh;min-height:380px;border-radius:14px}.landing-types .type-group{padding:0 3px}.landing-types .type-choice{min-height:225px!important}}
+
+/* Стартовая витрина шаблонов: горизонтальная карусель */
+.landing-catalog-head{align-items:center;margin:28px 2px 14px}
+.landing-carousel-controls{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.landing-arrow{width:40px;height:40px;border:1px solid #3c7453;border-radius:12px;background:#12251a;color:#9af4bd;font-size:27px;line-height:1}
+.landing-arrow:active{background:#1c4930}
+.landing-catalog-scroll{height:auto;min-height:0;max-height:none;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding:4px 2px 17px;border:0;background:transparent;scrollbar-width:thin;scrollbar-color:#4e8966 #122019;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.landing-types{width:100%}
+.landing-carousel-track{display:flex;align-items:stretch;gap:13px;width:max-content;padding:2px 3px 8px}
+.landing-template-card{flex:0 0 270px;width:270px;min-height:265px!important;scroll-snap-align:start}
+.landing-template-card .type-photo{height:100%!important}
+.landing-template-card .type-label{top:12px}
+@media(max-width:560px){
+ .landing-catalog-head{align-items:flex-start;gap:10px}
+ .landing-catalog-head>div:first-child{min-width:0}
+ .landing-carousel-controls{gap:5px}
+ .landing-arrow{width:34px;height:36px}
+ .landing-carousel-controls .scroll-hint{display:none}
+ .landing-catalog-scroll{padding-bottom:13px}
+ .landing-carousel-track{gap:10px}
+ .landing-template-card{flex-basis:78vw;width:78vw;min-height:245px!important}
+}
+
 </style></head>
 <body><div class="app">
 <header class="top"><div class="brand"><div class="mark">T↔</div><div><strong>TUBETU</strong><small>CREATE · Конструктор сайтов</small></div></div><div class="top-actions"><button class="btn" onclick="loadDraft()">Мои черновики</button><button class="btn" onclick="goHome()">В начало</button></div></header>
 <div class="stepbar" id="stepbar"><span class="step active">1 · Старт</span><span class="step">2 · Тип сайта</span><span class="step">3 · Создание сайта</span></div>
-<section id="s0" class="screen active"><div class="surface hero-start"><div><div class="eyebrow">TUBETU WEBSITE STUDIO</div><h2>Создайте сайт,<br>который работает на вас</h2><p>Выберите направление ниже или сразу откройте полный каталог.</p><button class="btn primary" onclick="go(1)">＋ Открыть весь каталог</button></div><div class="orb"></div></div><div class="landing-catalog-head"><div><div class="eyebrow">ВЫБЕРИТЕ НАПРАВЛЕНИЕ</div><h2>Популярные типы сайтов</h2><p>Листайте вниз — все варианты идут по порядку. Нажмите на любую карточку, чтобы начать создание.</p></div><span class="scroll-hint">↓ Листайте вниз</span></div><div class="landing-catalog-scroll" id="landingCatalogScroll"><div id="landingTypes" class="landing-types"></div></div></section>
+<section id="s0" class="screen active"><div class="surface hero-start"><div><div class="eyebrow">TUBETU WEBSITE STUDIO</div><h2>Создайте сайт,<br>который работает на вас</h2><p>Выберите направление ниже или сразу откройте полный каталог.</p><button class="btn primary" onclick="go(1)">＋ Открыть весь каталог</button></div><div class="orb"></div></div><div class="landing-catalog-head"><div><div class="eyebrow">ВЫБЕРИТЕ ШАБЛОН</div><h2>Шаблоны сайтов</h2><p>Листайте карточки в сторону и нажмите на подходящий вариант, чтобы начать создание.</p></div><div class="landing-carousel-controls"><button class="landing-arrow" type="button" aria-label="Предыдущие шаблоны" onclick="scrollLandingTemplates(-1)">‹</button><span class="scroll-hint">Листайте →</span><button class="landing-arrow" type="button" aria-label="Следующие шаблоны" onclick="scrollLandingTemplates(1)">›</button></div></div><div class="landing-catalog-scroll" id="landingCatalogScroll"><div id="landingTypes" class="landing-types"></div></div></section>
 <section id="s1" class="screen"><div class="intro"><div class="eyebrow">ШАГ 1 ИЗ 4</div><h1>Какой сайт вы хотите создать?</h1><p>Выберите тип. От этого зависят структура страниц, блоки и доступные функции.</p></div><div class="grid" id="types"></div><div class="actions"><button class="btn" onclick="go(0)">← Назад</button></div></section>
 <section id="s2" class="screen"><div class="intro"><div class="eyebrow">ШАГ 2 ИЗ 2</div><h1>Настройте свой сайт</h1><p>Изменения сразу отображаются в предпросмотре. Черновик можно сохранить и продолжить позже на этом устройстве.</p></div><div class="editor"><div class="surface"><div class="pill" id="chosenType">Тип сайта</div><div class="formgrid" style="margin-top:15px"><label class="field full">Название сайта<input id="siteName" placeholder="Например, Studio Nova" oninput="renderPreview()"></label><label class="field full">Краткое описание<textarea id="siteDesc" placeholder="Чем занимается ваш проект?" oninput="renderPreview()"></textarea></label><label class="field">Город<input id="siteCity" placeholder="Алматы" oninput="renderPreview()"></label><label class="field">Телефон / WhatsApp<input id="sitePhone" placeholder="77001234567" oninput="renderPreview()"></label><label class="field full">Текст главной кнопки<input id="siteCta" value="Связаться с нами" oninput="renderPreview()"></label><div class="field full upload">Обложка сайта<br><input id="siteImage" type="file" accept="image/*" onchange="readImage(this)"><div class="hint">Выберите фотографию — она появится в предпросмотре. Можно заменить её в любое время.</div></div></div><div class="actions"><button class="btn" onclick="addBlock()">＋ Добавить блок</button><button class="btn" onclick="saveDraft()">Сохранить черновик</button></div><div class="status" id="saveStatus"></div><div class="hint">Сайт создаётся как самостоятельный проект. Публикация и сохранение в аккаунте будут подключены отдельно.</div></div>
 <div><div class="hint" style="margin:0 0 8px">ЖИВОЙ ПРЕДПРОСМОТР · МОБИЛЬНЫЙ МАКЕТ</div><div class="preview" id="preview"><div class="pvbar"><span class="pvbrand" id="pvName">Название сайта</span><span>☰</span></div><div class="pvhero" id="pvHero"><span class="pill">ОФИЦИАЛЬНЫЙ САЙТ</span><h2 id="pvTitle">Ваш проект начинается здесь</h2><p id="pvDesc">Добавьте описание, чтобы посетители сразу поняли, чем вы занимаетесь.</p><button class="btn primary" id="pvCta">Связаться с нами</button></div><div class="pvcontent"><div class="pvblocks" id="pvBlocks"></div><p id="pvCity" style="font-size:11px;color:#69776e;margin-top:18px"></p></div><div class="pvfoot">Самостоятельный сайт · создано в TUBETU</div></div><div class="actions"><button class="btn" onclick="go(1)">← К выбору типа</button><button class="btn primary" onclick="saveDraft()">Сохранить проект</button></div></div></div></section>
@@ -112,21 +135,12 @@ function starterBlocks(type){
  return map[type]||['Главная страница','Основные разделы','Преимущества','Контакты'];
 }
 
-let landingAutoFrame=0,landingLastTime=0,landingPauseUntil=0;
-function startLandingCarousel(){
- const box=$('landingCatalogScroll');if(!box||landingAutoFrame)return;
- const step=(time)=>{
-  landingAutoFrame=requestAnimationFrame(step);
-  if(!landingLastTime)landingLastTime=time;
-  const dt=Math.min(40,time-landingLastTime);landingLastTime=time;
-  if(Date.now()<landingPauseUntil)return;
-  if(box.scrollTop+box.clientHeight>=box.scrollHeight-2){cancelAnimationFrame(landingAutoFrame);landingAutoFrame=0;return}
-  box.scrollTop+=dt*0.022;
- };
- landingAutoFrame=requestAnimationFrame(step);
- box.addEventListener('pointerdown',()=>{landingPauseUntil=Date.now()+3500},{passive:true});
- box.addEventListener('wheel',()=>{landingPauseUntil=Date.now()+3500},{passive:true});
- box.addEventListener('touchstart',()=>{landingPauseUntil=Date.now()+3500},{passive:true});
+function startLandingCarousel(){}
+function scrollLandingTemplates(direction){
+ const box=$('landingCatalogScroll');if(!box)return;
+ const card=box.querySelector('.landing-template-card');
+ const distance=card?card.getBoundingClientRect().width+12:280;
+ box.scrollBy({left:direction*distance*2,behavior:'smooth'});
 }
 function renderChoices(){
  let html='<div class="type-count"><span>Каталог типов сайтов</span><strong>'+siteTypes.length+' вариантов</strong></div>';
@@ -140,7 +154,7 @@ function renderChoices(){
   html+='</div></section>';
  });
  $('types').innerHTML=html;
- $('landingTypes').innerHTML=html;
+ const landingCards=siteTypes.map((x,i)=>'<button class="choice type-choice landing-template-card" onclick="pickType('+i+')"><span class="type-photo" style="background-image:url(\\''+x[2]+'\\')"></span><span class="type-label"><i>Шаблон сайта</i></span><span class="num">ВАРИАНТ · '+String(i+1).padStart(2,'0')+'</span><b>'+escapeHtml(x[0])+'</b><small>'+escapeHtml(x[1])+'</small><span class="type-open">Выбрать шаблон <b>→</b></span></button>').join('');$('landingTypes').innerHTML='<div class="landing-carousel-track">'+landingCards+'</div>';
 }
 function pickType(i){state.type=siteTypes[i][0];state.category=null;state.blocks=starterBlocks(state.type);renderChoices();go(2)}
 
