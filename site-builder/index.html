@@ -32,11 +32,44 @@ const designs=[
 ];
 let state={step:0,type:null,category:null,design:null,image:null,blocks:['О наших услугах','Наши преимущества']};
 const $=id=>document.getElementById(id);
+function starterBlocks(type){
+ const map={
+ 'Квиз-лендинг':['Вопросы квиза','Расчёт стоимости','Форма заявки','Ответы на вопросы'],
+ 'Одноэкранный сайт':['Главное предложение','Преимущества','Контакты'],
+ 'Сайт-визитка':['Обо мне / о компании','Услуги','Контакты'],
+ 'Промо-сайт':['Главный продукт','Преимущества предложения','Галерея','Призыв к действию','Контакты'],
+ 'Landing Page':['Первый экран','Преимущества','Отзывы','Форма заявки'],
+ 'Лендосайт':['О проекте','Что предлагаем','Этапы работы','Отзывы','Контакты'],
+ 'Корпоративный сайт':['О компании','Направления деятельности','Команда','Проекты','Контакты'],
+ 'Сайт-каталог':['Категории','Карточки предложений','Фильтры','Контакты'],
+ 'Интернет-магазин':['Каталог товаров','Карточка товара','Корзина','Доставка и оплата'],
+ 'Информационный сайт':['Рубрики','Последние публикации','Популярные материалы'],
+ 'Форум':['Категории обсуждений','Темы форума','Правила сообщества'],
+ 'Портал':['Главные разделы','Личный кабинет','Новости','Поиск'],
+ 'Справочник и каталог':['Категории','Список организаций','Поиск и фильтры'],
+ 'Агрегатор':['Категории предложений','Лента предложений','Фильтры'],
+ 'Портфолио':['Избранные работы','Галерея проектов','Обо мне','Контакты'],
+ 'Блог':['Последние статьи','Рубрики','Об авторе'],
+ 'Медиа и журнал':['Главные материалы','Рубрики','Авторы'],
+ 'Образовательная платформа':['Каталог курсов','Программа обучения','Преподаватели','Запись на курс'],
+ 'Бронирование':['Услуги','Календарь записи','Форма бронирования'],
+ 'Мероприятия':['Афиша','Программа','Регистрация'],
+ 'Сообщество':['О сообществе','Участники','События','Правила'],
+ 'Подписной сервис':['Преимущества подписки','Тарифы','Оформление подписки'],
+ 'Стартап / IT-продукт':['О продукте','Возможности','Тарифы','Запрос демонстрации'],
+ 'Ресторан / кафе':['Меню','Галерея','Бронирование столика','Контакты'],
+ 'Туризм и путешествия':['Направления','Туры','Галерея','Заявка на поездку'],
+ 'Благотворительный проект':['О миссии','Проекты помощи','Как помочь','Отчётность'],
+ 'Недвижимость':['Каталог объектов','Фильтры','Карточка объекта','Заявка'],
+ 'Интерактивный / 3D-сайт':['Интерактивная сцена','О проекте','Галерея','Контакты']
+ };
+ return map[type]||['О проекте','Преимущества','Контакты'];
+}
 function renderChoices(){ $('types').innerHTML=siteTypes.map((x,i)=>'<button class="choice '+(state.type===x[0]?'selected':'')+'" onclick="pickType('+i+')"><span class="num">ТИП САЙТА · '+String(i+1).padStart(2,'0')+'</span><b>'+x[0]+'</b><small>'+x[1]+'</small></button>').join('');$('cats').innerHTML=platformCats.map((x,i)=>'<button class="choice catchoice '+(state.category===x[0]?'selected':'')+'" onclick="pickCat('+i+')"><span class="num">РАЗДЕЛ TUBETU</span><b>'+x[0]+'</b><small>'+x[1]+'</small></button>').join('');$('templates').innerHTML=designs.map((d,i)=>'<button class="template '+(state.design===d[0]?'selected':'')+'" onclick="pickDesign('+i+')"><div class="mock '+d[0]+'"><div class="mnav"><i></i><i></i></div><div class="mhero">Создайте<br>свой стиль</div><div class="mline"></div><div class="mtiles"><i></i><i></i><i></i></div></div><b>'+d[1]+'</b><small>'+d[2]+'</small></button>').join('');$('next1').disabled=!state.type;$('next2').disabled=!state.category;$('next3').disabled=!state.design}
-function pickType(i){state.type=siteTypes[i][0];renderChoices()}
-function pickCat(i){state.category=platformCats[i][0];state.catKey=platformCats[i][2];renderChoices()}
-function pickDesign(i){state.design=designs[i][0];renderChoices()}
-function go(n){state.step=n;document.querySelectorAll('.screen').forEach((x,i)=>x.classList.toggle('active',i===n));document.querySelectorAll('.step').forEach((x,i)=>{x.classList.toggle('active',i===n);x.classList.toggle('done',i<n)});if(n===4){$('chosenType').textContent=state.type;$('chosenCat').textContent='TUBETU · '+state.category;renderPreview()}window.scrollTo({top:0,behavior:'smooth'})}
+function pickType(i){state.type=siteTypes[i][0];state.blocks=starterBlocks(state.type);renderChoices();go(2)}
+function pickCat(i){state.category=platformCats[i][0];state.catKey=platformCats[i][2];renderChoices();go(3)}
+function pickDesign(i){state.design=designs[i][0];renderChoices();go(4)}
+function go(n){state.step=n;document.querySelectorAll('.screen').forEach((x,i)=>x.classList.toggle('active',i===n));document.querySelectorAll('.step').forEach((x,i)=>{x.classList.toggle('active',i===n);x.classList.toggle('done',i<n)});if(n===3){$('templateIntro').textContent='Дизайн для типа «'+state.type+'». Выберите концепцию — она сразу откроется в редакторе.'}if(n===4){$('chosenType').textContent=state.type;$('chosenCat').textContent='TUBETU · '+state.category;renderPreview()}window.scrollTo({top:0,behavior:'smooth'})}
 function goHome(){go(0)}
 function renderPreview(){const name=$('siteName').value.trim()||'Название сайта';const desc=$('siteDesc').value.trim()||'Добавьте описание, чтобы посетители поняли, чем вы занимаетесь.';$('pvName').textContent=name;$('pvTitle').textContent=name;$('pvDesc').textContent=desc;$('pvCta').textContent=$('siteCta').value||'Связаться с нами';$('pvCity').textContent=[$('siteCity').value,$('sitePhone').value].filter(Boolean).join(' · ');$('pvCategory').textContent=state.category||'Раздел платформы';const d=designs.find(x=>x[0]===state.design)||designs[0];$('pvHero').style.background=state.image?'linear-gradient(90deg,#0009,#0002),url('+state.image+') center/cover':d[3];$('pvHero').style.color=state.design==='minimal'?'#193326':'#fff';$('pvBlocks').innerHTML=state.blocks.map((b,i)=>'<div class="pvblock"><b>'+escapeHtml(b)+'</b><small>Раздел вашего сайта</small></div>').join('')}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
