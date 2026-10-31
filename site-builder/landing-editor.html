@@ -81,7 +81,7 @@ async function saveCloudProject(){
   if(result.error)throw result.error;cloudProjectId=result.data.id;cloudProjectSlug=result.data.slug;
   localStorage.setItem("tubetu-landing-project-v1",JSON.stringify(payload));
   $("status").textContent="✓ Проект сохранён в аккаунте TUBETU и на этом устройстве.";
- }catch(e){$("status").textContent="Не удалось сохранить в аккаунт: "+(e.message||"ошибка");}
+ }catch(e){saveProject();$("status").textContent="✓ Временно сохранено на этом устройстве. Облачное сохранение подключим позже."; }
 }
 async function loadCloudProjects(){
  try{
@@ -93,7 +93,7 @@ async function loadCloudProjects(){
   if(!data?.length){box.textContent="В облаке пока нет сохранённых лендингов.";return}
   data.forEach(p=>{const b=document.createElement("button");b.className="btn";b.textContent=p.title+" · открыть";b.onclick=()=>openCloudProject(p.id);box.appendChild(b)});
   $("status").textContent="Облачные проекты загружены.";
- }catch(e){$("status").textContent="Не удалось загрузить проекты: "+(e.message||"ошибка");}
+ }catch(e){loadProject();$("status").textContent="Открываем временный черновик с этого устройства. Облако пока недоступно."; }
 }
 async function openCloudProject(id){
  try{
