@@ -41,7 +41,7 @@ function downloadSite(){const d=getData();const page='<!doctype html><html lang=
 
 const SB_URL='https://zbgfuitelvmkrpzbpcrj.supabase.co';
 const SB_KEY='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
-const cloud=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY):null;
+const cloud=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'sb-zbgfuitelvmkrpzbpcrj-auth-token'}}):null;
 let cloudUser=null,projectId=null,projectSlug=null,projectPublished=false;
 function slugify(v){return String(v||'pitstop').toLowerCase().normalize('NFKD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48)||'pitstop'}
 function setCloudStatus(msg,error=false){status(msg,error)}
