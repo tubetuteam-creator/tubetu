@@ -666,6 +666,39 @@ function processAiQuery(q){
 }
 document.addEventListener('click',e=>{const b=e.target.closest('#aiKbOpen');if(b){navigate(b.dataset.view,true);$('aiPanel').classList.remove('open')}});
 
+// Надёжный обработчик выхода: отдельный перехват клика на самой кнопке.
+const logoutButton=document.querySelector('#view-cabinet [data-action="logout"]');
+if(logoutButton){
+ logoutButton.type='button';
+ logoutButton.addEventListener('click',async function(e){
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+  if(logoutButton.disabled)return;
+  logoutButton.disabled=true;
+  const oldLabel=logoutButton.textContent;
+  logoutButton.textContent='Выходим…';
+  try{
+   if(db){
+    const {error}=await db.auth.signOut({scope:'local'});
+    if(error)throw error;
+   }
+   user=null;
+   updateAuthUI();
+   navigate('home',true);
+  }catch(err){
+   try{
+    const {data}=await db.auth.getSession();
+    user=data&&data.session&&data.session.user||null;
+   }catch(_){user=null}
+   updateAuthUI();
+   alert('Не удалось выйти из аккаунта. '+explainError(err));
+  }finally{
+   logoutButton.disabled=false;
+   logoutButton.textContent=oldLabel;
+  }
+ },true);
+}
 async function init(){if(!db){$('connection').textContent='SDK недоступен';restoreLocationRoute();return}try{db.auth.onAuthStateChange((event,session)=>{if(event==='PASSWORD_RECOVERY'){openRecovery();return}user=session&&session.user||null;if(recoveryMode){$('view-auth').classList.add('active');return}updateAuthUI();if(user)loadCompanyProfile().catch(err=>console.error('company profile load',err));else loadCompanyProfile().catch(err=>console.error('company profile reset',err))});const {data,error}=await db.auth.getSession();if(error)throw error;user=data.session&&data.session.user||null;updateAuthUI();await loadCompanyProfile();await loadPosts();if(recoveryMarker())openRecovery();else{restoreLocationRoute();if(currentView==='cabinet')await loadMyPosts()}}catch(e){console.error('init',e);$('connection').textContent='Ошибка подключения';try{restoreLocationRoute()}catch(routeError){console.error('route restore',routeError);navigate('home',false)}}}
 if($('homeSearchGo'))$('homeSearchGo').addEventListener('click',submitSmartSearch);if($('homeSearchInput'))$('homeSearchInput').addEventListener('keydown',e=>{if(e.key==='Enter')submitSmartSearch()});renderHome();renderExplore();try{restoreLocationRoute()}catch(routeError){console.error('early route restore',routeError)}init();
 })();
