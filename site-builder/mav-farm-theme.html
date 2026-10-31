@@ -75,7 +75,7 @@ input,textarea{color:white}#qrcode img{margin:auto;border-radius:8px;padding:6px
 let features=[{title:"VELORA Eyes",desc:"Палетки теней и выразительные оттенки"},{title:"VELORA Skin",desc:"Тканевые и глиняные маски для ухода"},{title:"VELORA Lips",desc:"Блески, помады и уход для губ"},{title:"VELORA Sets",desc:"Подарочные наборы для себя и близких"}];
 let currentTheme="slate";
 const SB_URL="https://zbgfuitelvmkrpzbpcrj.supabase.co",SB_KEY="sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_";
-const cloud=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY):null;
+const cloud=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'sb-zbgfuitelvmkrpzbpcrj-auth-token'}}):null;
 let cloudProjectId=null,cloudProjectSlug=null;
 const themes={slate:["#e8b9c7","rgba(232,185,199,.3)"],amber:["#d9bd9a","rgba(217,189,154,.3)"],emerald:["#8e6a78","rgba(142,106,120,.3)"],purple:["#f1dfe5","rgba(241,223,229,.3)"]};
 function switchTab(id){document.querySelectorAll(".tab-content").forEach(x=>x.classList.add("hidden"));document.querySelectorAll(".tab-btn").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.remove("hidden");document.getElementById("btn-"+id).classList.add("active")}
