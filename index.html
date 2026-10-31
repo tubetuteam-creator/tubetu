@@ -314,7 +314,7 @@ const encodedGame=params.get('game'),encodedSection=params.get('section'),encode
 if(encodedCategory&&!encodedGame&&!encodedSection){selectedCategory=encodedCategory;renderExplore();$('categoryPosts').scrollIntoView({behavior:'auto',block:'nearest'})}
 
 if(encodedGame){
-try{const path=JSON.parse(encodedGame);if(Array.isArray(path)&&path.every(x=>typeof x==='string')){let list=gameTaxonomy;const valid=[];for(const part of path){const item=list.find(x=>x.title===part);if(!item)break;valid.push(part);list=item.children||[]}if(valid.length)openGameCluster(valid,true)}}catch(e){console.warn('Не удалось восстановить раздел игр',e)}
+try{const path=JSON.parse(encodedGame);if(Array.isArray(path)&&path.every(x=>typeof x==='string')){let list=gameTaxonomy;const valid=[];for(const part of path){const item=list.find(x=>x.title===part);if(!item)break;valid.push(part);list=item.children||[]}if(Array.isArray(path))openGameCluster(valid,true)}}catch(e){console.warn('Не удалось восстановить раздел игр',e)}
 }else if(encodedSection){
 const root=encodedSection;let path=[];
 try{const p=JSON.parse(params.get('path')||'[]');if(Array.isArray(p)&&p.every(x=>typeof x==='string'))path=p}catch(e){console.warn('Не удалось восстановить путь раздела',e)}
