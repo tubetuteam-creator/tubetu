@@ -123,7 +123,7 @@ const SUPABASE_URL='https://zbgfuitelvmkrpzbpcrj.supabase.co';
 const SUPABASE_KEY='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
 const AUTH_REDIRECT='https://tubetuteam-creator.github.io/tubetu/?mode=recovery';
 const $=id=>document.getElementById(id);
-const db=window.supabase&&window.supabase.createClient?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
+const db=window.supabase&&window.supabase.createClient?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'sb-zbgfuitelvmkrpzbpcrj-auth-token'}}):null;
 let user=null,posts=[],currentView='home',registerMode=false,recoveryMode=false,postFilter='Все',projectFilter='Все',loading=false,selectedCategory='Все',demoEnabled=localStorage.getItem('tubetu-demo-disabled')==='0';
 const categories=[
 ['Проекты и идеи','⌘','Стартапы, команды, бизнес-модели, технологии и инициативы.','projects'],
