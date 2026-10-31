@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f172a"><title>TUBETU — Mav.farm Spotlight Builder</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{--bg-dark:#0f172a;--panel-bg:rgba(30,41,59,.95);--brand-color:#38bdf8;--brand-glow:rgba(56,189,248,.35);--text-main:#f8fafc;--border-color:rgba(56,189,248,.25)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg-dark);color:var(--text-main);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden;padding-bottom:78px}
+.tubetu-card{background:var(--panel-bg);backdrop-filter:blur(16px);border:1px solid var(--border-color);box-shadow:0 10px 30px #0009;border-radius:20px}
+.accent-btn{background:var(--brand-color);color:#0f172a;font-weight:800;transition:.2s;box-shadow:0 0 15px var(--brand-glow)}.accent-btn:hover{transform:translateY(-2px);box-shadow:0 0 25px var(--brand-glow)}
+.tab-btn.active{border-bottom:3px solid var(--brand-color);color:var(--brand-color);font-weight:800}
+.spotlight-hero-art{background:linear-gradient(180deg,#0f172a22,#0f172af2),url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop') center/cover;border-radius:18px;min-height:230px}
+input,textarea{color:white}#qrcode img{margin:auto;border-radius:8px;padding:6px;background:white}
+@media(max-width:700px){.workspace{grid-template-columns:1fr!important}.workspace>section{min-width:0}.tabs{overflow-x:auto}.tab-btn{font-size:10px;padding:10px 9px}.preview-wrap{position:static}}
+</style></head>
+<body class="min-h-screen flex flex-col justify-between">
+<header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-white/10 px-4 py-3 flex justify-between items-center">
+ <div class="flex items-center gap-3"><div class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-900 font-black text-lg" style="background:var(--brand-color)">M</div><div><div class="font-extrabold text-white text-sm">TUBETU <span class="text-[10px] font-mono px-2 py-1 rounded border border-white/20" style="color:var(--brand-color)">Mav.farm Theme</span></div><div class="text-[10px] text-gray-400">Глянцевый Spotlight-конструктор</div></div></div>
+ <a href="index.html" class="text-xs text-gray-300 border border-white/20 rounded-xl px-3 py-2">← К шаблонам</a>
+</header>
+<main class="workspace max-w-[1700px] mx-auto w-full p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+<section class="flex flex-col gap-4 min-w-0">
+ <div class="tubetu-card tabs p-2 flex gap-1 text-xs text-gray-400">
+  <button onclick="switchTab('tab-style')" class="tab-btn active px-3 py-2.5 whitespace-nowrap" id="btn-tab-style">🎨 1. Палитра</button>
+  <button onclick="switchTab('tab-hero')" class="tab-btn px-3 py-2.5 whitespace-nowrap" id="btn-tab-hero">📝 2. Бренд</button>
+  <button onclick="switchTab('tab-services')" class="tab-btn px-3 py-2.5 whitespace-nowrap" id="btn-tab-services">⭐ 3. Витрина</button>
+  <button onclick="switchTab('tab-calc')" class="tab-btn px-3 py-2.5 whitespace-nowrap" id="btn-tab-calc">🧮 4. Смета и QR</button>
+ </div>
+ <div id="tab-style" class="tab-content tubetu-card p-5 flex flex-col gap-4">
+  <h2 class="text-xs font-bold uppercase tracking-wider border-b border-white/10 pb-2" style="color:var(--brand-color)">Палитра Mav.farm</h2>
+  <div class="grid grid-cols-2 gap-3">
+   <button onclick="setTheme('slate')" class="p-3 bg-slate-800/60 border border-sky-400/40 rounded-xl text-left"><b class="text-xs text-sky-400">🟦 Mav.farm Slate</b><p class="text-[10px] text-gray-400">Синий и тёмный слейт</p></button>
+   <button onclick="setTheme('amber')" class="p-3 bg-orange-950/40 border border-orange-500/40 rounded-xl text-left"><b class="text-xs text-orange-400">🟧 Neon Amber</b><p class="text-[10px] text-gray-400">Строительство и сервис</p></button>
+   <button onclick="setTheme('emerald')" class="p-3 bg-emerald-950/40 border border-emerald-500/40 rounded-xl text-left"><b class="text-xs text-emerald-400">🟩 Emerald Mint</b><p class="text-[10px] text-gray-400">Эко и материалы</p></button>
+   <button onclick="setTheme('purple')" class="p-3 bg-purple-950/40 border border-purple-500/40 rounded-xl text-left"><b class="text-xs text-purple-400">🟪 Magenta Creative</b><p class="text-[10px] text-gray-400">Дизайн и креатив</p></button>
+  </div>
+ </div>
+ <div id="tab-hero" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
+  <h2 class="text-xs font-bold uppercase tracking-wider border-b border-white/10 pb-2" style="color:var(--brand-color)">Настройка бренда и заголовка</h2>
+  <label class="text-[11px] text-gray-300 font-bold">Название бренда / ИП<input id="in-brand" value="MAV.FARM SPOTLIGHT" oninput="renderAll()" class="w-full mt-1 bg-black/60 border border-gray-700 rounded-xl p-3 text-xs"></label>
+  <label class="text-[11px] text-gray-300 font-bold">Главный заголовок<input id="in-h1" value="ИП МАТВЕЕВ — Сухая отделка & КНАУФ С112" oninput="renderAll()" class="w-full mt-1 bg-black/60 border border-gray-700 rounded-xl p-3 text-xs"></label>
+  <label class="text-[11px] text-gray-300 font-bold">Подзаголовок / описание<textarea id="in-sub" rows="4" oninput="renderAll()" class="w-full mt-1 bg-black/60 border border-gray-700 rounded-xl p-3 text-xs">Премиальное качество строительно-отделочных работ. Строгое исполнение геометрий, перегородки С112 без минераловатного заполнения, отделка керамогранитом.</textarea></label>
+  <div class="grid grid-cols-2 gap-3"><label class="text-[10px] text-gray-300">WhatsApp / телефон<input id="in-phone" value="+7 707 100 20 30" oninput="renderAll()" class="w-full mt-1 bg-black/60 border border-gray-700 rounded-xl p-2.5 text-xs"></label><label class="text-[10px] text-gray-300">Город / адрес<input id="in-city" value="г. Алматы, Карасайский район" oninput="renderAll()" class="w-full mt-1 bg-black/60 border border-gray-700 rounded-xl p-2.5 text-xs"></label></div>
+ </div>
+ <div id="tab-services" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
+  <div class="flex justify-between items-center border-b border-white/10 pb-2"><h2 class="text-xs font-bold uppercase" style="color:var(--brand-color)">Карточки витрины</h2><button onclick="addFeature()" class="accent-btn text-[10px] px-3 py-1 rounded-lg">+ Добавить</button></div>
+  <div id="features-editor" class="flex flex-col gap-2.5"></div>
+ </div>
+ <div id="tab-calc" class="tab-content tubetu-card p-5 hidden flex-col gap-4">
+  <h2 class="text-xs font-bold uppercase border-b border-white/10 pb-2" style="color:var(--brand-color)">Настройка онлайн-сметы</h2>
+  <div class="grid grid-cols-2 gap-3"><label class="text-[10px] text-gray-300">Тариф С112 (₸ / м²)<input type="number" id="in-rate-s112" value="4500" oninput="renderAll()" class="w-full mt-1 bg-black/60 border border-gray-700 rounded-xl p-2.5 text-xs"></label><label class="text-[10px] text-gray-300">Тариф облицовка (₸ / м²)<input type="number" id="in-rate-tile" value="6500" oninput="renderAll()" class="w-full mt-1 bg-black/60 border border-gray-700 rounded-xl p-2.5 text-xs"></label></div>
+  <div class="flex flex-col items-center gap-3 pt-4 text-center border-t border-white/10"><span class="text-xs font-bold uppercase" style="color:var(--brand-color)">QR-код витрины</span><div id="qrcode" class="p-3 bg-white rounded-xl"></div><div class="w-full bg-black/50 border border-white/10 p-3 rounded-xl flex justify-between items-center"><span id="out-url" class="text-xs font-mono truncate mr-2" style="color:var(--brand-color)"></span><button onclick="copyURL()" class="text-[10px] bg-white/10 px-3 py-1.5 rounded-lg">Скопировать</button></div><p class="text-[10px] text-amber-300">QR и адрес — предварительный макет. Публичная публикация подключается отдельно.</p></div>
+ </div>
+</section>
+<section class="flex flex-col gap-2 min-w-0 preview-wrap">
+ <div class="text-[11px] font-bold text-gray-400 flex justify-between px-1"><span>ЖИВОЙ ПРЕДПРОСМОТР MAV.FARM</span><span style="color:var(--brand-color)">● SPOTLIGHT LIVE</span></div>
+ <div class="tubetu-card p-5 flex flex-col gap-5 relative overflow-hidden" id="landing-preview">
+  <div class="flex justify-between items-center border-b border-white/10 pb-3"><div class="flex items-center gap-2.5"><div id="prev-avatar" class="w-8 h-8 rounded-lg flex items-center justify-center font-black text-slate-900" style="background:var(--brand-color)">M</div><div><div id="prev-brand" class="font-extrabold text-xs">MAV.FARM</div><div id="prev-city" class="text-[9px] text-gray-400">г. Алматы</div></div></div><span class="text-[9px] px-2.5 py-1 rounded-full border border-white/20">● Verified</span></div>
+  <div class="spotlight-hero-art p-6 flex flex-col justify-end shadow-2xl border border-white/10"><div class="text-[10px] font-bold text-sky-300 uppercase tracking-widest mb-2">● Brand Spotlight</div><h1 id="prev-h1" class="text-xl sm:text-2xl font-black text-white leading-snug uppercase">ИП МАТВЕЕВ — Сухая отделка & КНАУФ С112</h1><div class="flex gap-2 mt-3 text-[9px] text-gray-300"><span class="bg-black/50 px-2 py-1 rounded">Hatchet Supply</span><span class="bg-black/50 px-2 py-1 rounded">GRIN27</span></div></div>
+  <p id="prev-sub" class="text-xs text-gray-300 leading-relaxed"></p>
+  <div><span class="text-[10px] font-bold uppercase tracking-wider" style="color:var(--brand-color)">Спецпроекты & услуги</span><div id="prev-features-grid" class="grid grid-cols-2 gap-2.5 mt-2"></div></div>
+  <div class="bg-black/60 p-4 rounded-xl flex flex-col gap-3 border border-white/10"><div class="flex justify-between"><b class="text-xs">▦ Расчёт стоимости работ</b><span class="text-[10px]" style="color:var(--brand-color)">Онлайн</span></div><div class="flex justify-between text-xs text-gray-300"><span>Укажите площадь:</span><b><span id="prev-sq-val">50</span> м²</b></div><input type="range" id="prev-sq-range" min="10" max="500" value="50" oninput="calcSum()" style="accent-color:var(--brand-color)"><div class="flex justify-between border-t border-white/10 pt-2"><span class="text-[10px] text-gray-400">Предварительная смета:</span><b id="prev-total-sum" class="font-mono" style="color:var(--brand-color)">225 000 ₸</b></div></div>
+  <a id="prev-wa-btn" href="#" target="_blank" rel="noopener" class="accent-btn py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 text-center uppercase"><i class="fa-brands fa-whatsapp"></i> Отправить заявку в WhatsApp</a>
+ </div>
+ <button onclick="downloadSite()" class="accent-btn rounded-xl py-3 text-xs uppercase">Скачать HTML сайта</button>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 border-t border-white/10 px-4 py-2.5 flex justify-around text-[10px] text-gray-400"><span>⌂ Главная</span><span>☏ Чат</span><span class="text-white font-bold">＋ Подать</span><span>♧ Сообщества</span><span>♙ Кабинет</span></nav>
+<script>
+let features=[{title:"КНАУФ С112",desc:"Строгое соблюдение стандартов"},{title:"Керамогранит",desc:"Высокоточная укладка"},{title:"Прорабский контроль",desc:"Полное ведение объекта"},{title:"Фиксированная смета",desc:"Без скрытых платежей"}];
+let currentTheme="slate";
+const themes={slate:["#38bdf8","rgba(56,189,248,.35)"],amber:["#f97316","rgba(249,115,22,.35)"],emerald:["#10b981","rgba(16,185,129,.35)"],purple:["#a855f7","rgba(168,85,247,.35)"]};
+function switchTab(id){document.querySelectorAll(".tab-content").forEach(x=>x.classList.add("hidden"));document.querySelectorAll(".tab-btn").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.remove("hidden");document.getElementById("btn-"+id).classList.add("active")}
+function setTheme(t){currentTheme=t;document.documentElement.style.setProperty("--brand-color",themes[t][0]);document.documentElement.style.setProperty("--brand-glow",themes[t][1]);renderAll()}
+function val(id){return document.getElementById(id).value}
+function renderAll(){let brand=val("in-brand")||"Brand";document.getElementById("prev-brand").textContent=brand;document.getElementById("prev-h1").textContent=val("in-h1")||"Заголовок";document.getElementById("prev-sub").textContent=val("in-sub")||"Описание";document.getElementById("prev-city").textContent=val("in-city")||"Алматы";document.getElementById("prev-avatar").textContent=brand.charAt(0).toUpperCase();renderFeaturesEditor();renderFeaturesPreview();calcSum();let slug=brand.toLowerCase().replace(/[^a-zа-яё0-9]+/gi,"-").replace(/^-|-$/g,"");let url="https://tubetu.kz/site/"+(slug||"mav-farm");document.getElementById("out-url").textContent=url;let q=document.getElementById("qrcode");q.innerHTML="";if(window.QRCode)new QRCode(q,{text:url,width:110,height:110,colorDark:"#0f172a",colorLight:"#fff"})}
+function calcSum(){let sq=Number(val("prev-sq-range"))||50;document.getElementById("prev-sq-val").textContent=sq;let rate=Number(val("in-rate-s112"))||4500;let total=sq*rate;let formatted=total.toLocaleString("ru-RU")+" ₸";document.getElementById("prev-total-sum").textContent=formatted;let phone=val("in-phone").replace(/\D/g,"");let message=encodeURIComponent("Здравствуйте! Заявка с витрины Mav.farm (TUBETU):\n• Площадь: "+sq+" кв.м\n• Предварительный расчет: "+formatted);document.getElementById("prev-wa-btn").href=phone?"https://wa.me/"+phone+"?text="+message:"#"}
+function renderFeaturesEditor(){let c=document.getElementById("features-editor");c.innerHTML="";features.forEach((f,i)=>{let row=document.createElement("div");row.className="flex gap-2 bg-black/40 p-2 rounded-xl border border-white/10";let title=document.createElement("input");title.value=f.title;title.placeholder="Название";title.className="min-w-0 w-1/2 bg-black/60 border border-gray-700 text-xs p-2 rounded-lg";title.onchange=()=>{features[i].title=title.value;renderFeaturesPreview()};let desc=document.createElement("input");desc.value=f.desc;desc.placeholder="Описание";desc.className="min-w-0 w-1/2 bg-black/60 border border-gray-700 text-xs p-2 rounded-lg";desc.onchange=()=>{features[i].desc=desc.value;renderFeaturesPreview()};let del=document.createElement("button");del.textContent="✕";del.className="text-red-400 px-2";del.onclick=()=>{features.splice(i,1);renderFeaturesEditor();renderFeaturesPreview()};row.append(title,desc,del);c.appendChild(row)})}
+function renderFeaturesPreview(){let g=document.getElementById("prev-features-grid");g.innerHTML="";features.forEach(f=>{let card=document.createElement("div");card.className="bg-black/40 border border-white/10 p-3 rounded-xl text-xs";let title=document.createElement("b");title.className="block mb-1";title.textContent=f.title;let desc=document.createElement("span");desc.className="text-[10px] text-gray-400";desc.textContent=f.desc;card.append(title,desc);g.appendChild(card)})}
+function addFeature(){features.push({title:"Новый проект",desc:"Описание карточки"});renderFeaturesEditor();renderFeaturesPreview()}
+function copyURL(){navigator.clipboard.writeText(val("out-url")||document.getElementById("out-url").textContent).then(()=>alert("Адрес макета скопирован. Он станет рабочим после подключения публикации.")).catch(()=>alert("Не удалось скопировать адрес"))}
+function downloadSite(){let name=val("in-brand")||"Mav.farm";let html="<!doctype html><html lang='ru'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>"+name.replace(/[<>&"]/g,"")+"</title><body style='font:16px Arial;max-width:850px;margin:40px auto;padding:20px;color:#172033'><h1>"+(val("in-h1")||"").replace(/[<>&"]/g,"")+"</h1><p>"+(val("in-sub")||"").replace(/[<>&"]/g,"")+"</p><h2>Услуги</h2><ul>"+features.map(f=>"<li><b>"+f.title.replace(/[<>&"]/g,"")+"</b> — "+f.desc.replace(/[<>&"]/g,"")+"</li>").join("")+"</ul><p>"+val("in-city")+"</p><p>Предварительная стоимость: "+val("in-rate-s112")+" ₸/м²</p><a href='"+document.getElementById("prev-wa-btn").href+"'>Связаться в WhatsApp</a></body></html>";let blob=new Blob([html],{type:"text/html;charset=utf-8"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="mav-farm-site.html";a.click();URL.revokeObjectURL(a.href)}
+window.addEventListener("DOMContentLoaded",renderAll);
+</script></body></html>
