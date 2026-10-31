@@ -93,7 +93,7 @@ function restoreBuilderSession(){
  try{
   const raw=localStorage.getItem(BUILDER_SESSION_KEY);if(!raw)return false;
   const d=JSON.parse(raw);if(!d||d.version!==1)return false;
-  state={...state,step:Number.isInteger(d.step)?Math.max(0,Math.min(2,d.step)):0,type:d.type||null,category:d.category||null,design:d.design||'modern',image:d.image||null,blocks:Array.isArray(d.blocks)?d.blocks:state.blocks};
+  state={...state,step:0,type:null,category:null,design:d.design||'modern',image:null,blocks:Array.isArray(d.blocks)?d.blocks:state.blocks};
   $('siteName').value=d.name||'';$('siteDesc').value=d.desc||'';$('siteCity').value=d.city||'';$('sitePhone').value=d.phone||'';$('siteCta').value=d.cta||'Связаться с нами';
   return true;
  }catch(e){console.warn('TUBETU builder session restore:',e);return false}
@@ -220,7 +220,5 @@ startLandingCarousel();
 document.querySelectorAll('#siteName,#siteDesc,#siteCity,#sitePhone,#siteCta').forEach(el=>el.addEventListener('input',scheduleBuilderAutosave));
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='siteImage')scheduleBuilderAutosave()});
 restoreStepFromUrl();
-if(state.step===2&&state.type){renderChoices();renderPreview();renderStep(2)}
-else if(state.step===1){renderStep(1)}
 
 </script></body></html>
