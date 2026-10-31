@@ -167,7 +167,7 @@ function renderStep(n){state.step=n;persistBuilderSession();document.querySelect
 function go(n){const key=n===1?'#templates':n===2?'#editor':'#start';if(location.hash!==key)history.pushState({builderStep:n},'',key);renderStep(n)}
 function goNext(){const current=state.step||0;if(current===0)go(1);else if(current===1){if(!state.type){alert('Сначала выберите тип сайта.');return}go(2)}else openLivePreview()}
 function goHome(){go(0);startLandingCarousel()}
-function restoreStepFromUrl(){const h=location.hash;const n=h==='#templates'?1:h==='#editor'?2:(h===''?Math.max(0,Math.min(2,Number.isInteger(state.step)?state.step:0)):0);if(n===2&&!state.type){renderStep(1);history.replaceState({builderStep:1},'','#templates');return}renderStep(n)}
+function restoreStepFromUrl(){const h=location.hash;const n=h==='#templates'?1:h==='#editor'?2:0;if(n===2&&!state.type){renderStep(1);history.replaceState({builderStep:1},'','#templates');return}renderStep(n)}
 window.addEventListener('popstate',restoreStepFromUrl);
 window.addEventListener('hashchange',restoreStepFromUrl);
 function renderPreview(){
