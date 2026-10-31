@@ -39,13 +39,17 @@
 </div></div><div class="panel"><h2>3. Услуги и преимущества</h2><div id="servicesEditor"></div><div class="actions"><button class="btn" onclick="addService()">＋ Добавить услугу</button></div></div>
 <div class="panel"><h2>4. Галерея объектов</h2><label class="field">Добавить фотографии (можно несколько)<input id="galleryFiles" type="file" accept="image/*" multiple></label><div id="galleryEditor"></div><p class="hint">Фотографии будут включены в скачиваемый сайт. Для быстрого открытия используйте изображения до 2 МБ каждое.</p></div>
 <div class="panel"><h2>5. Калькулятор стоимости</h2><div class="row"><label class="field">Цена за м², ₸<input id="rate" type="number" min="0" value="4500"></label><label class="field">Вторая услуга, ₸/м²<input id="rate2" type="number" min="0" value="0"></label></div><label class="field">Название второй услуги<input id="rate2name" value="Дополнительные работы"></label><p class="hint">Клиент сможет выбрать площадь и получить предварительную стоимость.</p></div>
-<div class="panel"><h2>6. Проект</h2><div class="actions"><button class="btn" onclick="saveProject()">Сохранить черновик</button><button class="btn" onclick="newProject()">＋ Новый сайт</button><button class="btn primary" onclick="downloadSite()">Скачать готовый HTML</button></div><div class="status" id="status">Черновик хранится в браузере этого устройства.</div><p class="hint">Скачанный HTML — самостоятельный сайт. Чтобы разместить его в интернете по отдельной постоянной ссылке, потребуется подключить публикацию к серверу TUBETU.</p></div>
+<div class="panel"><h2>6. Проект</h2><div class="actions"><button class="btn" onclick="saveProject()">Сохранить черновик</button><button class="btn primary" onclick="saveCloudProject()">Сохранить в аккаунт TUBETU</button><button class="btn" onclick="loadCloudProjects()">Мои проекты</button><button class="btn" onclick="newProject()">＋ Новый сайт</button><button class="btn primary" onclick="downloadSite()">Скачать готовый HTML</button></div><div class="status" id="status">Черновик хранится на устройстве. Можно также сохранить его в аккаунт TUBETU.</div><div id="cloud-projects" class="actions" style="margin-top:10px"></div><p class="hint">Скачанный HTML — самостоятельный сайт. Чтобы разместить его в интернете по отдельной постоянной ссылке, потребуется подключить публикацию к серверу TUBETU.</p></div>
 </section>
 <section class="preview-shell"><div class="preview-label"><span>ПРЕДПРОСМОТР САЙТА</span><span style="color:#63e6a2">● ОБНОВЛЯЕТСЯ В РЕАЛЬНОМ ВРЕМЕНИ</span></div><div class="site" id="preview"></div></section></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const $=id=>document.getElementById(id);
 let services=[{title:"Монтаж перегородок",desc:"Профессионально и по технологии"},{title:"Облицовка стен",desc:"Аккуратная геометрия и качество"},{title:"Фиксированная смета",desc:"Стоимость согласовывается заранее"},{title:"Гарантия на работы",desc:"Соблюдение сроков и требований"}];
 let gallery=[],coverData="",currentTheme="modern";
+const SB_URL="https://zbgfuitelvmkrpzbpcrj.supabase.co",SB_KEY="sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_";
+const cloud=window.supabase?.createClient?window.supabase.createClient(SB_URL,SB_KEY):null;
+let cloudProjectId=null,cloudProjectSlug=null;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money=n=>(Number(n)||0).toLocaleString("ru-RU")+" ₸";
 function renderEditors(){
@@ -64,7 +68,41 @@ function renderPreview(){
 function updateEstimate(){const sq=Number($("preview").querySelector("#sq")?.value)||50;const total=sq*((Number($("rate").value)||0)+( $("preview").querySelector("#useSecond")?.checked?(Number($("rate2").value)||0):0));const label=$("preview").querySelector("#sqLabel"),sum=$("preview").querySelector("#total"),link=$("preview").querySelector("#waLink");if(label)label.textContent=sq+" м²";if(sum)sum.textContent=money(total);if(link){const phone=$("phone").value.replace(/\D/g,"");const msg=encodeURIComponent("Здравствуйте! Заявка с сайта "+$("brand").value+". Площадь: "+sq+" м². Предварительная стоимость: "+money(total)+".");link.href=phone?"https://wa.me/"+phone+"?text="+msg:"#";}}
 function data(){return {version:1,brand:$("brand").value,headline:$("headline").value,description:$("description").value,phone:$("phone").value,city:$("city").value,cta:$("cta").value,rate:$("rate").value,rate2:$("rate2").value,rate2name:$("rate2name").value,theme:currentTheme,services,gallery,coverData,updatedAt:new Date().toISOString()}}
 function apply(d){["brand","headline","description","phone","city","cta","rate","rate2","rate2name"].forEach(k=>{if(d[k]!==undefined)$(k).value=d[k]});services=Array.isArray(d.services)?d.services:[];gallery=Array.isArray(d.gallery)?d.gallery:[];coverData=d.coverData||"";currentTheme=d.theme||"modern";document.querySelectorAll(".theme-option").forEach(b=>b.classList.toggle("active",b.dataset.theme===currentTheme));renderEditors();renderPreview()}
-function saveProject(){try{localStorage.setItem("tubetu-landing-project-v1",JSON.stringify(data()));$("status").textContent="Проект сохранён на этом устройстве. Можно вернуться и открыть его позже."}catch(e){$("status").textContent="Не удалось сохранить. Уменьшите размер фотографий и повторите."}}
+function saveProject(){try{localStorage.setItem("tubetu-landing-project-v1",JSON.stringify(data()));$("status").textContent="✓ Черновик сохранён на этом устройстве."}catch(e){$("status").textContent="Не удалось сохранить. Уменьшите размер фотографий и повторите."}}
+async function saveCloudProject(){
+ try{
+  if(!cloud)throw Error("Модуль облачного хранения не загрузился.");
+  const {data:sessionData,error:sessionError}=await cloud.auth.getSession();if(sessionError)throw sessionError;
+  const user=sessionData.session?.user;if(!user)throw Error("Сначала войдите в аккаунт TUBETU на главной странице.");
+  const payload=data(),title=payload.brand||"Новый сайт";
+  const slug=cloudProjectSlug||("landing-"+user.id.slice(0,6)+"-"+Date.now().toString(36));
+  const row={owner_id:user.id,slug,title,template:"landing",data:payload,is_published:false,updated_at:new Date().toISOString()};
+  let result=cloudProjectId?await cloud.from("builder_projects").update(row).eq("id",cloudProjectId).eq("owner_id",user.id).select().single():await cloud.from("builder_projects").insert(row).select().single();
+  if(result.error)throw result.error;cloudProjectId=result.data.id;cloudProjectSlug=result.data.slug;
+  localStorage.setItem("tubetu-landing-project-v1",JSON.stringify(payload));
+  $("status").textContent="✓ Проект сохранён в аккаунте TUBETU и на этом устройстве.";
+ }catch(e){$("status").textContent="Не удалось сохранить в аккаунт: "+(e.message||"ошибка");}
+}
+async function loadCloudProjects(){
+ try{
+  if(!cloud)throw Error("Модуль облачного хранения не загрузился.");
+  const {data:sessionData,error:sessionError}=await cloud.auth.getSession();if(sessionError)throw sessionError;
+  const user=sessionData.session?.user;if(!user)throw Error("Сначала войдите в аккаунт TUBETU на главной странице.");
+  const {data,error}=await cloud.from("builder_projects").select("id,slug,title,updated_at").eq("owner_id",user.id).eq("template","landing").order("updated_at",{ascending:false});
+  if(error)throw error;const box=$("cloud-projects");box.innerHTML="";
+  if(!data?.length){box.textContent="В облаке пока нет сохранённых лендингов.";return}
+  data.forEach(p=>{const b=document.createElement("button");b.className="btn";b.textContent=p.title+" · открыть";b.onclick=()=>openCloudProject(p.id);box.appendChild(b)});
+  $("status").textContent="Облачные проекты загружены.";
+ }catch(e){$("status").textContent="Не удалось загрузить проекты: "+(e.message||"ошибка");}
+}
+async function openCloudProject(id){
+ try{
+  const {data:sessionData,error:sessionError}=await cloud.auth.getSession();if(sessionError)throw sessionError;
+  const user=sessionData.session?.user;if(!user)throw Error("Войдите в аккаунт TUBETU.");
+  const {data,error}=await cloud.from("builder_projects").select("*").eq("id",id).eq("owner_id",user.id).single();if(error)throw error;
+  apply(data.data||{});cloudProjectId=data.id;cloudProjectSlug=data.slug;$("status").textContent="✓ Проект открыт из облака TUBETU.";
+ }catch(e){$("status").textContent="Не удалось открыть проект: "+(e.message||"ошибка");}
+}
 function loadProject(){try{const d=JSON.parse(localStorage.getItem("tubetu-landing-project-v1")||"null");if(!d){alert("Сохранённый проект не найден на этом устройстве.");return}apply(d);$("status").textContent="Проект загружен."}catch(e){alert("Не удалось открыть проект.")}}
 function newProject(){if(!confirm("Создать новый проект? Сначала сохраните текущий, если он нужен."))return;apply({brand:"",headline:"",description:"",phone:"",city:"",cta:"Связаться с нами",rate:0,rate2:0,rate2name:"Дополнительные работы",services:[],gallery:[],coverData:""})}
 function downloadSite(){
