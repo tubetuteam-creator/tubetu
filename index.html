@@ -301,7 +301,7 @@ function restoreLocationRoute(){
 let savedRoute='';
 try{savedRoute=sessionStorage.getItem('tubetu:last-route')||''}catch(e){}
 const liveHash=location.hash||'';
-const candidate=(liveHash&&liveHash!=='#home'&&liveHash!=='#explore'?liveHash:(savedRoute||liveHash||'#home'));
+const candidate=(liveHash||savedRoute||'#home');
 const raw=candidate.replace(/^#/,'')||'home',parts=raw.split('?'),view=parts[0]||'home',params=new URLSearchParams(parts.slice(1).join('?'));
 if(raw&&raw!=='home'){try{sessionStorage.setItem('tubetu:last-route','#'+raw)}catch(e){}}
 
