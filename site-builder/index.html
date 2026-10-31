@@ -81,6 +81,25 @@ const designs=[
 ['organic','Organic Flow','Мягкие природные цвета','linear-gradient(135deg,#d5edb7,#eaa9b8)']
 ];
 let state={step:0,type:null,category:null,design:null,image:null,blocks:['О наших услугах','Наши преимущества']};
+const BUILDER_SESSION_KEY='tubetu-builder-session-v1';
+let builderSaveTimer=null;
+function persistBuilderSession(){
+ try{
+  const payload={version:1,step:state.step||0,type:state.type||null,category:state.category||null,design:state.design||'modern',image:state.image||null,blocks:Array.isArray(state.blocks)?state.blocks:[],name:$('siteName')?.value||'',desc:$('siteDesc')?.value||'',city:$('siteCity')?.value||'',phone:$('sitePhone')?.value||'',cta:$('siteCta')?.value||'',savedAt:Date.now()};
+  localStorage.setItem(BUILDER_SESSION_KEY,JSON.stringify(payload));
+ }catch(e){console.warn('TUBETU builder autosave:',e)}
+}
+function restoreBuilderSession(){
+ try{
+  const raw=localStorage.getItem(BUILDER_SESSION_KEY);if(!raw)return false;
+  const d=JSON.parse(raw);if(!d||d.version!==1)return false;
+  state={...state,step:Number.isInteger(d.step)?Math.max(0,Math.min(2,d.step)):0,type:d.type||null,category:d.category||null,design:d.design||'modern',image:d.image||null,blocks:Array.isArray(d.blocks)?d.blocks:state.blocks};
+  $('siteName').value=d.name||'';$('siteDesc').value=d.desc||'';$('siteCity').value=d.city||'';$('sitePhone').value=d.phone||'';$('siteCta').value=d.cta||'Связаться с нами';
+  return true;
+ }catch(e){console.warn('TUBETU builder session restore:',e);return false}
+}
+function scheduleBuilderAutosave(){clearTimeout(builderSaveTimer);builderSaveTimer=setTimeout(persistBuilderSession,250)}
+
 const $=id=>document.getElementById(id);
 function starterBlocks(type){
  const map={
@@ -142,9 +161,9 @@ function renderChoices(){
  $('types').innerHTML=html;
  const landingCards=siteTypes.map((x,i)=>'<button class="choice type-choice landing-template-card '+((i===14||i===28)?'template-ready':'')+'" onclick="pickType('+i+')"><span class="type-photo" style="background-image:url('+x[2]+')"></span>'+((i===14||i===28)?'<span class="template-check" aria-label="Шаблон готов">✓ ГОТОВ</span>':'')+'<span class="type-label"><i>Шаблон сайта</i></span><span class="num">ВАРИАНТ · '+String(i+1).padStart(2,'0')+'</span><b>'+escapeHtml(x[0])+'</b><small>'+escapeHtml(x[1])+'</small><span class="type-open">Открыть шаблон <b>→</b></span></button>').join('');$('landingTypes').innerHTML='<div class="landing-carousel-track">'+landingCards+'</div>';
 }
-function pickType(i){if(i===28){location.href='mav-farm-theme.html';return}if(i===7){location.href='pitstop-builder.html';return}if(i===0){location.href='landing-editor.html';return}state.type=siteTypes[i][0];state.category=null;if(state.type==='Сайт бронирования и записи'){state.design='luxe';state.blocks=['Номера и резиденции','Ресторан и бар','Спа и wellness','Галерея','Бронирование','Контакты'];$('siteName').value=$('siteName').value||'AURELIA RESORT';$('siteDesc').value=$('siteDesc').value||'Уединённое пространство для отдыха, вдохновения и новых впечатлений.';$('siteCta').value='Забронировать проживание';}else{state.blocks=starterBlocks(state.type)}renderChoices();go(2)}
+function pickType(i){if(i===28){location.href='mav-farm-theme.html';return}if(i===7){location.href='pitstop-builder.html';return}if(i===0){location.href='landing-editor.html';return}state.type=siteTypes[i][0];state.category=null;if(state.type==='Сайт бронирования и записи'){state.design='luxe';state.blocks=['Номера и резиденции','Ресторан и бар','Спа и wellness','Галерея','Бронирование','Контакты'];$('siteName').value=$('siteName').value||'AURELIA RESORT';$('siteDesc').value=$('siteDesc').value||'Уединённое пространство для отдыха, вдохновения и новых впечатлений.';$('siteCta').value='Забронировать проживание';}else{state.blocks=starterBlocks(state.type)}renderChoices();go(2);persistBuilderSession()}
 
-function renderStep(n){state.step=n;document.querySelectorAll('.screen').forEach((x,i)=>x.classList.toggle('active',i===n));document.querySelectorAll('.step').forEach((x,i)=>{x.classList.toggle('active',i===n);x.classList.toggle('done',i<n)});if(n===2){$('chosenType').textContent=state.type||'Тип сайта';renderPreview()}window.scrollTo({top:0,behavior:'smooth'})}
+function renderStep(n){state.step=n;persistBuilderSession();document.querySelectorAll('.screen').forEach((x,i)=>x.classList.toggle('active',i===n));document.querySelectorAll('.step').forEach((x,i)=>{x.classList.toggle('active',i===n);x.classList.toggle('done',i<n)});if(n===2){$('chosenType').textContent=state.type||'Тип сайта';renderPreview()}window.scrollTo({top:0,behavior:'smooth'})}
 function go(n){const key=n===1?'#templates':n===2?'#editor':'#start';if(location.hash!==key)history.pushState({builderStep:n},'',key);renderStep(n)}
 function goNext(){const current=state.step||0;if(current===0)go(1);else if(current===1){if(!state.type){alert('Сначала выберите тип сайта.');return}go(2)}else openLivePreview()}
 function goHome(){go(0);startLandingCarousel()}
@@ -177,7 +196,7 @@ function openLivePreview(){
  w.document.open();w.document.write(html);w.document.close();
 }
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function addBlock(){const name=prompt('Название нового блока сайта:');if(name&&name.trim()){state.blocks.push(name.trim());renderPreview()}}
+function addBlock(){const name=prompt('Название нового блока сайта:');if(name&&name.trim()){state.blocks.push(name.trim());renderPreview();persistBuilderSession()}}
 function readImage(input){const file=input.files&&input.files[0];if(!file)return;if(!file.type.startsWith('image/')){alert('Выберите файл изображения');return}if(file.size>5*1024*1024){alert('Для демонстрационного черновика выберите изображение до 5 МБ');input.value='';return}const reader=new FileReader();reader.onload=()=>{state.image=reader.result;renderPreview()};reader.readAsDataURL(file)}
 function getDraft(){return {version:2,type:state.type,design:state.design,name:$('siteName').value,desc:$('siteDesc').value,city:$('siteCity').value,phone:$('sitePhone').value,cta:$('siteCta').value,image:state.image,blocks:state.blocks||[],updatedAt:new Date().toISOString()}}
 const LOCAL_SITES_KEY='tubetu-my-sites-local-v1';
@@ -195,7 +214,13 @@ async function openCloudProjectFromList(id){try{const {data:s,error:se}=await cl
 function setSaveStatus(message,isError=false){['saveStatus','saveStatusBottom'].forEach(id=>{const el=$(id);if(el){el.textContent=message;el.style.color=isError?'#ff9b9b':'#9fe8ba';el.style.fontWeight='800';el.style.display='block'}});return message}
 function saveDraft(){let message='';try{if(!state.type)throw new Error('Сначала выберите тип сайта.');const draft=getDraft();const data=JSON.stringify(draft);const storage=window.localStorage;storage.setItem('tubetu-site-project-draft',data);rememberLocalSite('generic:'+draft.type,draft.name||draft.type,draft);const saved=storage.getItem('tubetu-site-project-draft');if(saved!==data)throw new Error('Браузер не подтвердил сохранение.');message='✓ Проект «'+state.type+'» сохранён на этом устройстве. Откройте «Мои черновики», чтобы загрузить его.';setSaveStatus(message,false);alert(message)}catch(e){message='Не удалось сохранить: '+(e&&e.name==='QuotaExceededError'?'память браузера заполнена. Удалите тяжёлую обложку и попробуйте снова.':e.message||'браузер запретил локальное сохранение.');setSaveStatus(message,true);alert(message)}}
 function loadDraft(){try{const raw=localStorage.getItem('tubetu-site-project-draft');if(!raw){alert('Сохранённых черновиков пока нет на этом устройстве.');return}const d=JSON.parse(raw);restoreProjectData(d);setSaveStatus('✓ Загружен проект «'+(d.type||'Без названия')+'».')}catch(e){alert('Не удалось открыть черновик: '+(e.message||'ошибка данных'))}} 
+restoreBuilderSession();
 renderChoices();
 startLandingCarousel();
+document.querySelectorAll('#siteName,#siteDesc,#siteCity,#sitePhone,#siteCta').forEach(el=>el.addEventListener('input',scheduleBuilderAutosave));
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='siteImage')scheduleBuilderAutosave()});
 restoreStepFromUrl();
+if(state.step===2&&state.type){renderChoices();renderPreview();renderStep(2)}
+else if(state.step===1){renderStep(1)}
+
 </script></body></html>
