@@ -2,12 +2,12 @@
   "id": "/tubetu/",
   "name": "TUBETU",
   "short_name": "TUBETU",
-  "description": "People • Business • Resources",
+  "description": "Мультсериал «Скала сокровищ», игры и сообщества",
   "start_url": "/tubetu/",
   "scope": "/tubetu/",
   "display": "standalone",
-  "background_color": "#08120e",
-  "theme_color": "#08120e",
+  "background_color": "#EAF6FF",
+  "theme_color": "#3BA9F5",
   "icons": [
     {
       "src": "/tubetu/icon.svg",
