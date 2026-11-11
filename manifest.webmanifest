@@ -1,16 +1,16 @@
 {
-  "id": "/tubetu/",
+  "id": "/",
   "name": "TUBETU",
   "short_name": "TUBETU",
   "description": "Мультсериал «Скала сокровищ», игры и сообщества",
-  "start_url": "/tubetu/",
-  "scope": "/tubetu/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#EAF6FF",
   "theme_color": "#3BA9F5",
   "icons": [
     {
-      "src": "/tubetu/icon.svg",
+      "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
