@@ -2,35 +2,247 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080e12">
-<title>Игровой центр — TUBETU</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>TUBETU: Спасатели — игра</title>
+<meta name="description" content="Детская игра по мультсериалу TUBETU: выбери героя, собирай кристаллы, уворачивайся от жужжалок и спасай друзей.">
+<meta name="theme-color" content="#0B1240">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--bg:#080e12;--panel:#111b22;--line:#2b3c46;--text:#eef5f7;--muted:#96a9b5;--green:#63e6a2}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -18%,#17382e 0%,#0b151b 42%,#080e12 78%);color:var(--text);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:1100px;margin:auto;padding:22px 18px 48px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:18px;border-bottom:1px solid #263a34}.brand{font-size:24px;font-weight:900;letter-spacing:.13em;color:var(--green)}.back{display:inline-flex;align-items:center;gap:7px;color:#b7d9c7;text-decoration:none;font-size:13px;font-weight:700;border:1px solid #315744;background:#10231b;border-radius:11px;padding:9px 13px}.back:hover{border-color:var(--green);color:var(--green)}.intro{padding:34px 0 22px}.eyebrow{color:var(--green);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:800}.intro h1{font-size:clamp(30px,5vw,46px);line-height:1.05;margin:9px 0}.intro p{color:var(--muted);max-width:650px;margin:0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{display:flex;flex-direction:column;justify-content:space-between;min-height:160px;padding:17px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(20,33,42,.96),rgba(12,22,29,.97));text-decoration:none;color:var(--text);transition:border-color .15s,transform .15s}.card:hover{border-color:#548269;transform:translateY(-2px)}.icon{font-size:27px}.card h2{font-size:16px;margin:8px 0 4px}.card p{font-size:12px;color:var(--muted);margin:0}.status{align-self:flex-start;margin-top:15px;padding:4px 9px;border:1px solid #315744;border-radius:99px;color:var(--green);font-size:10px;font-weight:800}.soon{opacity:.72}.soon .status{border-color:#45535a;color:#aab8bf}
-footer{text-align:center;color:#708590;font-size:11px;padding:28px 0 0}
-@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card{min-height:145px;padding:13px}.card h2{font-size:14px}}
-@media(max-width:420px){.grid{gap:8px}.card{min-height:142px;padding:11px}.card p{font-size:11px}}
+:root{--navy:#0B1240;--orange:#FF8A1F;--lime:#8BD62A;--purple:#8E3BF5;--pink:#FF3FA4;--blue:#2EA8FF;--gold:#FFC72C}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--navy);color:#fff;font-family:Nunito,system-ui,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+canvas{display:block;width:100vw;height:100vh;height:100dvh}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;text-align:center;background:radial-gradient(ellipse at top,rgba(46,168,255,.35),rgba(11,18,64,.92) 70%);overflow:auto}
+.hidden{display:none}
+h1{font-weight:900;font-size:clamp(30px,6vw,54px);margin:0;line-height:1.05}
+h1 span{color:var(--gold)}
+.sub{font-size:clamp(15px,2.4vw,19px);margin:8px 0 18px;opacity:.9;max-width:620px}
+.heroes{display:grid;grid-template-columns:repeat(4,minmax(0,150px));gap:12px;max-width:660px;width:100%}
+.hero{background:rgba(255,255,255,.08);border:3px solid transparent;border-radius:22px;padding:10px 6px 12px;cursor:pointer;color:#fff;font:inherit;transition:transform .15s}
+.hero:hover,.hero:focus-visible{transform:translateY(-4px);border-color:var(--c);outline:none}
+.hero img{width:100%;max-width:110px;aspect-ratio:1;display:block;margin:0 auto 6px}
+.hero b{display:block;font-size:20px;font-weight:900;color:var(--c)}
+.hero small{display:block;font-size:13px;opacity:.9;line-height:1.25}
+.how{margin-top:16px;font-size:14px;opacity:.85;max-width:600px}
+.btn{display:inline-block;background:var(--orange);color:#fff;border:0;border-radius:999px;padding:14px 30px;font:900 20px Nunito,sans-serif;cursor:pointer;margin:6px;text-decoration:none;box-shadow:0 6px 0 #b85b00}
+.btn:active{transform:translateY(3px);box-shadow:0 3px 0 #b85b00}
+.btn.alt{background:rgba(255,255,255,.15);box-shadow:none}
+.top{position:fixed;top:10px;left:12px;z-index:5}
+.top a{color:#fff;opacity:.8;font-size:14px;text-decoration:none}
+.big{font-size:clamp(46px,10vw,80px);font-weight:900;color:var(--gold);margin:4px 0}
+.friendpic{width:120px;height:120px;margin:6px auto}
+@media(max-width:560px){.heroes{grid-template-columns:repeat(2,minmax(0,160px))}}
 </style>
 </head>
 <body>
-<main>
-<header class="top"><div class="brand">TUBETU</div><a class="back" href="/" aria-label="Вернуться на главную TUBETU">← На главную TUBETU</a></header>
-<section class="intro"><div class="eyebrow">People • Business • Resources</div><h1>Игровой центр</h1><p>Выберите игру. Здесь будут собраны настольные, карточные и логические игры TUBETU.</p></section>
-<section class="grid" aria-label="Список игр">
-<a class="card" href="/games/1000/"><div><div class="icon">🃏</div><h2>Тысяча (1000)</h2><p>Карточная игра на троих</p></div><span class="status">Открыть игру</span></a>
-<div class="card soon"><div><div class="icon">🎴</div><h2>Дурак подкидной</h2><p>Карточная игра до 6 игроков</p></div><span class="status">Готовится</span></div>
-<div class="card soon"><div><div class="icon">🎲</div><h2>Нарды короткие</h2><p>Дуэль на игровом поле</p></div><span class="status">Готовится</span></div>
-<div class="card soon"><div><div class="icon">♟️</div><h2>Шахматы</h2><p>Классическая стратегия</p></div><span class="status">Готовится</span></div>
-<div class="card soon"><div><div class="icon">🚢</div><h2>Морской бой</h2><p>Тактическая игра</p></div><span class="status">Готовится</span></div>
-<div class="card soon"><div><div class="icon">🔢</div><h2>2048</h2><p>Числовая головоломка</p></div><span class="status">Готовится</span></div>
-<div class="card soon"><div><div class="icon">❌</div><h2>Крестики-нолики 5 в ряд</h2><p>Логическая стратегия</p></div><span class="status">Готовится</span></div>
-<div class="card soon"><div><div class="icon">🎡</div><h2>Колесо фортуны</h2><p>Аркадная игра</p></div><span class="status">Готовится</span></div>
-<div class="card soon"><div><div class="icon">👑</div><h2>Пасьянс «Косынка»</h2><p>Карточная игра для одного</p></div><span class="status">Готовится</span></div>
-<div class="card soon"><div><div class="icon">💻</div><h2>Виселица</h2><p>Угадай зашифрованное слово</p></div><span class="status">Готовится</span></div>
-</section>
-<footer>TUBETU · Игровой центр</footer>
-</main>
+<canvas id="c"></canvas>
+
+<div class="top" id="back"><a href="/">← на сайт TUBETU</a></div>
+
+<div class="screen" id="start">
+  <h1>TUBETU: <span>Спасатели</span></h1>
+  <p class="sub">Жужжалки Скупщика утащили кристаллы Скалы и спрятали друзей! Выбери героя и лети на помощь.</p>
+  <div class="heroes" id="heroes"></div>
+  <p class="how">Нажимай на экран (или пробел), чтобы лететь вверх. Собирай 💎, уворачивайся от жужжалок. Набрал 5 кристаллов — жми ⭐ (или клавишу S) и включай суперсилу!</p>
+</div>
+
+<div class="screen hidden" id="over">
+  <h1 id="overTitle">Отличный полёт!</h1>
+  <div class="big" id="overScore">0</div>
+  <p class="sub" id="overText"></p>
+  <div>
+    <button class="btn" id="again">Ещё раз</button>
+    <button class="btn alt" id="change">Другой герой</button>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var HEROES=[
+ {id:'lisko',name:'Лиско',c:'#FF8A1F',power:'Невидимка',desc:'Пролетает сквозь жужжалок'},
+ {id:'dobrik',name:'Добрик',c:'#8BD62A',power:'Турбо-магнит',desc:'Притягивает все кристаллы'},
+ {id:'vionka',name:'Вионка',c:'#8E3BF5',power:'Вязаный щит',desc:'Щит отбивает жужжалок'},
+ {id:'asila',name:'Асила',c:'#FF3FA4',power:'Леденец-песня',desc:'Жужжалки танцуют и улетают'}
+];
+var FRIENDS=[
+ {id:'nyukh',name:'Нюх',line:'Гав! Мой нос чуял — вы прилетите!'},
+ {id:'kvasya',name:'Квася',line:'Ой! Я упал… прямо к вам в руки!'},
+ {id:'dyusha',name:'Дюша',line:'Красавчик! Летим дальше — направо! То есть налево!'}
+];
+var IMG={};
+['lisko','dobrik','vionka','asila','nyukh','kvasya','dyusha','drone'].forEach(function(n){var i=new Image();i.src='img/'+n+'.png';IMG[n]=i;});
+
+var cv=document.getElementById('c'),ctx=cv.getContext('2d');
+var W=0,H=0,DPR=1,U=1;
+function resize(){DPR=Math.min(window.devicePixelRatio||1,2);W=window.innerWidth;H=window.innerHeight;cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);U=Math.min(W,H*1.4)/900;}
+window.addEventListener('resize',resize);resize();
+
+var best=0;try{best=+localStorage.getItem('tubetu_best')||0;}catch(e){}
+
+/* ---------- sound ---------- */
+var ac=null;
+function snd(f,d,type,vol,slide){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();var o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,ac.currentTime);if(slide)o.frequency.exponentialRampToValueAtTime(slide,ac.currentTime+d);g.gain.setValueAtTime(vol||.12,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d);}catch(e){}}
+function tune(notes){notes.forEach(function(n,i){setTimeout(function(){snd(n,.18,'triangle',.12);},i*110);});}
+
+/* ---------- state ---------- */
+var hero=null,st='menu',t=0,last=0;
+var P,items,drones,parts,stars,hills,score,gems,lives,power,powerT,hurtT,speed,spawnG,spawnD,rescueN,friendShow,dist,msg,msgT;
+function reset(){
+  P={x:0.25,y:0.5,vy:0,r:44};
+  items=[];drones=[];parts=[];score=0;gems=0;lives=3;power=0;powerT=0;hurtT=0;speed=1;spawnG=0;spawnD=2.5;rescueN=0;friendShow=null;dist=0;msg='';msgT=0;
+  stars=[];for(var i=0;i<40;i++)stars.push({x:Math.random(),y:Math.random()*0.5,s:Math.random()*2+0.5});
+  hills=[0,1,2].map(function(l){var a=[];for(var i=0;i<14;i++)a.push(Math.random());return {pts:a,off:0,l:l};});
+}
+var up=false;
+function press(v){up=v;if(v&&st==='play')snd(520,.06,'sine',.04);}
+cv.addEventListener('pointerdown',function(e){e.preventDefault();if(st!=='play')return;var px=e.clientX,py=e.clientY;if(hitPowerBtn(px,py)){usePower();return;}press(true);});
+window.addEventListener('pointerup',function(){press(false);});
+window.addEventListener('pointercancel',function(){press(false);});
+window.addEventListener('keydown',function(e){if(st!=='play')return;if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW'){e.preventDefault();press(true);}if(e.code==='KeyS'||e.code==='Enter'){usePower();}});
+window.addEventListener('keyup',function(e){if(e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW')press(false);});
+
+function powerBtn(){var r=46*Math.max(U,0.8);return {x:W-r-18,y:H-r-18,r:r};}
+function hitPowerBtn(x,y){var b=powerBtn();return Math.hypot(x-b.x,y-b.y)<b.r+8;}
+function usePower(){if(power<5||powerT>0)return;power=0;powerT=6;tune([660,880,990,1320]);
+  if(hero.id==='asila'){drones.forEach(function(d){d.friendly=true;});}
+  say(hero.power+'!');}
+function say(s){msg=s;msgT=1.8;}
+
+/* ---------- menu ---------- */
+var hb=document.getElementById('heroes');
+HEROES.forEach(function(h){var b=document.createElement('button');b.className='hero';b.style.setProperty('--c',h.c);
+  b.innerHTML='<img src="img/'+h.id+'.png" alt="'+h.name+'"><b>'+h.name+'</b><small>⭐ '+h.power+'<br>'+h.desc+'</small>';
+  b.onclick=function(){hero=h;begin();};hb.appendChild(b);});
+function begin(){reset();document.getElementById('start').classList.add('hidden');document.getElementById('over').classList.add('hidden');document.getElementById('back').classList.add('hidden');st='play';tune([523,659,784]);}
+document.getElementById('again').onclick=begin;
+document.getElementById('change').onclick=function(){document.getElementById('over').classList.add('hidden');document.getElementById('start').classList.remove('hidden');document.getElementById('back').classList.remove('hidden');st='menu';};
+
+function gameOver(){st='over';var nb=score>best;if(nb){best=score;try{localStorage.setItem('tubetu_best',best);}catch(e){}}
+  document.getElementById('overTitle').textContent=nb?'Новый рекорд!':'Отличный полёт!';
+  document.getElementById('overScore').textContent=score;
+  document.getElementById('overText').textContent='Кристаллов: '+gems+' · Спасено друзей: '+rescueN+' · Рекорд: '+best+'. Добро возвращается — попробуй ещё!';
+  setTimeout(function(){document.getElementById('over').classList.remove('hidden');},700);
+  tune([523,440,349]);}
+
+/* ---------- update ---------- */
+function update(dt){
+  t+=dt;if(st!=='play'){parts.forEach(function(p){p.life-=dt;});return;}
+  if(friendShow){friendShow.t-=dt;if(friendShow.t<=0)friendShow=null;else return;}
+  dist+=dt;speed=1+Math.min(dist/90,1);
+  var sp=(0.32+0.12*speed)*W*dt;
+  var g=1100*U,lift=-2100*U;
+  P.vy+=(up?lift:0)*dt+g*dt;P.vy=Math.max(Math.min(P.vy,700*U),-650*U);
+  var py=P.y*H+P.vy*dt;var R=P.r*U;
+  if(py<R){py=R;P.vy=0;} if(py>H-R-20*U){py=H-R-20*U;P.vy=-420*U;snd(260,.08,'sine',.05);}
+  P.y=py/H;
+  if(powerT>0)powerT-=dt; if(hurtT>0)hurtT-=dt; if(msgT>0)msgT-=dt;
+  hills.forEach(function(h){h.off+=sp*(0.15+h.l*0.2);});
+  /* trail */
+  parts.push({x:P.x*W-R*0.8,y:P.y*H+(Math.random()-0.5)*R*0.6,vx:-sp/dt*0.3,vy:(Math.random()-0.5)*30,life:0.6,max:0.6,c:hero.c,s:6*U+Math.random()*6*U});
+  /* spawn gems */
+  spawnG-=dt;if(spawnG<=0){spawnG=0.9/speed;var gy=0.15+Math.random()*0.65;var n=Math.random()<0.4?3:1;for(var i=0;i<n;i++)items.push({x:W+40+i*60*U,y:(gy+Math.sin(i)*0.04)*H,k:Math.random()<0.12?'big':'gem',ph:Math.random()*6});}
+  spawnD-=dt;if(spawnD<=0){spawnD=(2.2+Math.random()*1.4)/speed;drones.push({x:W+60,y:(0.12+Math.random()*0.72)*H,ph:Math.random()*6,amp:(20+Math.random()*50)*U,friendly:hero.id==='asila'&&powerT>0,vx:0});}
+  var px=P.x*W,pyy=P.y*H;
+  /* gems */
+  for(var i=items.length-1;i>=0;i--){var it=items[i];it.x-=sp;it.ph+=dt*4;
+    if(hero.id==='dobrik'&&powerT>0){var dx=px-it.x,dy=pyy-it.y,d=Math.hypot(dx,dy);if(d<420*U){it.x+=dx/d*900*U*dt;it.y+=dy/d*900*U*dt;}}
+    if(Math.hypot(it.x-px,it.y-pyy)<R+18*U){var v=it.k==='big'?5:1;gems+=v;score+=v*10;power=Math.min(5,power+v);burst(it.x,it.y,it.k==='big'?'#FFC72C':'#7FE7FF',10);snd(it.k==='big'?1320:880+Math.random()*200,.12,'sine',.1);items.splice(i,1);
+      if(gems>=(rescueN+1)*15){rescue();}continue;}
+    if(it.x<-40)items.splice(i,1);}
+  /* drones */
+  for(var j=drones.length-1;j>=0;j--){var d=drones[j];d.ph+=dt*3;
+    if(d.friendly){d.x-=sp*0.5;d.y-=120*U*dt;d.rot=Math.sin(t*12)*0.4;}else{d.x-=sp*1.15;d.y+=Math.cos(d.ph)*d.amp*dt;}
+    var hit=Math.hypot(d.x-px,d.y-pyy)<R+20*U;
+    if(hit&&!d.friendly&&!d.done){
+      if(powerT>0&&hero.id==='lisko'){/* pass through */}
+      else if(powerT>0&&hero.id==='vionka'){d.done=true;d.friendly=true;burst(d.x,d.y,'#C77DFF',16);snd(300,.2,'square',.06,900);score+=20;}
+      else if(powerT>0&&hero.id==='dobrik'){d.done=true;d.friendly=true;burst(d.x,d.y,'#8BD62A',16);score+=20;}
+      else if(hurtT<=0){d.done=true;hurt();}
+    }
+    if(d.x<-80||d.y<-80)drones.splice(j,1);}
+  for(var k=parts.length-1;k>=0;k--){var p=parts[k];p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;if(p.life<=0)parts.splice(k,1);}
+}
+function hurt(){lives--;hurtT=2.2;snd(200,.35,'sawtooth',.1,80);burst(P.x*W,P.y*H,'#FF4D4D',18);say(['Бзз! Хвать!','Ой-ой!','Держись!'][Math.floor(Math.random()*3)]);if(lives<=0)gameOver();}
+function rescue(){var f=FRIENDS[rescueN%FRIENDS.length];rescueN++;score+=100;if(lives<3)lives++;friendShow={f:f,t:2.6};tune([523,659,784,1047,784,1047]);for(var i=0;i<4;i++)burst(W/2+(Math.random()-0.5)*300,H/2+(Math.random()-0.5)*200,['#FFC72C','#FF3FA4','#8BD62A','#2EA8FF'][i],20);}
+function burst(x,y,c,n){for(var i=0;i<n;i++){var a=Math.random()*6.28,s=(80+Math.random()*220)*U;parts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:0.7,max:0.7,c:c,s:(4+Math.random()*5)*U});}}
+
+/* ---------- draw ---------- */
+function draw(){
+  var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#3AA0FF');g.addColorStop(0.55,'#9FD8FF');g.addColorStop(1,'#E8F7FF');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  /* sun */
+  ctx.fillStyle='rgba(255,230,140,.8)';ctx.beginPath();ctx.arc(W*0.82,H*0.16,60*U,0,7);ctx.fill();
+  /* clouds */
+  for(var c=0;c<4;c++){var cx=((c*W*0.37)-(t*25*(c%2+1)))%(W+300);if(cx<-300)cx+=W+300;cloud(cx,H*(0.1+c*0.07),U*(0.8+c%2*0.4));}
+  /* mountains */
+  var cols=['#7FA7D9','#5B86C4','#3B6AA8'];
+  if(hills)hills.forEach(function(h){mount(h,cols[h.l],H*(0.42+h.l*0.12));});
+  /* ground snow */
+  ctx.fillStyle='#F4FBFF';ctx.fillRect(0,H-20*U,W,20*U);
+  if(st==='menu'){return;}
+  /* items */
+  items.forEach(function(it){gem(it.x,it.y+Math.sin(it.ph)*6*U,it.k==='big'?26*U:16*U,it.k==='big');});
+  drones.forEach(function(d){ctx.save();ctx.translate(d.x,d.y);if(d.friendly){ctx.rotate(d.rot||0);}var s=72*U;
+    /* propeller */
+    ctx.strokeStyle='#B8860B';ctx.lineWidth=4*U;ctx.beginPath();var pw=Math.abs(Math.sin(t*40))*s*0.6+8;ctx.moveTo(-pw,-s*0.55);ctx.lineTo(pw,-s*0.55);ctx.stroke();
+    if(IMG.drone.complete)ctx.drawImage(IMG.drone,-s/2,-s/2,s,s);
+    if(d.friendly){ctx.font=900+' '+(22*U)+'px Nunito';ctx.fillText('♪',s*0.4,-s*0.4);}
+    ctx.restore();});
+  /* particles */
+  parts.forEach(function(p){ctx.globalAlpha=Math.max(p.life/p.max,0);ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,7);ctx.fill();});ctx.globalAlpha=1;
+  /* player */
+  if(st==='play'||st==='over'){var R=P.r*U,x=P.x*W,y=P.y*H;
+    ctx.save();ctx.translate(x,y);ctx.rotate(Math.max(Math.min(P.vy/(1400*U),0.35),-0.35));
+    var inv=powerT>0&&hero.id==='lisko';var blink=hurtT>0&&Math.floor(t*12)%2===0;
+    ctx.globalAlpha=inv?0.4:(blink?0.35:1);
+    /* hover board */
+    ctx.fillStyle=hero.c;ctx.beginPath();ctx.ellipse(0,R*0.95,R*1.1,R*0.22,0,0,7);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.ellipse(0,R*0.9,R*0.7,R*0.08,0,0,7);ctx.fill();
+    if(IMG[hero.id].complete)ctx.drawImage(IMG[hero.id],-R,-R,R*2,R*2);
+    ctx.globalAlpha=1;
+    if(powerT>0&&hero.id==='vionka'){ctx.strokeStyle='rgba(199,125,255,.85)';ctx.lineWidth=6*U;ctx.setLineDash([10*U,6*U]);ctx.beginPath();ctx.arc(0,0,R*1.45,t*2,t*2+6.28);ctx.stroke();ctx.setLineDash([]);}
+    if(powerT>0&&hero.id==='dobrik'){ctx.strokeStyle='rgba(139,214,42,.6)';ctx.lineWidth=3*U;for(var k=0;k<3;k++){ctx.beginPath();ctx.arc(0,0,R*(1.3+((t*1.5+k/3)%1)*1.5),0,7);ctx.stroke();}}
+    if(powerT>0&&hero.id==='asila'){ctx.font=(28*U)+'px serif';ctx.fillText('🍭',R*0.6,-R*0.7);}
+    ctx.restore();}
+  hud();
+  if(friendShow)friendCard();
+  if(msgT>0){ctx.globalAlpha=Math.min(1,msgT*2);ctx.font='900 '+(34*U+6)+'px Nunito';ctx.textAlign='center';ctx.lineWidth=6;ctx.strokeStyle='#0B1240';ctx.strokeText(msg,W/2,H*0.22);ctx.fillStyle='#FFC72C';ctx.fillText(msg,W/2,H*0.22);ctx.globalAlpha=1;ctx.textAlign='left';}
+}
+function cloud(x,y,s){ctx.fillStyle='rgba(255,255,255,.85)';ctx.beginPath();ctx.arc(x,y,30*s,0,7);ctx.arc(x+34*s,y-12*s,38*s,0,7);ctx.arc(x+74*s,y,30*s,0,7);ctx.fill();}
+function mount(h,col,base){var step=W/6;var off=h.off%step;var startI=Math.floor(h.off/step);ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(0,H);
+  for(var i=-1;i<9;i++){var r=h.pts[((startI+i)%14+14)%14];var x=i*step-off;var peak=base-(0.12+r*0.22)*Math.min(H,W*0.8)*(1-h.l*0.25);ctx.lineTo(x,base+20);ctx.lineTo(x+step/2,peak);}
+  ctx.lineTo(W,H);ctx.fill();
+  /* snow caps */
+  ctx.fillStyle='rgba(255,255,255,.9)';for(var j=-1;j<9;j++){var rr=h.pts[((startI+j)%14+14)%14];var xx=j*step-off+step/2;var pk=base-(0.12+rr*0.22)*Math.min(H,W*0.8)*(1-h.l*0.25);var cap=(base+20-pk)*0.22;ctx.beginPath();ctx.moveTo(xx,pk);ctx.lineTo(xx-step/2*cap/(base+20-pk),pk+cap);ctx.lineTo(xx+step/2*cap/(base+20-pk),pk+cap);ctx.fill();}}
+function gem(x,y,s,big){ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(t*3+x)*0.15);var gr=ctx.createLinearGradient(-s,-s,s,s);gr.addColorStop(0,big?'#FFF3B0':'#E0FFFF');gr.addColorStop(1,big?'#FFB000':'#2EA8FF');ctx.fillStyle=gr;ctx.strokeStyle='#fff';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(0,-s);ctx.lineTo(s*0.8,-s*0.2);ctx.lineTo(0,s);ctx.lineTo(-s*0.8,-s*0.2);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.moveTo(-s*0.3,-s*0.5);ctx.lineTo(0,-s*0.75);ctx.lineTo(s*0.1,-s*0.3);ctx.fill();ctx.restore();}
+function hud(){var s=Math.max(U,0.75);ctx.font='900 '+(28*s)+'px Nunito';ctx.textBaseline='top';
+  pill(14,14,150*s,46*s);ctx.fillStyle='#fff';ctx.fillText('💎 '+score,28,22*s);
+  var hx=W/2-72*s;pill(hx,14,144*s,46*s);ctx.fillText('❤️'.repeat(Math.max(lives,0))+'🤍'.repeat(Math.max(3-lives,0)),hx+10*s,22*s);
+  ctx.font='700 '+(15*s)+'px Nunito';pill(W-150*s-14,14,150*s,46*s);ctx.fillStyle='#fff';ctx.fillText('Рекорд: '+best,W-140*s-14,28*s);
+  /* power button */
+  var b=powerBtn();ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,7);ctx.fillStyle='rgba(11,18,64,.7)';ctx.fill();
+  ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.arc(b.x,b.y,b.r,-Math.PI/2,-Math.PI/2+6.283*(powerT>0?powerT/6:power/5));ctx.fillStyle=powerT>0?hero.c:(power>=5?'#FFC72C':'rgba(255,199,44,.45)');ctx.fill();
+  ctx.font=(b.r*0.9)+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('⭐',b.x,b.y+2);
+  if(power>=5&&powerT<=0){ctx.font='900 '+(14*s)+'px Nunito';ctx.fillStyle='#fff';ctx.fillText('Жми!',b.x,b.y-b.r-12*s);}
+  ctx.textAlign='left';ctx.textBaseline='alphabetic';
+  /* rescue progress */
+  var need=(rescueN+1)*15,prev=rescueN*15,pr=(gems-prev)/(need-prev);ctx.fillStyle='rgba(11,18,64,.5)';ctx.fillRect(14,70*s,150*s,8*s);ctx.fillStyle='#8BD62A';ctx.fillRect(14,70*s,150*s*Math.min(pr,1),8*s);
+  ctx.font='700 '+(12*s)+'px Nunito';ctx.fillStyle='#0B1240';ctx.fillText('до спасения друга',16,94*s);}
+function pill(x,y,w,h){ctx.fillStyle='rgba(11,18,64,.65)';ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,w,h,h/2);else ctx.rect(x,y,w,h);ctx.fill();}
+function friendCard(){var f=friendShow.f,a=Math.min(1,(2.6-friendShow.t)*4,friendShow.t*3);ctx.globalAlpha=a;ctx.fillStyle='rgba(11,18,64,.75)';ctx.fillRect(0,0,W,H);
+  var s=Math.min(W,H)*0.28;ctx.drawImage(IMG[f.id],W/2-s/2,H/2-s*0.85,s,s);ctx.textAlign='center';ctx.fillStyle='#FFC72C';ctx.font='900 '+(Math.max(28,40*U))+'px Nunito';ctx.fillText('Спасён друг: '+f.name+'!',W/2,H/2+s*0.35);
+  ctx.fillStyle='#fff';ctx.font='700 '+(Math.max(16,22*U))+'px Nunito';ctx.fillText('«'+f.line+'»',W/2,H/2+s*0.35+44*Math.max(U,0.8));ctx.fillText('+1 ❤️  +100',W/2,H/2+s*0.35+84*Math.max(U,0.8));ctx.textAlign='left';ctx.globalAlpha=1;}
+
+reset();
+function loop(ts){var dt=Math.min((ts-last)/1000||0,0.05);last=ts;update(dt);draw();requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+/* test hook */
+window.__tubetu={start:function(i){hero=HEROES[i||0];begin();},state:function(){return {st:st,score:score,gems:gems,lives:lives,power:power};},
+ setGems:function(n){gems=n;power=5;}};
+})();
+</script>
 </body>
 </html>

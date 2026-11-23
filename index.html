@@ -98,6 +98,15 @@ h2{font-size:clamp(28px,4vw,44px);font-weight:900;margin:12px 0 12px;line-height
 .friend p{margin:2px 0 0;font-size:14px;color:#C7CDF5}
 @media(max-width:860px){.friends{grid-template-columns:1fr}}
 
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-auto-rows:220px;gap:14px;margin-top:26px}
+.gallery figure{margin:0;position:relative;border-radius:20px;overflow:hidden}
+.gallery figure.big{grid-row:span 2}
+.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gallery figure:hover img{transform:scale(1.05)}
+.gallery figcaption{position:absolute;left:10px;bottom:10px;background:rgba(11,18,64,.75);padding:6px 12px;border-radius:999px;font-weight:900;font-size:14px}
+@media(max-width:860px){.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.gallery figure.big{grid-column:span 2;grid-row:span 2}}
+
 /* SONG */
 .song{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
 .lyrics{background:#fff;border-radius:var(--radius);padding:28px;font-size:22px;font-weight:800;line-height:1.6;box-shadow:0 12px 30px rgba(11,18,64,.1)}
@@ -141,6 +150,7 @@ footer a{color:#fff}
     <ul id="menu" onclick="if(event.target.tagName==='A')this.classList.remove('open')">
       <li><a href="#seriya">Серия 1</a></li>
       <li><a href="#geroi">Герои</a></li>
+      <li><a href="#mir">Мир</a></li>
       <li><a href="#konkurs">Конкурс</a></li>
       <li><a href="#pesnya">Песня</a></li>
       <li><a href="#smotret">Где смотреть</a></li>
@@ -203,11 +213,61 @@ footer a{color:#fff}
       </article>
     </div>
 
-    <h3 style="font-size:26px;font-weight:900;margin:44px 0 0">И их друзья</h3>
-    <div class="friends">
-      <div class="friend"><img src="/assets/dyusha.jpg" alt="Попугай Дюша" loading="lazy"><div><h4 style="color:var(--blue)">Дюша</h4><p>Попугай-навигатор. Всегда летит впереди, путает право и лево. «Красавчик!»</p></div></div>
-      <div class="friend"><img src="/assets/nyukh-kvasya.jpg" alt="Пёс Нюх и вязаный мишка Квася" loading="lazy"><div><h4 style="color:var(--gold)">Нюх и Квася</h4><p>Пёс с волшебным носом и вязаный мишка, который роняет всё — но всегда кстати.</p></div></div>
-      <div class="friend"><img src="/assets/ukh.jpg" alt="Совёнок Ух спит на ветке у гнезда" loading="lazy"><div><h4 style="color:var(--orange)">Ух</h4><p>Страж Скалы. Объявляет каждую серию… если не уснёт.</p></div></div>
+    <h3 style="font-size:28px;font-weight:900;margin:48px 0 0">Друзья команды</h3>
+    <p class="lead" style="margin-top:4px">Без них не обходится ни одно приключение.</p>
+    <div class="cards">
+      <article class="card" style="--c:var(--blue)">
+        <img src="/assets/dyusha.jpg" alt="Попугай Дюша" loading="lazy">
+        <div class="in"><h3>Дюша</h3><div class="role">Попугай-навигатор и курьер</div><div class="q">Всегда летит впереди и путает право и лево. «Красавчик!»</div></div>
+      </article>
+      <article class="card" style="--c:var(--orange)">
+        <img src="/assets/nyukh.jpg" alt="Пёс Нюх" loading="lazy" style="object-position:70% 40%">
+        <div class="in"><h3>Нюх</h3><div class="role">Пёс с волшебным носом</div><div class="q">Нос светится, как GPS. Обожает пиццу и всех на свете.</div></div>
+      </article>
+      <article class="card" style="--c:var(--lime)">
+        <img src="/assets/kvasya.jpg" alt="Вязаный мишка Квася" loading="lazy">
+        <div class="in"><h3>Квася</h3><div class="role">Вязаный мишка, сладкоежка</div><div class="q">Всё роняет — но всегда кстати. А если рассердится — рычит как гром!</div></div>
+      </article>
+      <article class="card" style="--c:#B8C4FF">
+        <img src="/assets/shushik.jpg" alt="Шиншилла Шушик" loading="lazy">
+        <div class="in"><h3>Шушик</h3><div class="role">Шиншилла-инженер</div><div class="q">Знает все туннели Скалы и хозяйничает в сладком уголке. «Шу!»</div></div>
+      </article>
+      <article class="card" style="--c:var(--purple)">
+        <img src="/assets/skot.jpg" alt="Кот Скот с моноклем" loading="lazy" style="object-position:60% 30%">
+        <div class="in"><h3>Скот</h3><div class="role">Кот, директор штаба</div><div class="q">Следит за командой по экрану и даёт советы. Не все — верные. «Фрр!»</div></div>
+      </article>
+      <article class="card" style="--c:#C89B6D">
+        <img src="/assets/ukh2.jpg" alt="Совёнок Ух и попугай Дюша у гнезда" loading="lazy">
+        <div class="in"><h3>Ух</h3><div class="role">Совёнок, страж Скалы</div><div class="q">Объявляет каждую серию… если не уснёт на посту.</div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="zlodei" style="background:#FFF1E6">
+  <div class="wrap">
+    <span class="kicker">Смешные злодеи</span>
+    <h2>Шайка Скупщика</h2>
+    <p class="lead">Злодеи у нас не страшные, а смешные. Они хотят всё забрать себе — но каждый раз попадают впросак.</p>
+    <div class="values">
+      <div class="value" style="--c:#8B5A2B;padding:0;overflow:hidden"><img src="/assets/skupshchik.jpg" alt="Скупщик убегает от комаров" loading="lazy" style="aspect-ratio:16/9;object-fit:cover"><div style="padding:18px"><b>Скупщик</b><p>Хитрый жадина в длинном пальто. Его слово — «Моё!», а слабость — всё бесплатное.</p></div></div>
+      <div class="value" style="--c:#E07A5F;padding:0;overflow:hidden"><img src="/assets/bugor.jpg" alt="Кабан Бугор с мешком" loading="lazy" style="aspect-ratio:16/9;object-fit:cover"><div style="padding:18px"><b>Бугор</b><p>Огромный добродушный кабан-грузчик. «Хозяин сказал — тащу». За угощение готов стать хорошим.</p></div></div>
+      <div class="value" style="--c:#D62828;padding:0;overflow:hidden"><img src="/assets/drony.jpg" alt="Дрон-жужжалка" loading="lazy" style="aspect-ratio:16/9;object-fit:cover"><div style="padding:18px"><b>Жужжалки</b><p>Дроны-воришки: «Бзз! Хвать!». Обожают музыку — от песни Асилы пускаются в пляс.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="mir" class="dark">
+  <div class="wrap">
+    <span class="kicker">Мир TUBETU</span>
+    <h2>Где живёт команда</h2>
+    <p class="lead">Высоко в горах стоит Скала сокровищ. Её дверь открывается только своим — а внутри огромный штаб с куполом, туннелями и сладким уголком.</p>
+    <div class="gallery">
+      <figure class="big"><img src="/assets/skala.jpg" alt="Скала сокровищ с золотой дверью и водопадом" loading="lazy"><figcaption>Скала сокровищ</figcaption></figure>
+      <figure><img src="/assets/shtab.jpg" alt="Штаб внутри Скалы под стеклянным куполом" loading="lazy"><figcaption>Штаб под куполом</figcaption></figure>
+      <figure><img src="/assets/tunnel.jpg" alt="Взлётный туннель и двери героев" loading="lazy"><figcaption>Взлётный туннель</figcaption></figure>
+      <figure><img src="/assets/lednik.jpg" alt="Мирошка с козлёнком в ледяной трещине" loading="lazy"><figcaption>Ледник и Мирошка</figcaption></figure>
+      <figure><img src="/assets/komanda.jpg" alt="Вся команда смеётся вместе" loading="lazy"><figcaption>Вся команда</figcaption></figure>
     </div>
   </div>
 </section>
@@ -277,7 +337,7 @@ footer a{color:#fff}
 <section style="padding-top:0">
   <div class="wrap">
     <div class="games">
-      <div><h2>Игры TUBETU</h2><p>Играйте с героями прямо в браузере.</p></div>
+      <div><h2>Новая игра: TUBETU Спасатели</h2><p>Выбери героя, собирай кристаллы, спасай Нюха, Квасю и Дюшу от жужжалок Скупщика!</p></div>
       <a class="btn main" href="/games/">Играть →</a>
     </div>
   </div>
