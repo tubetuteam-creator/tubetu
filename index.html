@@ -85,6 +85,7 @@ h2{font-size:clamp(28px,4vw,44px);font-weight:900;margin:12px 0 12px;line-height
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px}
 .card{background:var(--navy2);border-radius:var(--radius);overflow:hidden;border:3px solid var(--c);display:flex;flex-direction:column}
 .card img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.card img.full{aspect-ratio:3/4;object-fit:contain;object-position:50% 100%;background:radial-gradient(circle at 50% 40%,#fff,#DDE6FF)}
 .card .in{padding:16px 18px 20px}
 .card h3{margin:0;font-size:24px;font-weight:900;color:var(--c)}
 .card .role{font-size:14px;color:#C7CDF5;margin:2px 0 10px}
@@ -100,9 +101,9 @@ h2{font-size:clamp(28px,4vw,44px);font-weight:900;margin:12px 0 12px;line-height
 
 /* EXTRA */
 .nav ul a.login{border:2px solid rgba(255,255,255,.5)}
-.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
 .thumb{background:#fff;border-radius:20px;overflow:hidden;text-decoration:none;color:var(--ink);box-shadow:0 6px 20px rgba(11,18,64,.08);display:flex;flex-direction:column}
-.thumb img{aspect-ratio:16/9;object-fit:cover;width:100%;border-bottom:1px solid #eee}
+.thumb img{aspect-ratio:4/3;object-fit:contain;background:#fff;width:100%;border-bottom:1px solid #eee}
 .thumb span{padding:12px 16px;font-weight:900;display:flex;justify-content:space-between}
 .thumb span em{font-style:normal;color:var(--orange)}
 .empty{border:3px dashed #C9D3F0;border-radius:20px;padding:26px;text-align:center;color:var(--muted);margin-top:22px;font-weight:700}
@@ -233,19 +234,19 @@ footer a{color:#fff}
     <p class="lead">У каждого — своя суперсила, свой транспорт и своя буква в слове TUBETU. Вместе они — команда.</p>
     <div class="cards">
       <article class="card" style="--c:var(--orange)">
-        <img src="/assets/lisko.jpg" alt="Лиско на ховер-мотороллере" loading="lazy">
+        <img class="full" src="/assets/art-lisko.jpg" alt="Лиско с удочкой" loading="lazy">
         <div class="in"><h3>Лиско</h3><div class="role">Изобретатель и полиглот, 12 лет</div><div class="q">«Придумываю, строю, чиню — для команды!»</div></div>
       </article>
       <article class="card" style="--c:var(--lime)">
-        <img src="/assets/dobrik.jpg" alt="Добрик на ховерборде" loading="lazy">
-        <div class="in"><h3>Добрик</h3><div class="role">Разведчик и навигатор, 10 лет</div><div class="q">«Быстрее, дальше, вместе!»</div></div>
+        <img class="full" src="/assets/art-dobrik.jpg" alt="Добрик с мячом показывает класс" loading="lazy">
+        <div class="in"><h3>Добрик</h3><div class="role">Разведчик, навигатор и связной, 10 лет</div><div class="q">«Быстрее, дальше, вместе!»</div></div>
       </article>
       <article class="card" style="--c:var(--purple)">
-        <img style="object-position:30% 50%" src="/assets/vionka.jpg" alt="Вионка вяжет волшебный мост" loading="lazy">
+        <img class="full" src="/assets/art-vionka.jpg" alt="Вионка с золотыми спицами" loading="lazy">
         <div class="in"><h3>Вионка</h3><div class="role">Мастер волшебного вязания</div><div class="q">«Свяжу идею — и она оживёт!»</div></div>
       </article>
       <article class="card" style="--c:var(--pink)">
-        <img src="/assets/asila.jpg" alt="Асила с радужным чупа-чупсом" loading="lazy">
+        <img class="full" src="/assets/art-asila.jpg" alt="Асила с радужным чупа-чупсом" loading="lazy">
         <div class="in"><h3>Асила</h3><div class="role">Мастер музыки и хорошего настроения, 9 лет</div><div class="q">«Сладкие идеи делают мир добрее!»</div></div>
       </article>
     </div>
@@ -262,7 +263,7 @@ footer a{color:#fff}
         <div class="in"><h3>Нюх</h3><div class="role">Пёс с волшебным носом</div><div class="q">Нос светится, как GPS. Обожает пиццу и всех на свете.</div></div>
       </article>
       <article class="card" style="--c:var(--lime)">
-        <img src="/assets/kvasya.jpg" alt="Вязаный мишка Квася" loading="lazy">
+        <img src="/assets/kvasya-tanets.jpg" alt="Вязаный мишка Квася танцует" loading="lazy">
         <div class="in"><h3>Квася</h3><div class="role">Вязаный мишка, сладкоежка</div><div class="q">Всё роняет — но всегда кстати. А если рассердится — рычит как гром!</div></div>
       </article>
       <article class="card" style="--c:#B8C4FF">
@@ -277,6 +278,10 @@ footer a{color:#fff}
         <img src="/assets/ukh2.jpg" alt="Совёнок Ух и попугай Дюша у гнезда" loading="lazy">
         <div class="in"><h3>Ух</h3><div class="role">Совёнок, страж Скалы</div><div class="q">Объявляет каждую серию… если не уснёт на посту.</div></div>
       </article>
+      <article class="card" style="--c:#9FD8FF">
+        <img src="/assets/art-snezhok.jpg" alt="Барсёнок Снежок в красном шарфике" loading="lazy" style="object-fit:contain;background:#fff">
+        <div class="in"><h3>Снежок</h3><div class="role">Барсёнок-ирбис из снежных гор</div><div class="q">Не говорит — мурчит, фыркает и чихает. Зато знает все горные тропы.</div></div>
+      </article>
     </div>
   </div>
 </section>
@@ -287,9 +292,9 @@ footer a{color:#fff}
     <h2>Шайка Скупщика</h2>
     <p class="lead">Злодеи у нас не страшные, а смешные. Они хотят всё забрать себе — но каждый раз попадают впросак.</p>
     <div class="values">
-      <div class="value" style="--c:#8B5A2B;padding:0;overflow:hidden"><img src="/assets/skupshchik.jpg" alt="Скупщик убегает от комаров" loading="lazy" style="aspect-ratio:16/9;object-fit:cover"><div style="padding:18px"><b>Скупщик</b><p>Хитрый жадина в длинном пальто. Его слово — «Моё!», а слабость — всё бесплатное.</p></div></div>
-      <div class="value" style="--c:#E07A5F;padding:0;overflow:hidden"><img src="/assets/bugor.jpg" alt="Кабан Бугор с мешком" loading="lazy" style="aspect-ratio:16/9;object-fit:cover"><div style="padding:18px"><b>Бугор</b><p>Огромный добродушный кабан-грузчик. «Хозяин сказал — тащу». За угощение готов стать хорошим.</p></div></div>
-      <div class="value" style="--c:#D62828;padding:0;overflow:hidden"><img src="/assets/drony.jpg" alt="Дрон-жужжалка" loading="lazy" style="aspect-ratio:16/9;object-fit:cover"><div style="padding:18px"><b>Жужжалки</b><p>Дроны-воришки: «Бзз! Хвать!». Обожают музыку — от песни Асилы пускаются в пляс.</p></div></div>
+      <div class="value" style="--c:#8B5A2B;padding:0;overflow:hidden"><img src="/assets/art-skupshchik.jpg" alt="Скупщик в лоскутном пальто с карманами монет" loading="lazy" style="aspect-ratio:4/3;object-fit:contain;background:#fff"><div style="padding:18px"><b>Скупщик</b><p>Хитрый жадина в длинном пальто. Его слово — «Моё!», а слабость — всё бесплатное.</p></div></div>
+      <div class="value" style="--c:#E07A5F;padding:0;overflow:hidden"><img src="/assets/art-bugor.jpg" alt="Кабан Бугор с мешком на плече" loading="lazy" style="aspect-ratio:4/3;object-fit:contain;background:#fff"><div style="padding:18px"><b>Бугор</b><p>Огромный добродушный кабан-грузчик. «Хозяин сказал — тащу». За угощение готов стать хорошим.</p></div></div>
+      <div class="value" style="--c:#D62828;padding:0;overflow:hidden"><img src="/assets/drony.jpg" alt="Дрон-жужжалка" loading="lazy" style="aspect-ratio:4/3;object-fit:cover"><div style="padding:18px"><b>Жужжалки</b><p>Дроны-воришки: «Бзз! Хвать!». Обожают музыку — от песни Асилы пускаются в пляс.</p></div></div>
     </div>
   </div>
 </section>
@@ -305,6 +310,9 @@ footer a{color:#fff}
       <figure><img src="/assets/tunnel.jpg" alt="Взлётный туннель и двери героев" loading="lazy"><figcaption>Взлётный туннель</figcaption></figure>
       <figure><img src="/assets/lednik.jpg" alt="Мирошка с козлёнком в ледяной трещине" loading="lazy"><figcaption>Ледник и Мирошка</figcaption></figure>
       <figure><img src="/assets/komanda.jpg" alt="Вся команда смеётся вместе" loading="lazy"><figcaption>Вся команда</figcaption></figure>
+      <figure><img src="/assets/lisko-lednik.jpg" alt="Лиско на леднике, позади Скупщик" loading="lazy"><figcaption>Погоня на леднике</figcaption></figure>
+      <figure><img src="/assets/nyukh-kvasya2.jpg" alt="Нюх с Квасей на спине в лесу" loading="lazy"><figcaption>Нюх и Квася в лесу</figcaption></figure>
+      <figure><img src="/assets/kvasya-sharf.jpg" alt="Квася греет друга вязаным шарфом" loading="lazy"><figcaption>Квася греет друга</figcaption></figure>
     </div>
   </div>
 </section>
@@ -313,7 +321,7 @@ footer a{color:#fff}
   <div class="wrap">
     <span class="kicker">Конкурс рисунков</span>
     <h2>Нарисуй своего любимого героя TUBETU!</h2>
-    <p class="lead">Лиско, Добрик, Вионка, Асила, Дюша, Нюх, Квася, Ух — нарисуй того, кто нравится больше всех. Карандашами, красками, фломастерами — как хочешь!</p>
+    <p class="lead">Лиско, Добрик, Вионка, Асила, Дюша, Нюх, Квася, Ух, Снежок — нарисуй того, кто нравится больше всех. Карандашами, красками, фломастерами — как хочешь!</p>
     <div class="values">
       <div class="value" style="--c:var(--orange)"><b>1. Нарисуй</b><p>Любимого героя или всю команду. Можно придумать, куда они полетят в следующий раз.</p></div>
       <div class="value" style="--c:var(--blue)"><b>2. Пришли</b><p>Родители выкладывают фото рисунка в Instagram или TikTok с хэштегом <b style="display:inline;font-size:inherit">#TUBETUрисунок</b> или присылают в наш <a href="https://t.me/tubetu_chat" target="_blank" rel="noopener">Telegram-чат</a>.</p></div>
@@ -329,9 +337,11 @@ footer a{color:#fff}
     <h2>Распечатай и раскрась!</h2>
     <p class="lead">Листы формата А4 — скачайте PDF, распечатайте и дайте ребёнку карандаши. Готовую раскраску можно прислать на конкурс!</p>
     <div class="thumbs">
-      <a class="thumb" href="/raskraski/kvasya.pdf" download><img src="/assets/col-kvasya.jpg" alt="Раскраска: Квася" loading="lazy"><span>Квася <em>Скачать PDF ↓</em></span></a>
-      <a class="thumb" href="/raskraski/asila.pdf" download><img src="/assets/col-asila.jpg" alt="Раскраска: Асила" loading="lazy"><span>Асила <em>Скачать PDF ↓</em></span></a>
       <a class="thumb" href="/raskraski/lisko.pdf" download><img src="/assets/col-lisko.jpg" alt="Раскраска: Лиско" loading="lazy"><span>Лиско <em>Скачать PDF ↓</em></span></a>
+      <a class="thumb" href="/raskraski/dobrik.pdf" download><img src="/assets/col-dobrik.jpg" alt="Раскраска: Добрик" loading="lazy"><span>Добрик <em>Скачать PDF ↓</em></span></a>
+      <a class="thumb" href="/raskraski/vionka.pdf" download><img src="/assets/col-vionka.jpg" alt="Раскраска: Вионка" loading="lazy"><span>Вионка <em>Скачать PDF ↓</em></span></a>
+      <a class="thumb" href="/raskraski/asila.pdf" download><img src="/assets/col-asila.jpg" alt="Раскраска: Асила" loading="lazy"><span>Асила <em>Скачать PDF ↓</em></span></a>
+      <a class="thumb" href="/raskraski/kvasya.pdf" download><img src="/assets/col-kvasya.jpg" alt="Раскраска: Квася" loading="lazy"><span>Квася <em>Скачать PDF ↓</em></span></a>
       <a class="thumb" href="/raskraski/dyusha.pdf" download><img src="/assets/col-dyusha.jpg" alt="Раскраска: Дюша" loading="lazy"><span>Дюша <em>Скачать PDF ↓</em></span></a>
       <a class="thumb" href="/raskraski/bugor.pdf" download><img src="/assets/col-bugor.jpg" alt="Раскраска: Бугор" loading="lazy"><span>Бугор <em>Скачать PDF ↓</em></span></a>
       <a class="thumb" href="/raskraski/drony.pdf" download><img src="/assets/col-drony.jpg" alt="Раскраска: Жужжалка" loading="lazy"><span>Жужжалка <em>Скачать PDF ↓</em></span></a>
@@ -360,7 +370,7 @@ footer a{color:#fff}
         <span>Ту-би-ту! Ту-би-ту!</span>
       </div>
     </div>
-    <img src="/assets/poster.jpg" alt="Герои TUBETU на своём транспорте над Скалой сокровищ" loading="lazy">
+    <img src="/assets/komanda-poster.jpg" alt="Лиско, Добрик, Вионка и Асила в пещере с кристаллами" loading="lazy">
   </div>
 </section>
 
