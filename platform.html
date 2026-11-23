@@ -43,7 +43,7 @@ img{max-width:100%;display:block}
 .tabs button{border:0;background:none;font:900 16px Nunito,sans-serif;padding:10px;border-radius:999px;cursor:pointer;color:var(--muted)}
 .tabs button.on{background:#fff;color:var(--navy);box-shadow:0 3px 10px rgba(11,18,64,.12)}
 label.f{display:block;font-weight:800;font-size:14px;margin:12px 0 6px}
-input.in{width:100%;font:700 16px Nunito,sans-serif;padding:13px 15px;border:2px solid #D7DDF2;border-radius:14px;outline:none;transition:border .2s}
+input.in,select.in{width:100%;background:#fff;font:700 16px Nunito,sans-serif;padding:13px 15px;border:2px solid #D7DDF2;border-radius:14px;outline:none;transition:border .2s}
 input.in:focus{border-color:var(--blue)}
 .ch{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);font-weight:700;margin-top:12px}
 .ch input{margin-top:3px;width:18px;height:18px}
@@ -181,14 +181,22 @@ footer a{color:#fff}
     <div class="panels">
       <div class="panel" id="konkurs">
         <h3>🏆 Конкурс рисунков</h3>
-        <p class="small">Ребёнок рисует любимого героя TUBETU — карандашами, красками, как угодно.</p>
-        <ol class="steps">
-          <li>Сфотографируйте рисунок при хорошем свете.</li>
-          <li>Отправьте фото в наш <a href="https://t.me/tubetu_chat" target="_blank" rel="noopener">Чат семей</a> или выложите с хэштегом <b>#TUBETUрисунок</b>.</li>
-          <li>Напишите имя и возраст художника — без фамилии.</li>
-        </ol>
-        <p class="small" style="margin-top:10px">Лучшие работы получат грамоты и календарики с героями, а рисунки появятся на сайте.</p>
-        <a class="btn" style="margin-top:8px" href="https://t.me/tubetu_chat" target="_blank" rel="noopener">Отправить рисунок</a>
+        <p class="small">Ребёнок рисует любимого героя TUBETU. Сфотографируйте рисунок и загрузите сюда — после проверки он появится в <a href="/risunki/">галерее</a>, и за него смогут голосовать.</p>
+        <form id="drawForm" novalidate>
+          <label class="f" for="dFile">Фото рисунка</label>
+          <input class="in" id="dFile" type="file" accept="image/*">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:8px">
+            <div><label class="f" for="dName">Имя художника</label><input class="in" id="dName" maxlength="20" placeholder="Только имя"></div>
+            <div><label class="f" for="dAge">Возраст</label><input class="in" id="dAge" type="number" min="1" max="17" inputmode="numeric"></div>
+          </div>
+          <label class="f" for="dHero">Кто нарисован</label>
+          <select class="in" id="dHero"><option value="team">Вся команда</option><option value="lisko">Лиско</option><option value="dobrik">Добрик</option><option value="vionka">Вионка</option><option value="asila">Асила</option><option value="kvasya">Квася</option><option value="nyukh">Нюх</option><option value="dyusha">Дюша</option><option value="ukh">Ух</option><option value="snezhok">Снежок</option><option value="shushik">Шушик</option><option value="skot">Скот</option></select>
+          <label class="ch"><input type="checkbox" id="dOk"> Я родитель (законный представитель) и согласен(на) показать рисунок с именем и возрастом ребёнка на сайте TUBETU. Фамилию и фото ребёнка не загружаю.</label>
+          <button class="btn full" id="dSend" type="submit">Отправить на конкурс</button>
+          <div class="msg" id="dMsg" role="status"></div>
+        </form>
+        <div id="myDrawings"></div>
+        <p class="small" style="margin-top:10px">Можно и по-старому: прислать фото в <a href="https://t.me/tubetu_chat" target="_blank" rel="noopener">Чат семей</a> с хэштегом <b>#TUBETUрисунок</b>.</p>
       </div>
       <div class="panel">
         <h3>🎮 Ваши успехи</h3>
@@ -203,6 +211,10 @@ footer a{color:#fff}
           <button class="btn ghost" type="button" id="changePass">Сменить пароль</button>
         </div>
         <div class="msg" id="setMsg" role="status"></div>
+        <h3 style="margin-top:22px">🔔 Новости на почту</h3>
+        <p class="small">Пришлём письмо, когда выйдет новая серия, игра или итоги конкурса. Не чаще раза в неделю.</p>
+        <button class="btn ghost" type="button" id="subBtn" style="margin-top:8px">Подписаться на новости</button>
+        <div class="msg" id="subMsg" role="status"></div>
       </div>
     </div>
   </main>
@@ -243,7 +255,7 @@ $('authForm').addEventListener('submit',async function(ev){ev.preventDefault();i
   busy('authSubmit',true,regMode?'Создаём…':'Входим…');
   try{if(regMode){var r=await db.auth.signUp({email:email,password:pass,options:{emailRedirectTo:SITE,data:{username:name,display_name:name}}});if(r.error)throw r.error;
       if(r.data.session){user=r.data.user;render();}else msg('authMsg','Почти готово! Мы отправили письмо на '+email+'. Откройте его и нажмите ссылку — после этого войдите.',true);}
-    else{var l=await db.auth.signInWithPassword({email:email,password:pass});if(l.error)throw l.error;user=l.data.user;render();}}
+    else{var l=await db.auth.signInWithPassword({email:email,password:pass});if(l.error)throw l.error;user=l.data.user;if(!afterLogin())render();}}
   catch(e){msg('authMsg',ruErr(e));}finally{busy('authSubmit',false);}});
 
 $('forgotBtn').onclick=async function(){var email=$('email').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return msg('authMsg','Впишите вашу почту в поле выше — и нажмите «Забыли пароль?» ещё раз.');
@@ -261,8 +273,23 @@ function render(){var logged=!!user&&!recovery;$('guest').classList.toggle('hide
   $('helloSub').textContent=m.fav_hero?(fav.name+' '+fav.g+' вас видеть! Дверь Скалы открыта — вы свои.'):'Добро пожаловать в Скалу сокровищ. Дверь открыта — вы свои!';
   $('heroes').innerHTML='';HEROES.forEach(function(h){var b=document.createElement('button');b.type='button';b.className='hpick'+(m.fav_hero===h.id?' on':'');b.style.setProperty('--c',h.c);b.innerHTML='<img src="/games/img/full-'+h.id+'.webp" alt=""><span style="color:'+h.c+'">'+h.name+'</span>';
     b.onclick=async function(){try{var r=await db.auth.updateUser({data:{fav_hero:h.id}});if(r.error)throw r.error;user=r.data.user;render();msg('favMsg',h.name+' — отличный выбор!',true);}catch(e){msg('favMsg',ruErr(e));}};$('heroes').appendChild(b);});
-  var best=0;try{best=+JSON.parse(localStorage.getItem('tubetu_best2')||'0')||0;}catch(e){}$('bestScore').textContent=best;}
+  var best=0;try{best=+JSON.parse(localStorage.getItem('tubetu_best2')||'0')||0;}catch(e){}$('bestScore').textContent=best;loadMine();}
 
+
+var NEXT=(location.search.match(/[?&]next=([^&]+)/)||[])[1];NEXT=NEXT&&/^\/[a-z0-9\-\/#%]*$/i.test(decodeURIComponent(NEXT))?decodeURIComponent(NEXT):null;
+function afterLogin(){if(NEXT){location.href=NEXT;return true;}return false;}
+function shrink(file,max){return new Promise(function(res,rej){var img=new Image();img.onload=function(){var s=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(function(b){b?res(b):rej(new Error('blob'));},'image/jpeg',.85);URL.revokeObjectURL(img.src);};img.onerror=function(){rej(new Error('Не удалось открыть картинку'));};img.src=URL.createObjectURL(file);});}
+$('drawForm').addEventListener('submit',async function(ev){ev.preventDefault();var f=$('dFile').files[0],n=$('dName').value.trim().replace(/[<>"']/g,''),a=parseInt($('dAge').value,10);
+  if(!f)return msg('dMsg','Выберите фото рисунка.');if(n.length<2)return msg('dMsg','Напишите имя художника (только имя).');if(!$('dOk').checked)return msg('dMsg','Отметьте согласие родителя.');
+  busy('dSend',true,'Загружаем…');try{var blob=await shrink(f,1600),path=user.id+'/'+Date.now()+'.jpg';
+    var up=await db.storage.from('drawings').upload(path,blob,{contentType:'image/jpeg',upsert:false});if(up.error)throw up.error;
+    var ins=await db.from('drawings').insert({child_name:n,child_age:a>0&&a<18?a:null,hero:$('dHero').value,image_path:path});if(ins.error)throw ins.error;
+    msg('dMsg','Рисунок отправлен! После проверки он появится в галерее. Спасибо! 🎨',true);$('drawForm').reset();loadMine();}
+  catch(e){console.error(e);msg('dMsg',/bucket|relation|not found|does not exist/i.test(e.message||'')?'Конкурс откроется совсем скоро — загрузка ещё настраивается.':ruErr(e));}finally{busy('dSend',false);}});
+var ST={pending:'⏳ на проверке',approved:'✅ в галерее',rejected:'✖ не подошёл'};
+async function loadMine(){if(!db||!user)return;try{var r=await db.from('drawings').select('id,child_name,status,votes').eq('owner_id',user.id).order('id',{ascending:false}).limit(10);if(r.error||!r.data||!r.data.length){$('myDrawings').innerHTML='';return;}
+  $('myDrawings').innerHTML='<h3 style="margin-top:16px;font-size:17px">Мои рисунки</h3>'+r.data.map(function(d){var t=document.createElement('div');t.textContent=d.child_name;return '<div class="small" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #EEF2FF"><span>'+t.innerHTML+' — '+(ST[d.status]||d.status)+'</span><span>❤ '+d.votes+(d.status==='approved'?' · <a href="/risunki/#d'+d.id+'">открыть</a>':'')+'</span></div>';}).join('');}catch(e){}}
+$('subBtn').onclick=async function(){try{var r=await db.from('subscribers').insert({email:user.email});if(r.error&&!/duplicate/i.test(r.error.message))throw r.error;msg('subMsg','Готово! Новости будут приходить на '+user.email+'.',true);}catch(e){msg('subMsg',/relation|does not exist/i.test(e.message||'')?'Подписка откроется совсем скоро.':ruErr(e));}};
 $('saveName').onclick=async function(){var n=$('newName').value.trim();if(n.length<2)return msg('setMsg','Имя — хотя бы 2 буквы.');try{var r=await db.auth.updateUser({data:{display_name:n,username:n}});if(r.error)throw r.error;user=r.data.user;render();msg('setMsg','Имя сохранено.',true);}catch(e){msg('setMsg',ruErr(e));}};
 $('changePass').onclick=async function(){try{var r=await db.auth.resetPasswordForEmail(user.email,{redirectTo:SITE+'?mode=recovery'});if(r.error)throw r.error;msg('setMsg','Письмо для смены пароля отправлено на '+user.email+'.',true);}catch(e){msg('setMsg',ruErr(e));}};
 $('logoutBtn').onclick=async function(){try{await db.auth.signOut();}catch(e){}user=null;recovery=false;render();scrollTo(0,0);};
@@ -270,7 +297,7 @@ $('logoutBtn').onclick=async function(){try{await db.auth.signOut();}catch(e){}u
 async function init(){if(!db){render();return;}
   db.auth.onAuthStateChange(function(event,session){if(event==='PASSWORD_RECOVERY'){openRecovery();return;}user=session&&session.user||null;if(!recovery)render();});
   try{var s=await db.auth.getSession();user=s.data.session&&s.data.session.user||null;}catch(e){console.error(e);}
-  if(recovery)openRecovery();else render();
+  if(recovery)openRecovery();else if(!(user&&afterLogin()))render();
   if(/access_token|type=signup/.test(location.hash)&&user){history.replaceState(null,'','/platform.html');}}
 setMode(false);init();
 window.__cab={render:function(u){user=u;recovery=false;render();}};

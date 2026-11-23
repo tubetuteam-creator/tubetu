@@ -365,7 +365,7 @@ footer a{color:#fff}
   <div class="wrap">
     <span class="kicker">Галерея рисунков</span>
     <h2>Рисунки наших зрителей</h2>
-    <div class="empty">Здесь появятся лучшие рисунки конкурса — с именем и возрастом художника (только с согласия родителей). <a href="#konkurs">Как участвовать →</a></div>
+    <div class="empty">Рисунки детей, голосование и победители — в галерее конкурса.<br><br><a class="btn main" href="/risunki/">🏆 Открыть галерею и голосовать</a></div>
   </div>
 </section>
 
@@ -478,8 +478,12 @@ footer a{color:#fff}
 <section style="padding-bottom:0">
   <div class="wrap">
     <div class="tg">
-      <div><h2>Новости TUBETU в Telegram</h2><p>Премьеры, новые раскраски и итоги конкурса — первыми.</p></div>
-      <a class="btn main" href="https://t.me/tubetu_official" target="_blank" rel="noopener">Подписаться</a>
+      <div><h2>Новости TUBETU</h2><p>Премьеры, новые игры и итоги конкурса — первыми. В Telegram или на почту.</p></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <a class="btn main" href="https://t.me/tubetu_official" target="_blank" rel="noopener">Telegram</a>
+        <form id="subForm" style="display:flex;gap:6px;flex-wrap:wrap"><input id="subEmail" type="email" required placeholder="Почта родителя" style="font:700 16px Nunito,sans-serif;padding:12px 14px;border-radius:999px;border:0;min-width:200px"><button class="btn main" type="submit">На почту</button></form>
+        <div id="subMsg2" style="font-weight:800;width:100%"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -509,6 +513,8 @@ var H={apikey:K,Authorization:'Bearer '+K};
 function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
 fetch(U+'?select=name,city,text&order=created_at.desc&limit=12',{headers:H}).then(function(r){return r.ok?r.json():[];}).then(function(a){
   if(!a||!a.length)return;document.getElementById('reviewsList').innerHTML=a.map(function(x){return '<div class="review"><p>«'+esc(x.text)+'»</p><b>'+esc(x.name)+'</b>'+(x.city?' · '+esc(x.city):'')+'</div>';}).join('');}).catch(function(){});
+var sf=document.getElementById('subForm');sf.addEventListener('submit',function(e){e.preventDefault();var em=document.getElementById('subEmail').value.trim(),sm=document.getElementById('subMsg2');
+  fetch(U.replace('/reviews','/subscribers'),{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({email:em})}).then(function(r){if(!r.ok&&r.status!==409)throw 0;sf.reset();sm.textContent='Готово! Будем писать только о важном.';}).catch(function(){sm.textContent='Не получилось. Попробуйте позже или подпишитесь в Telegram.';});});
 var f=document.getElementById('reviewForm'),m=document.getElementById('reviewMsg');
 f.addEventListener('submit',function(e){e.preventDefault();if(f.elements.website.value)return;
   var b=f.querySelector('button');b.disabled=true;m.style.color='';m.textContent='Отправляем…';
