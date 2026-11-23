@@ -186,6 +186,7 @@ FRIENDS.forEach(function(f){load('f_'+f.id,f.img);});
 load('skup','img/full-skupshchik.webp');load('bugor','img/full-bugor.webp');
 var store={get:function(k,d){try{var v=localStorage.getItem('tubetu_'+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},set:function(k,v){try{localStorage.setItem('tubetu_'+k,JSON.stringify(v));}catch(e){}}};
 var best=store.get('best2',0),soundOn=store.get('sound',true),heroIdx=store.get('hero',0);
+(function(){var m=location.search.match(/[?&]hero=(\d)/);if(m&&+m[1]<4)heroIdx=+m[1];})();
 
 /* ================= UTILS ================= */
 function rnd(a,b){return a+Math.random()*(b-a);}
