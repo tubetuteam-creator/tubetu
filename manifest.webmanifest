@@ -2,12 +2,12 @@
   "id": "/",
   "name": "TUBETU",
   "short_name": "TUBETU",
-  "description": "Мультсериал «Скала сокровищ», игры и сообщества",
+  "description": "TUBETU — мультсериал, где добро возвращается. Первая серия — «Скала сокровищ»",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#EAF6FF",
-  "theme_color": "#3BA9F5",
+  "theme_color": "#0B1240",
   "icons": [
     {
       "src": "/icon.svg",
