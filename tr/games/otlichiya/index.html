@@ -63,7 +63,7 @@ function tick(){var s=(Date.now()-t0)/1000|0;$('time').textContent=(s/60|0)+':'+
 function clearMarks(){document.querySelectorAll('.mark,.miss,.hintc').forEach(function(m){m.remove();});}
 function mark(d){['pA','pB'].forEach(function(id){var p=$(id),c=p.querySelector('canvas'),k=c.clientWidth/c.width,m=document.createElement('div');m.className='mark';m.style.left=d.x*k+'px';m.style.top=d.y*k+'px';m.style.width=m.style.height=d.r*2.4*k+'px';m.dataset.x=d.x;m.dataset.y=d.y;m.dataset.r=d.r;p.appendChild(m);});}
 ['pA','pB'].forEach(function(id){$(id).addEventListener('pointerdown',function(e){var c=$(id).querySelector('canvas'),r=c.getBoundingClientRect(),k=c.width/r.width,x=(e.clientX-r.left)*k,y=(e.clientY-r.top)*k;
-  var d=diffs.filter(function(d){return !d.found&&Math.hypot(d.x-x,d.y-y)<d.r*1.35;})[0];
+  var d=diffs.filter(function(d){return !d.found&&Math.hypot(d.x-x,d.y-y)<Math.max(d.r*1.35,26*k);})[0];
   if(d){d.found=true;found++;$('found').textContent=found;mark(d);TG.tone(784,.15,.14);TG.tone(1175,.2,.1,'triangle',.08);
     if(found===COUNT){clearInterval(timer);var key='otl_'+pic,b0=TG.get(key,null),sec=(Date.now()-t0)/1000|0;if(!b0||sec<b0)TG.set(key,sec);setTimeout(function(){TG.win();$('winText').textContent='Süre: '+$('time').textContent+(hints?' · İpuçları: '+hints:'')+((!b0||sec<b0)?' · Yeni rekor!':'');$('win').classList.add('on');},500);}}
   else{var m=document.createElement('div');m.className='miss';m.textContent='✕';m.style.left=(e.clientX-r.left)+'px';m.style.top=(e.clientY-r.top)+'px';$(id).appendChild(m);setTimeout(function(){m.remove();},700);TG.tone(200,.15,.1,'square');}});});

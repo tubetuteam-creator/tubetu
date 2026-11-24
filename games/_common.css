@@ -21,3 +21,6 @@ html,body{margin:0;font-family:Nunito,system-ui,sans-serif;background:linear-gra
 .more{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 .more a{background:rgba(255,255,255,.9);text-decoration:none;color:var(--navy);font-weight:900;padding:10px 16px;border-radius:999px}
 canvas#conf{position:fixed;inset:0;pointer-events:none;z-index:10}
+
+@media(max-width:440px){.pills{flex-wrap:nowrap;gap:6px}.pill{padding:7px 11px;white-space:nowrap;font-size:15px}}
+.pill b{font-variant-numeric:tabular-nums}

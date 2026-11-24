@@ -47,7 +47,7 @@ body{background:linear-gradient(180deg,#1E2A78,#5B3FB8 55%,#FF9E6B)}
 <script src="../_common.js"></script>
 <script>
 (function(){
-var $=function(i){return document.getElementById(i);},N=9,holes=[],score=0,lives=3,run=false,timer=null,speed=1300,best=TG.get('ukh_best',0);
+var $=function(i){return document.getElementById(i);},N=9,holes=[],score=0,lives=3,run=false,timer=null,speed=1600,best=TG.get('ukh_best',0);
 $('best').textContent=best;
 for(var i=0;i<N;i++){var h=document.createElement('div');h.className='win-hole';h.innerHTML='<img alt=""><span class="z">z<small>z</small></span>';h.dataset.i=i;$('grid').appendChild(h);holes.push({el:h,who:null,t:0});
  h.addEventListener('pointerdown',hit);}
@@ -59,12 +59,12 @@ function hit(e){if(!run)return;var H=holes[+this.dataset.i];if(!H.who)return;var
  else{lives--;hearts();el.classList.add('bad');pop(el,'😤');TG.tone(180,.25,.12,'square');if(lives<=0)end();}
  down(H);}
 function down(H){clearTimeout(H.t);H.el.classList.remove('up','sleepy');H.who=null;setTimeout(function(){H.el.classList.remove('woke','bad');},250);}
-function spawn(){if(!run)return;var free=holes.filter(function(h){return !h.who;});if(free.length){var H=free[(Math.random()*free.length)|0],bad=score>4&&Math.random()<.18;
+function spawn(){if(!run)return;var free=holes.filter(function(h){return !h.who;});if(free.length){var H=free[(Math.random()*free.length)|0],bad=score>6&&Math.random()<.18;
   H.who=bad?'sk':'ukh';H.el.querySelector('img').src=bad?'/games/img/full-skupshchik.webp':'/assets/ukh-face.png';H.el.classList.add('up');
   if(!bad){H.t=setTimeout(function(){H.el.classList.add('sleepy');H.t=setTimeout(function(){if(H.who==='ukh'){lives--;hearts();TG.tone(220,.3,.08,'sine');down(H);if(lives<=0)end();}},speed*.9);},speed);}
   else H.t=setTimeout(function(){down(H);},speed*1.3);}
  timer=setTimeout(spawn,speed*(.55+Math.random()*.5));}
-function start(){score=0;lives=3;speed=1300;$('score').textContent=0;hearts();holes.forEach(down);run=true;$('go').style.visibility='hidden';$('win').classList.remove('on');TG.tone(523,.1,.1);setTimeout(spawn,500);}
+function start(){score=0;lives=3;speed=1600;$('score').textContent=0;hearts();holes.forEach(down);run=true;$('go').style.visibility='hidden';$('win').classList.remove('on');TG.tone(523,.1,.1);setTimeout(spawn,500);}
 function end(){run=false;clearTimeout(timer);holes.forEach(down);$('go').style.visibility='visible';var nb=score>best;if(nb){best=score;TG.set('ukh_best',best);$('best').textContent=best;}
  $('fs').textContent=score;$('nb').textContent=nb?'🏆 Новый рекорд!':'';if(nb||score>=10)TG.win();$('win').classList.add('on');}
 $('go').onclick=start;$('again').onclick=start;
