@@ -140,5 +140,6 @@ var sp=new URLSearchParams(location.search),pn=clean(sp.get('n'));
 if(pn.length>=2){var ph=HEROES.some(function(x){return x.id===sp.get('h');})?sp.get('h'):'lisko';show(cap(pn),+sp.get('a')>0&&+sp.get('a')<100?+sp.get('a'):0,ph,false);}
 })();
 </script>
+<script src="/i18n/switch.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="kk">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
+<title>Айырмашылықты тап — TUBETU</title>
+<meta content="TUBETU мультфильміндегі суреттерден 5 айырмашылықты тап. Зейінге арналған балалар ойыны." name="description"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="/games/_common.css" rel="stylesheet"/>
+<style>
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pair .pic{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(11,18,64,.3);background:#0B1240;cursor:crosshair;touch-action:manipulation}
+.pair canvas{display:block;width:100%;height:auto}
+.mark{position:absolute;border:4px solid #FFC72C;border-radius:50%;box-shadow:0 0 0 3px rgba(11,18,64,.5),0 0 18px #FFC72C;transform:translate(-50%,-50%) scale(0);animation:pop .4s forwards;pointer-events:none}
+.miss{position:absolute;color:#FF3355;font:900 30px Nunito;transform:translate(-50%,-50%);animation:fade .7s forwards;pointer-events:none;text-shadow:0 2px 6px #fff}
+.hintc{position:absolute;border:4px dashed #fff;border-radius:50%;transform:translate(-50%,-50%);animation:blink .5s 4;pointer-events:none}
+@keyframes pop{to{transform:translate(-50%,-50%) scale(1)}}
+@keyframes fade{to{opacity:0;transform:translate(-50%,-90%)}}
+@keyframes blink{50%{opacity:0}}
+.lbl{position:absolute;left:8px;top:8px;background:rgba(11,18,64,.7);color:#fff;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px}
+@media(max-width:700px){.pair{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top"><a href="/kz/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>Айырмашылықты тап</h1><div class="sp"></div><a href="/kz/games/">🎮 Құтқарушылар</a></header>
+<div class="wrap">
+<div class="choose" id="choose"></div>
+<div class="pills"><span class="pill">🔍 Табылды: <b id="found">0</b> / <b id="total">5</b></span><span class="pill">⏱ <b id="time">0:00</b></span><button class="btn alt" id="hint" style="padding:8px 16px;font-size:15px">💡 Кеңес</button></div>
+<div class="pair"><div class="pic" id="pA"><canvas id="cA"></canvas><span class="lbl">1-сурет</span></div><div class="pic" id="pB"><canvas id="cB"></canvas><span class="lbl">2-сурет</span></div></div>
+<p style="text-align:center;font-weight:800;color:#0B1240">Суреттер бірдей дерлік, бірақ Скупщик бірдеңелерді өзгертіп қойды! Айырмашылықтарды кез келген суреттен бас.</p>
+<div class="more"><a href="/kz/games/">🎮 Құтқарушылар</a><a href="/kz/games/pazl/">🧩 Пазл</a><a href="/kz/raskraska/">🖌 Бояу</a></div>
+</div>
+<div class="win" id="win"><div class="card"><h2>Барлық айырмашылық табылды! 🎉</h2><p id="winText" style="font-weight:800"></p><button class="btn" id="again">Келесі сурет</button></div></div>
+<canvas id="conf"></canvas>
+<script src="/games/_common.js"></script>
+<script>
+(function(){
+var PICS=[['/assets/shtab.jpg','Штаб'],['/assets/komanda.jpg','Команда'],['/assets/skala.jpg','Жартас'],['/assets/tunnel.jpg','Туннель'],['/assets/lednik.jpg','Мұздық'],['/assets/nyukh.jpg','Нюх пен Скот'],['/assets/kvasya-sharf.jpg','Квася'],['/assets/lisko-lednik.jpg','Қуғын']];
+var $=function(id){return document.getElementById(id);};
+var pic=0,diffs=[],found=0,t0=0,timer=null,hints=0,COUNT=5;
+PICS.forEach(function(p,i){var b=document.createElement('button');b.innerHTML='<img src="'+p[0]+'" alt=""><span>'+p[1]+'</span>';b.onclick=function(){pic=i;start();};$('choose').appendChild(b);});
+function start(){[].forEach.call($('choose').children,function(b,i){b.classList.toggle('on',i===pic);});clearMarks();found=0;hints=0;$('found').textContent=0;$('total').textContent=COUNT;
+  var img=new Image();img.onload=function(){var W=img.naturalWidth,H=img.naturalHeight,a=$('cA'),b=$('cB');a.width=b.width=W;a.height=b.height=H;var ca=a.getContext('2d'),cb=b.getContext('2d');ca.drawImage(img,0,0);cb.drawImage(img,0,0);
+    diffs=[];var R=Math.round(W*.045),tries=0;
+    while(diffs.length<COUNT&&tries++<400){var x=R+Math.random()*(W-2*R),y=R+Math.random()*(H-2*R);if(diffs.some(function(d){return Math.hypot(d.x-x,d.y-y)<R*3;}))continue;
+      // skip flat areas: need some detail so change is visible
+      var px=ca.getImageData(x-R,y-R,R*2,R*2).data,sum=0,sum2=0,n=px.length/4;for(var i=0;i<px.length;i+=16){var l=px[i]*.3+px[i+1]*.59+px[i+2]*.11;sum+=l;sum2+=l*l;}var cnt=px.length/16,v=sum2/cnt-(sum/cnt)*(sum/cnt);if(v<180&&tries<300)continue;
+      diffs.push({x:x,y:y,r:R,type:diffs.length%5,found:false});}
+    diffs.forEach(function(d){apply(cb,img,d,W,H);});t0=Date.now();clearInterval(timer);timer=setInterval(tick,500);};img.src=PICS[pic][0];}
+function apply(c,img,d,W,H){c.save();c.beginPath();c.arc(d.x,d.y,d.r,0,7);c.clip();var R=d.r;
+  if(d.type===0){c.filter='hue-rotate(150deg) saturate(1.6)';c.drawImage(img,d.x-R,d.y-R,R*2,R*2,d.x-R,d.y-R,R*2,R*2);}
+  else if(d.type===1){c.translate(d.x,d.y);c.scale(-1,1);c.drawImage(img,d.x-R,d.y-R,R*2,R*2,-R,-R,R*2,R*2);}
+  else if(d.type===2){var sx=(d.x+W*.3)%(W-2*R),sy=(d.y+H*.27)%(H-2*R);c.drawImage(img,sx,sy,R*2,R*2,d.x-R,d.y-R,R*2,R*2);}
+  else if(d.type===3){c.filter='brightness(1.7) contrast(.8)';c.drawImage(img,d.x-R,d.y-R,R*2,R*2,d.x-R,d.y-R,R*2,R*2);}
+  else{c.translate(d.x,d.y);c.rotate(Math.PI);c.drawImage(img,d.x-R,d.y-R,R*2,R*2,-R,-R,R*2,R*2);}
+  c.restore();c.filter='none';}
+function tick(){var s=(Date.now()-t0)/1000|0;$('time').textContent=(s/60|0)+':'+('0'+s%60).slice(-2);}
+function clearMarks(){document.querySelectorAll('.mark,.miss,.hintc').forEach(function(m){m.remove();});}
+function mark(d){['pA','pB'].forEach(function(id){var p=$(id),c=p.querySelector('canvas'),k=c.clientWidth/c.width,m=document.createElement('div');m.className='mark';m.style.left=d.x*k+'px';m.style.top=d.y*k+'px';m.style.width=m.style.height=d.r*2.4*k+'px';m.dataset.x=d.x;m.dataset.y=d.y;m.dataset.r=d.r;p.appendChild(m);});}
+['pA','pB'].forEach(function(id){$(id).addEventListener('pointerdown',function(e){var c=$(id).querySelector('canvas'),r=c.getBoundingClientRect(),k=c.width/r.width,x=(e.clientX-r.left)*k,y=(e.clientY-r.top)*k;
+  var d=diffs.filter(function(d){return !d.found&&Math.hypot(d.x-x,d.y-y)<d.r*1.35;})[0];
+  if(d){d.found=true;found++;$('found').textContent=found;mark(d);TG.tone(784,.15,.14);TG.tone(1175,.2,.1,'triangle',.08);
+    if(found===COUNT){clearInterval(timer);var key='otl_'+pic,b0=TG.get(key,null),sec=(Date.now()-t0)/1000|0;if(!b0||sec<b0)TG.set(key,sec);setTimeout(function(){TG.win();$('winText').textContent='Уақыт: '+$('time').textContent+(hints?' · Кеңестер: '+hints:'')+((!b0||sec<b0)?' · Жаңа рекорд!':'');$('win').classList.add('on');},500);}}
+  else{var m=document.createElement('div');m.className='miss';m.textContent='✕';m.style.left=(e.clientX-r.left)+'px';m.style.top=(e.clientY-r.top)+'px';$(id).appendChild(m);setTimeout(function(){m.remove();},700);TG.tone(200,.15,.1,'square');}});});
+$('hint').onclick=function(){var d=diffs.filter(function(d){return !d.found;})[0];if(!d)return;hints++;var p=$('pB'),c=p.querySelector('canvas'),k=c.clientWidth/c.width,m=document.createElement('div');m.className='hintc';m.style.left=d.x*k+'px';m.style.top=d.y*k+'px';m.style.width=m.style.height=d.r*4*k+'px';p.appendChild(m);setTimeout(function(){m.remove();},2100);};
+addEventListener('resize',function(){var ms=document.querySelectorAll('.mark');ms.forEach(function(m){var c=m.parentNode.querySelector('canvas'),k=c.clientWidth/c.width;m.style.left=m.dataset.x*k+'px';m.style.top=m.dataset.y*k+'px';m.style.width=m.style.height=m.dataset.r*2.4*k+'px';});});
+$('again').onclick=function(){$('win').classList.remove('on');pic=(pic+1)%PICS.length;start();};
+start();
+window.__ot={diffs:function(){return diffs;}};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>
