@@ -208,6 +208,12 @@ footer a{color:#fff}
 @media(max-width:760px){.kgrid{grid-template-columns:repeat(3,1fr);gap:10px}.kt{border-radius:20px}}
 @media(max-width:340px){.kgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.hero .txt p,.hero .btns{display:none}.hero .txt{padding:10px 14px 12px!important}.hero h1{font-size:21px!important;margin:0}.kids{padding-top:12px}.kt .ki{padding:18px 4px 7px;font-size:14px}.kt .ki b{font-size:26px}}
+
+.player{display:flex;align-items:center;gap:14px;margin-top:18px;background:#fff;box-shadow:0 8px 22px rgba(11,18,64,.1);border-radius:999px;padding:8px 18px 8px 8px;max-width:420px}
+.pbtn{flex:none;width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;font-size:24px;color:#3a2300;background:linear-gradient(180deg,#FFD23F,#FF9F1C);box-shadow:0 4px 0 #B86E00}
+.pbtn.on{animation:pp 1s infinite}@keyframes pp{50%{transform:scale(1.07)}}
+.pinfo{flex:1}.pinfo b{display:block;font-weight:900;margin-bottom:6px}
+.pbar{height:8px;border-radius:99px;background:#E3E8FB;overflow:hidden}.pbar i{display:block;height:100%;width:0;background:#FF9F1C}
 </style>
 <link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
 </head>
@@ -252,7 +258,7 @@ footer a{color:#fff}
 <a class="kt ukh" href="/pt/dver/"><img alt="" loading="lazy" src="/assets/ukh-face.png"/><span class="ki"><b>🔑</b>Porta do Ukh</span></a>
 <a class="kt" href="/pt/pozdravlenie/"><img alt="" loading="lazy" src="/assets/kvasya-tanets.jpg"/><span class="ki"><b>🎂</b>Cartão</span></a>
 </div>
-<div class="wrap" style="text-align:center;margin-top:14px"><button class="kshare" onclick="var b=document.querySelector('.tb-share');if(b)b.click();" type="button">📤 Compartilhar com amigos</button></div>
+<div class="wrap" style="text-align:center;margin-top:14px"><button class="kshare" onclick="var b=document.querySelector('.tb-share');if(b)b.click();" type="button">📤 Compartilhar com amigos</button> <button class="kshare" onclick="document.getElementById('pesnya').scrollIntoView({behavior:'smooth'});document.getElementById('songBtn').click();" style="background:linear-gradient(180deg,#C9A6FF,#8E3BF5);color:#fff;box-shadow:0 5px 0 #5B21B6" type="button">🎵 Nossa música</button></div>
 </section>
 <section style="padding:22px 0 0">
 <div class="wrap">
@@ -414,6 +420,11 @@ footer a{color:#fff}
         Somos uma equipe para sempre!<br/>
 <span>Tubetu! Tubetu!</span>
 </div>
+<div class="player">
+<button aria-label="Ouvir a música" class="pbtn" id="songBtn" type="button">▶</button>
+<div class="pinfo"><b>Ouvir a música</b><div class="pbar"><i id="songBar"></i></div></div>
+<audio id="song" preload="none" src="/assets/tubetu-pesnya.mp3"></audio>
+</div>
 </div>
 <img alt="Lisko, Dobrik, Vionka e Asila numa caverna de cristal" loading="lazy" src="/assets/komanda-poster.jpg"/>
 </div>
@@ -546,6 +557,12 @@ f.addEventListener('submit',function(e){e.preventDefault();if(f.elements.website
   .catch(function(){m.style.color='#C62828';m.textContent='Não foi possível enviar. Escreva para tubetu.team@gmail.com';})
   .then(function(){b.disabled=false;});});
 })();
+</script>
+<script>
+(function(){var a=document.getElementById('song'),b=document.getElementById('songBtn'),bar=document.getElementById('songBar');if(!a)return;
+b.onclick=function(){if(a.paused){a.play();}else{a.pause();}};
+a.onplay=function(){b.textContent='❚❚';b.classList.add('on');};a.onpause=a.onended=function(){b.textContent='▶';b.classList.remove('on');};
+a.ontimeupdate=function(){bar.style.width=(a.currentTime/(a.duration||1)*100)+'%';};})();
 </script>
 <script defer="" src="/i18n/switch.js"></script>
 </body>
