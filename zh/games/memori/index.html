@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
+<title>TUBETU角色记忆翻牌 — 找出配对</title>
+<meta content="翻开卡片，找出TUBETU角色的配对：利斯科、多布里克、维翁卡、阿西拉、纽赫、克瓦夏、杜沙、斯涅若克。儿童记忆游戏。" name="description"/>
+<meta content="TUBETU角色记忆翻牌" property="og:title"/>
+<meta content="https://tubetu.com/assets/komanda.jpg" property="og:image"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="/games/_common.css" rel="stylesheet"/>
+<style>
+body{background:linear-gradient(180deg,#2E7FE6,#8FD3FF 60%,#FFE3F1)}
+.diff{display:flex;gap:8px;justify-content:center;margin:0 0 12px;flex-wrap:wrap}
+.diff button{border:0;border-radius:999px;padding:8px 16px;font:900 15px Nunito,sans-serif;background:#fff;cursor:pointer}
+.diff button.on{background:#0B1240;color:#fff}
+.deck{display:grid;gap:10px;max-width:620px;margin:0 auto;perspective:900px}
+.cardm{aspect-ratio:3/4;position:relative;cursor:pointer;touch-action:manipulation}
+.cardm .in{position:absolute;inset:0;transition:transform .45s;transform-style:preserve-3d}
+.cardm.open .in,.cardm.done .in{transform:rotateY(180deg)}
+.cardm .f,.cardm .b{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 6px 0 rgba(11,18,64,.2),0 8px 18px rgba(11,18,64,.2);overflow:hidden}
+.cardm .f{background:linear-gradient(145deg,#FFB347,#FF6FB5 50%,#7B5CFF);display:flex;align-items:center;justify-content:center}
+.cardm .f img{width:86%;opacity:.95;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
+.cardm .b{background:#fff;transform:rotateY(180deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.cardm .b img{width:78%;aspect-ratio:1;object-fit:cover;border-radius:50%}
+.cardm .b span{font-weight:900;font-size:clamp(10px,2.6vw,15px);color:#0B1240}
+.cardm.done .b{box-shadow:0 0 0 4px #8BD62A,0 8px 18px rgba(11,18,64,.2)}
+.cardm.shake .in{animation:sh .35s}
+@keyframes sh{25%{transform:rotateY(180deg) translateX(-6px)}75%{transform:rotateY(180deg) translateX(6px)}}
+.lead{text-align:center;font-weight:800;color:#0B1240;margin:12px 0 0}
+</style>
+</head>
+<body>
+<header class="top"><a href="/zh/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>记忆翻牌</h1><div class="sp"></div><a href="/zh/igry/">⭐ 全部游戏</a></header>
+<div class="wrap">
+<div class="diff" id="diff"><button class="on" data-n="3">宝宝 6张</button><button data-n="6">简单 12</button><button data-n="8">中等 16</button><button data-n="10">困难 20</button></div>
+<div class="pills"><span class="pill">🃏 步数： <b id="moves">0</b></span><span class="pill">⭐ 配对： <b id="pairs">0</b></span><span class="pill">🏆 <b id="best">—</b></span></div>
+<div class="deck" id="deck"></div>
+<p class="lead">翻开两张卡片。相同的角色就是一对！找出所有配对。</p>
+<div class="more"></div>
+</div>
+<div class="win" id="win"><div class="card"><h2>全部配对！🎉</h2><p id="wt" style="font-weight:800"></p><button class="btn" id="again">再来</button></div></div>
+<canvas id="conf"></canvas>
+<script src="/games/_common.js"></script>
+<script>
+(function(){
+var H=[['lisko','利斯科'],['dobrik','多布里克'],['vionka','维翁卡'],['asila','阿西拉'],['nyukh','纽赫'],['kvasya','克瓦夏'],['dyusha','杜沙'],['snezhok','斯涅若克'],['ukh','乌赫'],['skupshchik','斯库普希克']];
+function src(id){return id==='ukh'?'/assets/ukh-face.png':id==='skupshchik'?'/games/img/full-skupshchik.webp':'/games/img/'+id+'.png';}
+var $=function(i){return document.getElementById(i);},n=3,open=[],lock=false,moves=0,pairs=0;
+document.querySelectorAll('#diff button').forEach(function(b){b.onclick=function(){n=+b.dataset.n;document.querySelectorAll('#diff button').forEach(function(x){x.classList.toggle('on',x===b);});deal();};});
+function deal(){$('win').classList.remove('on');moves=0;pairs=0;open=[];lock=false;$('moves').textContent=0;$('pairs').textContent='0/'+n;var b=TG.get('mem_'+n,null);$('best').textContent=b?b:'—';
+ var pick=H.slice().sort(function(){return Math.random()-.5;}).slice(0,n),cards=pick.concat(pick).sort(function(){return Math.random()-.5;});
+ var cols=n<=3?3:n<=6?4:n<=8?4:5;$('deck').style.gridTemplateColumns='repeat('+cols+',1fr)';$('deck').style.maxWidth=(cols*120)+'px';
+ $('deck').innerHTML='';cards.forEach(function(h){var c=document.createElement('div');c.className='cardm';c.dataset.id=h[0];
+  c.innerHTML='<div class="in"><div class="f"><img src="/assets/logo.png" alt=""></div><div class="b"><img src="'+src(h[0])+'" alt=""'+(h[0]==='skupshchik'?' style="object-position:50% 0"':'')+'><span>'+h[1]+'</span></div></div>';
+  c.addEventListener('click',function(){flip(c);});$('deck').appendChild(c);});}
+function flip(c){if(lock||c.classList.contains('open')||c.classList.contains('done'))return;c.classList.add('open');open.push(c);TG.tone(520+open.length*120,.08,.08);
+ if(open.length===2){moves++;$('moves').textContent=moves;var a=open[0],b=open[1];
+  if(a.dataset.id===b.dataset.id){setTimeout(function(){a.classList.add('done');b.classList.add('done');a.classList.remove('open');b.classList.remove('open');pairs++;$('pairs').textContent=pairs+'/'+n;TG.tone(784,.12,.12);TG.tone(1175,.18,.1,'triangle',.08);if(pairs===n)win();},350);open=[];}
+  else{lock=true;setTimeout(function(){a.classList.add('shake');b.classList.add('shake');},450);setTimeout(function(){a.classList.remove('open','shake');b.classList.remove('open','shake');open=[];lock=false;},1050);}}}
+function win(){var k='mem_'+n,b=TG.get(k,null),nb=!b||moves<b;if(nb){TG.set(k,moves);$('best').textContent=moves;}
+ setTimeout(function(){TG.win();$('wt').textContent='步数：'+moves+(nb?' · 新纪录！':'');$('win').classList.add('on');},400);}
+$('again').onclick=deal;deal();
+window.__mm={state:function(){return {moves:moves,pairs:pairs,n:n};},cards:function(){return [].map.call(document.querySelectorAll('.cardm'),function(c){return c.dataset.id;});},flipAt:function(i){flip(document.querySelectorAll('.cardm')[i]);}};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

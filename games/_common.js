@@ -5,3 +5,23 @@ window.TG={
  get:function(k,d){try{var v=localStorage.getItem('tubetu_'+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
  set:function(k,v){try{localStorage.setItem('tubetu_'+k,JSON.stringify(v));}catch(e){}}
 };
+/* Общий список игр TUBETU — сам подставляется в блок .more на каждой игре */
+(function(){
+ var m=location.pathname.match(/^\/([a-z]{2})\//),L=(m&&['kz','en','tr','zh','es','hi','sw','pt','ar'].indexOf(m[1])>=0)?m[1]:'ru',pre=L==='ru'?'':'/'+L;
+ var N={
+  ru:['Спасатели','Строим Скалу','Поймай Уха','Мемори','Нюх и пицца','Асила-оркестр','Пазл','Найди отличия','Раскраска','Все игры'],
+  kz:['Құтқарушылар','Жартасты саламыз','Ухты ұста','Мемори','Нюх пен пицца','Асила-оркестр','Пазл','Айырмашылықты тап','Бояу','Барлық ойындар'],
+  en:['Rescuers','Build the Rock','Catch Ukh','Memory','Nyukh & Pizza','Asila Orchestra','Puzzle','Spot the Difference','Coloring','All games'],
+  tr:['Kurtarıcılar','Kayayı İnşa Et','Ukh\'u Yakala','Hafıza','Nyukh ve Pizza','Asila Orkestrası','Yapboz','Farkı Bul','Boyama','Tüm oyunlar'],
+  zh:['救援队','建造宝藏岩','抓住乌赫','记忆翻牌','纽赫找披萨','阿西拉乐队','拼图','找不同','涂色','全部游戏'],
+  es:['Rescatadores','Construye la Roca','Atrapa a Ukh','Memoria','Nyukh y la pizza','Orquesta de Asila','Rompecabezas','Encuentra las diferencias','Colorear','Todos los juegos'],
+  hi:['बचाव दल','चट्टान बनाओ','उख को पकड़ो','मेमोरी','न्यूख और पिज़्ज़ा','असीला ऑर्केस्ट्रा','पज़ल','अंतर ढूँढो','रंग भरो','सभी गेम'],
+  sw:['Waokoaji','Jenga Mwamba','Mkamate Ukh','Kumbukumbu','Nyukh na Pizza','Okestra ya Asila','Fumbo','Tafuta tofauti','Kupaka rangi','Michezo yote'],
+  pt:['Resgatadores','Construa a Rocha','Pegue o Ukh','Memória','Nyukh e a pizza','Orquestra da Asila','Quebra-cabeça','Jogo dos erros','Colorir','Todos os jogos'],
+  ar:['فريق الإنقاذ','ابنِ الصخرة','امسك أوخ','الذاكرة','نيوخ والبيتزا','أوركسترا أسيلا','أحجية','أوجد الفرق','تلوين','كل الألعاب']}[L];
+ var G=[['/games/','🎮'],['/games/stroim/','🧱'],['/games/ukh/','🦉'],['/games/memori/','🃏'],['/games/pizza/','🍕'],['/games/orkestr/','🎵'],['/games/pazl/','🧩'],['/games/otlichiya/','🔍'],['/raskraska/','🖍']];
+ window.TG_GAMES=G.map(function(g,i){return {url:pre+g[0],ico:g[1],name:N[i]};});window.TG_ALL={url:pre+'/igry/',name:N[9]};
+ function fill(){var here=location.pathname.replace(/^\/[a-z]{2}\//,'/');document.querySelectorAll('.more').forEach(function(el){
+  el.innerHTML=G.map(function(g,i){return g[0]===here?'':'<a href="'+pre+g[0]+'">'+g[1]+' '+N[i]+'</a>';}).join('')+'<a href="'+pre+'/igry/" style="background:#FFC72C">⭐ '+N[9]+'</a>';});}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fill);else fill();
+})();

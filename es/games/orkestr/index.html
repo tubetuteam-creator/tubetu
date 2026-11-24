@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
+<title>Orquesta de Asila — juego musical de TUBETU</title>
+<meta content="Toca a los héroes de TUBETU: ¡cada uno canta su nota! Inventa una canción, grábala o repite la melodía de Asila. Juego musical para niños." name="description"/>
+<meta content="Orquesta de Asila — juego musical de TUBETU" property="og:title"/>
+<meta content="https://tubetu.com/assets/asila.jpg" property="og:image"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="/games/_common.css" rel="stylesheet"/>
+<style>
+body{background:radial-gradient(circle at 50% 0,#FF8FD2,#8E3BF5 55%,#2A1B6E)}
+.modes{display:flex;gap:8px;justify-content:center;margin:0 0 14px;flex-wrap:wrap}
+.modes button{border:0;border-radius:999px;padding:9px 16px;font:900 15px Nunito,sans-serif;background:#ffffffd9;cursor:pointer}
+.modes button.on{background:#FFC72C}
+.stage{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:620px;margin:0 auto}
+.key{position:relative;border:0;padding:0;border-radius:24px;aspect-ratio:1/1.15;cursor:pointer;touch-action:manipulation;box-shadow:0 7px 0 rgba(0,0,0,.25);transition:transform .08s,box-shadow .08s,filter .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:900 14px Nunito,sans-serif;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.key img{width:70%;aspect-ratio:1;object-fit:cover;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.6)}
+.key.hit{transform:translateY(5px) scale(.97);box-shadow:0 2px 0 rgba(0,0,0,.25);filter:brightness(1.25)}
+.key.hint{animation:glow .5s}
+.key .note{position:absolute;top:6px;right:10px;font-size:16px;opacity:.85}
+@keyframes glow{50%{transform:scale(1.08);filter:brightness(1.5) drop-shadow(0 0 14px #fff)}}
+.bar[hidden]{display:none!important}.bar{display:flex;gap:8px;justify-content:center;margin:16px 0 0;flex-wrap:wrap}
+.msg{text-align:center;color:#fff;font-weight:900;font-size:20px;min-height:30px;margin:0 0 10px;text-shadow:0 2px 6px rgba(0,0,0,.3)}
+.notes{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:3}
+.notes span{position:absolute;font-size:28px;animation:fly 1.4s ease-out forwards}
+@keyframes fly{to{transform:translateY(-180px) rotate(25deg);opacity:0}}
+@media(max-width:520px){.stage{gap:9px}.key{font-size:12px;border-radius:20px}}
+</style>
+</head>
+<body>
+<header class="top"><a href="/es/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>Orquesta de Asila</h1><div class="sp"></div><a href="/es/igry/">⭐ Todos los juegos</a></header>
+<div class="wrap">
+<div class="modes" id="modes"><button class="on" data-m="free">🎹 Toca tú</button><button data-m="simon">🎤 Repite como Asila</button><button data-m="song">🎶 Canciones</button></div>
+<p class="msg" id="msg">Toca a los héroes: ¡cada uno canta su nota!</p>
+<div class="stage" id="stage"></div>
+<div class="bar" id="barFree"><button class="btn alt" id="rec">⏺ Grabar</button><button class="btn alt" disabled="" id="play">▶ Escuchar</button></div>
+<div class="bar" hidden="" id="barSimon"><button class="btn" id="startS">▶ Empezar</button></div>
+<div class="bar" hidden="" id="barSong"></div>
+<div class="more"></div>
+</div>
+<div class="notes" id="notes"></div>
+<div class="win" id="win"><div class="card"><h2 id="wt">¡Bravo! 🎉</h2><p id="wp" style="font-weight:800"></p><button class="btn" id="again">Otra vez</button></div></div>
+<canvas id="conf"></canvas>
+<script src="/games/_common.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i);};
+// 8 героев = 8 нот (до-мажор), у каждого свой «голос»
+var K=[['asila','Asila','#FF3FA4',523.25,'sine','Do'],['lisko','Lisko','#FF8A1F',587.33,'triangle','Re'],['dobrik','Dobrik','#4CC23A',659.25,'square','Mi'],['vionka','Vionka','#8E3BF5',698.46,'sine','Fa'],
+ ['dyusha','Dyusha','#2EA8FF',783.99,'triangle','Sol'],['nyukh','Nyukh','#C9822E',880,'sawtooth','La'],['kvasya','Kvasya','#7BC43A',987.77,'triangle','Si'],['snezhok','Snezhok','#5C6B8A',1046.5,'sine','Do']];
+var REC='⏺ Grabar',STOP='⏹ Parar';
+var ac=null;function ctx(){ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();return ac;}
+function sing(i,dur){var a=ctx(),t=a.currentTime,k=K[i],o=a.createOscillator(),o2=a.createOscillator(),g=a.createGain(),f=a.createBiquadFilter();
+ o.type=k[4];o.frequency.value=k[3];o2.type='sine';o2.frequency.value=k[3]*2;var g2=a.createGain();g2.gain.value=.25;
+ f.type='lowpass';f.frequency.value=k[4]==='square'||k[4]==='sawtooth'?1800:5000;
+ var d=dur||.5;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.25,t+.02);g.gain.exponentialRampToValueAtTime(.12,t+.15);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+ // лёгкое вибрато — «поёт»
+ var lfo=a.createOscillator(),lg=a.createGain();lfo.frequency.value=6;lg.gain.value=k[3]*.012;lfo.connect(lg);lg.connect(o.frequency);
+ o.connect(f);o2.connect(g2);g2.connect(f);f.connect(g);g.connect(a.destination);[o,o2,lfo].forEach(function(x){x.start(t);x.stop(t+d+.05);});}
+var keys=[];
+K.forEach(function(k,i){var b=document.createElement('button');b.className='key';b.style.background='linear-gradient(160deg,'+k[2]+','+shade(k[2])+')';
+ b.innerHTML='<span class="note">♪</span><img src="/games/img/'+k[0]+'.png" alt="">'+k[1];b.addEventListener('pointerdown',function(e){e.preventDefault();press(i,true);});$('stage').appendChild(b);keys.push(b);});
+function shade(h){var n=parseInt(h.slice(1),16),r=(n>>16)*.6|0,g=((n>>8)&255)*.6|0,bl=(n&255)*.6|0;return 'rgb('+r+','+g+','+bl+')';}
+function flash(i,cls){var b=keys[i];b.classList.remove(cls);void b.offsetWidth;b.classList.add(cls);setTimeout(function(){b.classList.remove(cls);},cls==='hit'?160:520);}
+function noteFx(i){var r=keys[i].getBoundingClientRect(),s=document.createElement('span');s.textContent=['🎵','🎶','♪','⭐','💖'][(Math.random()*5)|0];s.style.left=(r.left+r.width/2-14)+'px';s.style.top=(r.top)+'px';$('notes').appendChild(s);setTimeout(function(){s.remove();},1400);}
+var mode='free',recording=false,recT0=0,tape=TG.get('orkestr_tape',[]),seq=[],pos=0,busy=false,level=0;
+if(tape.length)$('play').disabled=false;
+function press(i,user){sing(i);flash(i,'hit');noteFx(i);
+ if(!user)return;
+ if(recording){tape.push([i,performance.now()-recT0]);}
+ if(mode==='simon'&&!busy&&seq.length){if(i===seq[pos]){pos++;if(pos===seq.length){busy=true;$('msg').textContent='👏 ¡Correcto!';setTimeout(nextRound,900);}}
+   else{busy=true;TG.tone(160,.35,.12,'square');$('msg').textContent='¡Uy! Inténtalo otra vez 🙂';setTimeout(function(){pos=0;playSeq(seq);},1100);}}}
+document.querySelectorAll('#modes button').forEach(function(b){b.onclick=function(){mode=b.dataset.m;document.querySelectorAll('#modes button').forEach(function(x){x.classList.toggle('on',x===b);});stopAll();
+ $('barFree').hidden=mode!=='free';$('barSimon').hidden=mode!=='simon';$('barSong').hidden=mode!=='song';$('rec').textContent=REC;
+ if(mode==='free'){$('msg').textContent='Toca a los héroes: ¡cada uno canta su nota!';$('play').disabled=!tape.length;}
+ if(mode==='simon'){level=0;seq=[];$('msg').textContent='Asila canta, ¡tú repites!';}
+ if(mode==='song'){$('msg').textContent='Toca una canción: ¡los héroes la cantarán!';}};});
+$('startS').onclick=function(){stopAll();level=0;seq=[];nextRound();};
+function nextRound(){level++;seq.push((Math.random()*8)|0);pos=0;$('msg').textContent='🎤 Nivel '+level+': escucha…';
+ if(level>1&&(level-1)%5===0){TG.win();}
+ var b=TG.get('orkestr_best',0);if(level-1>b)TG.set('orkestr_best',level-1);playSeq(seq);}
+var timers=[];function stopAll(){timers.forEach(clearTimeout);timers=[];busy=false;recording=false;}
+function playSeq(s){busy=true;var gap=Math.max(330,700-level*25);s.forEach(function(n,j){timers.push(setTimeout(function(){press(n,false);flash(n,'hint');},500+j*gap));});
+ timers.push(setTimeout(function(){busy=false;$('msg').textContent='¡Tu turno! 👆 ('+s.length+')';},500+s.length*gap));}
+// песенки: [нота, длительность в долях]
+var SONGS=[['🎄 En el bosque nació un abeto',[[0,1],[5,1],[5,1],[4,1],[5,1],[3,1],[0,1],[0,1],[0,1],[5,1],[5,1],[6,1],[4,1],[7,3]]],
+ ['⭐ Estrellita',[[0,1],[0,1],[4,1],[4,1],[5,1],[5,1],[4,2],[3,1],[3,1],[2,1],[2,1],[1,1],[1,1],[0,2]]],
+ ['🎂 Cumpleaños feliz',[[0,.75],[0,.25],[1,1],[0,1],[3,1],[2,2],[0,.75],[0,.25],[1,1],[0,1],[4,1],[3,2]]],
+ ['🎵 ¡Tubetu!',[[4,.5],[5,.5],[4,1],[4,.5],[5,.5],[4,1],[2,.5],[3,.5],[4,.5],[5,.5],[7,2]]]];
+SONGS.forEach(function(sg,j){var x=document.createElement('button');x.className='btn alt';x.textContent=sg[0];x.onclick=function(){playSong(sg[1]);};$('barSong').appendChild(x);});
+function playSong(s){stopAll();var t=200,beat=380;s.forEach(function(n){timers.push(setTimeout(function(){sing(n[0],Math.max(.3,n[1]*beat/1000));flash(n[0],'hit');noteFx(n[0]);},t));t+=n[1]*beat;});}
+function bindRec(){$('rec').onclick=function(){if(!recording){tape=[];recording=true;recT0=performance.now();$('rec').textContent=STOP;$('msg').textContent='🔴 Toca, ¡estoy grabando!';}
+ else{recording=false;$('rec').textContent=REC;TG.set('orkestr_tape',tape);$('play').disabled=!tape.length;$('msg').textContent=tape.length?'¡Listo! Toca «Escuchar» 🎧':'Toca a los héroes mientras grabas';}};
+ $('play').onclick=function(){if(!tape.length)return;stopAll();$('rec').textContent=REC;tape.forEach(function(n){timers.push(setTimeout(function(){sing(n[0]);flash(n[0],'hit');noteFx(n[0]);},n[1]));});};}
+bindRec();
+addEventListener('keydown',function(e){var i='asdfghjk'.indexOf(e.key.toLowerCase());if(i<0)i='12345678'.indexOf(e.key);if(i>=0)press(i,true);});
+$('again').onclick=function(){$('win').classList.remove('on');};
+window.__or={press:press,state:function(){return {mode:mode,level:level,seq:seq.slice(),pos:pos,busy:busy};}};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

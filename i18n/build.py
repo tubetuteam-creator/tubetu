@@ -3,7 +3,7 @@ from common import *
 LANGS={'kz':('kk','kk-KZ'),'en':('en','en-US'),'tr':('tr','tr-TR'),'zh':('zh','zh-CN'),'es':('es','es-ES'),'hi':('hi','hi-IN'),'sw':('sw','sw-KE'),'pt':('pt','pt-BR'),'ar':('ar','ar-SA')}
 STR=json.load(open(os.path.join(ROOT,'i18n','strings.json')))
 BYRU={x['ru']:x['id'] for x in STR}
-LOCAL=r'(?:geroi/|seriya-1/|dver/|games/(?!img/|_common)|raskraska/(?!img/)|pozdravlenie/|risunki/|platform\.html|#)'
+LOCAL=r'(?:igry/|geroi/|seriya-1/|dver/|games/(?!img/|_common)|raskraska/(?!img/)|pozdravlenie/|risunki/|platform\.html|#)'
 def jsesc(t,q):return t.replace('\\','\\\\').replace(q,'\\'+q).replace('\n','\\n')
 def build(L):
     hl,speech=LANGS[L]
@@ -55,7 +55,7 @@ def build(L):
         out=re.sub(r'(<meta content="https://tubetu\.com/)(?!assets)([^"]*)(" property="og:url")',r'\g<1>'+L+r'/\2\3',out)
         out=out.replace("rec.lang='ru-RU'","rec.lang='"+speech+"'")
         if p=='games/index.html':out=out.replace("'img/","'/games/img/").replace('"img/','"/games/img/')
-        if p.startswith('games/pazl') or p.startswith('games/otlichiya') or p.startswith('games/stroim'):out=out.replace('../_common','/games/_common')
+        if p.startswith('games/pazl') or p.startswith('games/otlichiya') or p.startswith('games/stroim') or p.startswith('games/ukh') or p.startswith('games/memori') or p.startswith('games/pizza') or p.startswith('games/orkestr'):out=out.replace('../_common','/games/_common')
         if p=='raskraska/index.html':out=out.replace("'img/","'/raskraska/img/").replace('"img/','"/raskraska/img/')
         dst=os.path.join(ROOT,L,p);os.makedirs(os.path.dirname(dst),exist_ok=True)
         open(dst,'w').write(out)

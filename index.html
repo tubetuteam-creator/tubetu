@@ -196,6 +196,7 @@ footer img{height:40px;width:auto}
 footer a{color:#fff}
 
 .kids{padding:18px 0 0}
+.kshare{border:0;cursor:pointer;font:900 18px Nunito,sans-serif;padding:13px 26px;border-radius:999px;color:#3a2300;background:linear-gradient(180deg,#FFD23F,#FF9F1C);box-shadow:0 5px 0 #B86E00}
 .kgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
 .kt{position:relative;display:block;border-radius:24px;overflow:hidden;aspect-ratio:1/1.05;text-decoration:none;color:#fff;box-shadow:0 8px 0 rgba(11,18,64,.18),0 12px 24px rgba(11,18,64,.18);transition:transform .15s}
 .kt:active{transform:scale(.94)}.kt:hover{transform:translateY(-4px) rotate(-1deg)}
@@ -224,7 +225,7 @@ footer a{color:#fff}
       <li><a href="#smotret">Смотреть</a></li>
       <li><a href="#roditelyam">Родителям</a></li>
       <li><a href="#podderzhat">Поддержать</a></li>
-      <li><a href="/games/">Игры</a></li>
+      <li><a href="/igry/">Игры</a></li>
       <li><a href="/platform.html" class="login">Вход</a></li>
     </ul>
     <a class="yt" href="https://www.youtube.com/@tubetuapp" target="_blank" rel="noopener">▶ YouTube</a>
@@ -247,12 +248,13 @@ footer a{color:#fff}
 <section class="kids" aria-label="Для детей">
   <div class="wrap kgrid">
     <a class="kt" href="/seriya-1/"><img src="/assets/zastavka-poster.jpg" alt="" loading="lazy"><span class="ki"><b>▶️</b>Смотреть</span></a>
-    <a class="kt" href="/games/"><img src="/assets/komanda.jpg" alt="" loading="lazy"><span class="ki"><b>🎮</b>Игры</span></a>
+    <a class="kt" href="/igry/"><img src="/assets/komanda.jpg" alt="" loading="lazy"><span class="ki"><b>🎮</b>Игры</span></a>
     <a class="kt" href="/raskraska/"><img src="/assets/col-asila.jpg" alt="" loading="lazy" style="background:#fff"><span class="ki"><b>🖍</b>Раскраска</span></a>
     <a class="kt" href="/geroi/"><img src="/assets/art-lisko.jpg" alt="" loading="lazy"><span class="ki"><b>⭐</b>Герои</span></a>
     <a class="kt ukh" href="/dver/"><img src="/assets/ukh-face.png" alt="" loading="lazy"><span class="ki"><b>🔑</b>Дверь Уха</span></a>
     <a class="kt" href="/pozdravlenie/"><img src="/assets/kvasya-tanets.jpg" alt="" loading="lazy"><span class="ki"><b>🎂</b>Открытка</span></a>
   </div>
+  <div class="wrap" style="text-align:center;margin-top:14px"><button type="button" class="kshare" onclick="var b=document.querySelector('.tb-share');if(b)b.click();">📤 Поделиться с друзьями</button></div>
 </section>
 
 <section style="padding:22px 0 0">
@@ -535,7 +537,7 @@ footer a{color:#fff}
   <div class="wrap">
     <div class="games">
       <div><h2>Игры TUBETU</h2><p>Лети над горами, собирай кристаллы, лопай пузыри с друзьями и уворачивайся от мешков Скупщика!</p></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn main" href="/games/">🎮 Спасатели</a><a class="btn main" href="/games/stroim/">🧱 Строим Скалу</a><a class="btn main" href="/games/pazl/">🧩 Пазл</a><a class="btn main" href="/games/otlichiya/">🔍 Найди отличия</a><a class="btn main" href="/raskraska/">🖌 Раскраска</a></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn main" href="/games/">🎮 Спасатели</a><a class="btn main" href="/igry/">⭐ Все игры</a><a class="btn main" href="/games/stroim/">🧱 Строим Скалу</a><a class="btn main" href="/games/ukh/">🦉 Поймай Уха</a><a class="btn main" href="/games/memori/">🃏 Мемори</a><a class="btn main" href="/games/pizza/">🍕 Нюх ищет пиццу</a><a class="btn main" href="/games/orkestr/">🎵 Асила-оркестр</a><a class="btn main" href="/games/pazl/">🧩 Пазл</a><a class="btn main" href="/games/otlichiya/">🔍 Найди отличия</a><a class="btn main" href="/raskraska/">🖌 Раскраска</a></div>
     </div>
   </div>
 </section>

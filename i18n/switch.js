@@ -21,8 +21,10 @@ var css='.tb-acts{display:flex;gap:6px;align-items:center;font-family:Nunito,sys
 '.tb-acts.float{position:fixed;top:10px;right:10px;z-index:9999}html[dir=rtl] .tb-acts.float{right:auto;left:10px}'+
 '.tb-acts>button,.tb-lang>button{border:0;cursor:pointer;background:rgba(255,255,255,.16);color:#fff;font:900 13px Nunito,system-ui,sans-serif;height:36px;min-width:36px;padding:0 10px;border-radius:999px;display:flex;align-items:center;gap:5px;white-space:nowrap}'+
 '.tb-acts.float>button,.tb-acts.float .tb-lang>button,.tb-acts.light>button,.tb-acts.light .tb-lang>button{background:rgba(11,18,64,.82);box-shadow:0 4px 14px rgba(0,0,0,.25);backdrop-filter:blur(8px)}'+
-'.tb-acts .lbl{display:inline}header.top a{white-space:nowrap}@media(max-width:520px){header.top,header.top .w{gap:6px!important;min-width:0}header.top h1{display:none}header.top .sp{flex:1 1 0;min-width:0}header.top a:not(:first-child),header.top .w>a:not(:first-child){font-size:13px!important;padding:6px 9px!important;max-width:28vw;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}header.top img{max-width:84px;object-fit:contain}}'+
-'@media(max-width:520px){.tb-acts .lbl{display:none}.tb-acts>button,.tb-lang>button{padding:0 9px}}'+
+'@media(max-width:440px){.tb-lang .lc{display:none}.tb-acts{gap:4px}.tb-acts>button,.tb-lang>button{padding:0 8px!important;min-width:34px;height:34px}nav.nav .logo img{height:30px!important;width:auto}nav.nav .wrap{gap:6px}.tb-acts .tb-share .lbl{font-size:12px}}'+
+'@media(max-width:350px){.tb-acts .tb-share .lbl{display:none}header.top a:not(:first-child){max-width:22vw!important}}'+
+'.tb-acts .tb-share{background:linear-gradient(180deg,#FFD23F,#FF9F1C)!important;color:#3a2300!important;box-shadow:0 3px 0 #B86E00!important}.tb-acts .lbl{display:inline}header.top a{white-space:nowrap}@media(max-width:520px){header.top,header.top .w{gap:6px!important;min-width:0}header.top h1{display:none}header.top .sp{flex:1 1 0;min-width:0}header.top a:not(:first-child),header.top .w>a:not(:first-child){font-size:13px!important;padding:6px 9px!important;max-width:28vw;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}header.top img{max-width:84px;object-fit:contain}}'+
+'@media(max-width:520px){.tb-acts .tb-inst .lbl{display:none}.tb-lang>button{font-size:12px}.tb-acts>button,.tb-lang>button{padding:0 9px}}'+
 '.tb-lang{position:relative}.tb-lang ul{position:absolute;right:0;top:42px;margin:0;padding:6px;list-style:none;background:#fff;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.3);display:none;min-width:160px;max-height:70vh;overflow:auto;z-index:10000}'+
 'html[dir=rtl] .tb-lang ul{right:auto;left:0}.tb-lang.open ul{display:block}.tb-lang a{display:block;padding:9px 12px;border-radius:10px;color:#0B1240;text-decoration:none;font-weight:800;font-size:15px}.tb-lang a:hover,.tb-lang a.on{background:#EEF2FF}'+
 '.tb-toast{position:fixed;left:50%;top:70px;transform:translateX(-50%);background:#0B1240;color:#fff;font:900 15px Nunito,system-ui,sans-serif;padding:10px 18px;border-radius:999px;z-index:10001;box-shadow:0 10px 30px rgba(0,0,0,.3)}'+
@@ -41,7 +43,7 @@ var box=document.createElement('div');box.className='tb-acts';
 var mobile=/Android|iPhone|iPad|iPod/.test(ua)||(navigator.maxTouchPoints>1&&innerWidth<1100);
 box.innerHTML='<button type="button" class="tb-share" aria-label="'+T.share+'">📤<span class="lbl">'+T.share+'</span></button>'+
  (!standalone&&mobile?'<button type="button" class="tb-inst" aria-label="'+T.inst+'">📲<span class="lbl">'+T.inst+'</span></button>':'')+
- '<div class="tb-lang"><button type="button" aria-label="Language">🌐 '+cur.toUpperCase()+'</button><ul>'+L.map(function(x){return '<li><a href="'+url(x[0])+'" class="'+(x[0]===cur?'on':'')+'" data-l="'+x[0]+'">'+x[1]+'</a></li>';}).join('')+'</ul></div>';
+ '<div class="tb-lang"><button type="button" aria-label="Language">🌐<span class="lc"> '+cur.toUpperCase()+'</span></button><ul>'+L.map(function(x){return '<li><a href="'+url(x[0])+'" class="'+(x[0]===cur?'on':'')+'" data-l="'+x[0]+'">'+x[1]+'</a></li>';}).join('')+'</ul></div>';
 
 function toast(t){var d=document.createElement('div');d.className='tb-toast';d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove();},2200);}
 box.querySelector('.tb-share').onclick=function(){var u=location.href.split('#')[0],ttl=document.title;

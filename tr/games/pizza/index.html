@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
+<title>Nyukh Pizza Arıyor — TUBETU labirenti</title>
+<meta content="Köpek Nyukh'un labirentte pizzayı bulmasına yardım et! Sihirli burun yolu gösterir. TUBETU çizgi dizisine dayalı çocuk labirent oyunu." name="description"/>
+<meta content="Nyukh Pizza Arıyor — TUBETU labirenti" property="og:title"/>
+<meta content="https://tubetu.com/assets/nyukh.jpg" property="og:image"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="/games/_common.css" rel="stylesheet"/>
+<style>
+body{background:linear-gradient(180deg,#2B7A3D,#7ED957 60%,#E9FFD6);overscroll-behavior:none}
+.stage{max-width:560px;margin:0 auto;position:relative}
+canvas#m{width:100%;display:block;border-radius:22px;box-shadow:0 14px 36px rgba(11,40,20,.4);touch-action:none;background:#3B2A1A}
+.pad{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,56px);gap:8px;justify-content:center;margin:14px auto 0}
+.pad button{border:0;border-radius:18px;background:rgba(255,255,255,.92);font-size:26px;cursor:pointer;box-shadow:0 5px 0 rgba(11,18,64,.2);touch-action:manipulation}
+.pad button:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(11,18,64,.2)}
+.pad .u{grid-column:2}.pad .l{grid-column:1;grid-row:2}.pad .d{grid-column:2;grid-row:2}.pad .r{grid-column:3;grid-row:2}
+.tools{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.lead{text-align:center;font-weight:800;color:#0B1240;margin:12px 0 0}
+</style>
+</head>
+<body>
+<header class="top"><a href="/tr/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>Nyukh Pizza Arıyor</h1><div class="sp"></div><a href="/tr/igry/">⭐ Tüm oyunlar</a></header>
+<div class="wrap">
+<div class="pills"><span class="pill">🍕 Seviye <b id="lvl">1</b></span><span class="pill">👣 <b id="steps">0</b></span><span class="pill">🦴 <b id="bones">0</b></span></div>
+<div class="stage"><canvas id="m"></canvas></div>
+<div class="pad"><button aria-label="Yukarı" class="u" data-d="0,-1">⬆️</button><button aria-label="Sola" class="l" data-d="-1,0">⬅️</button><button aria-label="Aşağı" class="d" data-d="0,1">⬇️</button><button aria-label="Sağa" class="r" data-d="1,0">➡️</button></div>
+<div class="tools"><button class="btn alt" id="nose">👃 Sihirli burun</button><button class="btn alt" id="reset">🔀 Başka labirent</button></div>
+<p class="lead">Nyukh'u pizzaya götür: düğmelerle, ok tuşlarıyla ya da parmağını labirentte kaydırarak. Kemikleri topla!</p>
+<div class="more"></div>
+</div>
+<div class="win" id="win"><div class="card"><h2>Nefis! Pizza bulundu! 🍕</h2><p id="wt" style="font-weight:800"></p><button class="btn" id="next">Sonraki seviye ▶</button></div></div>
+<canvas id="conf"></canvas>
+<script src="/games/_common.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i);},cv=$('m'),cx=cv.getContext('2d'),DPR=Math.min(2,devicePixelRatio||1);
+var lvl=TG.get('pizza_lvl',1),C,R,walls,P,goal,bones,steps=0,glow=0,path=null,anim={x:0,y:0},face=1,won=false,nyukh=new Image();nyukh.src='/games/img/nyukh.png';
+function size(){var w=cv.clientWidth;cv.width=w*DPR;cv.height=w*DPR*(R/C);cv.style.height=(w*R/C)+'px';}
+function gen(){won=false;C=Math.min(5+lvl*2,17);R=C;steps=0;glow=0;path=null;$('lvl').textContent=lvl;$('steps').textContent=0;
+ walls=[];for(var i=0;i<C*R;i++)walls.push([1,1,1,1]); // top,right,bottom,left
+ var seen=new Uint8Array(C*R),st=[0];seen[0]=1;var D=[[0,-1,0,2],[1,0,1,3],[0,1,2,0],[-1,0,3,1]];
+ while(st.length){var c=st[st.length-1],x=c%C,y=(c/C)|0,nb=[];D.forEach(function(d){var nx=x+d[0],ny=y+d[1];if(nx>=0&&ny>=0&&nx<C&&ny<R&&!seen[ny*C+nx])nb.push([ny*C+nx,d]);});
+  if(!nb.length){st.pop();continue;}var k=nb[(Math.random()*nb.length)|0];walls[c][k[1][2]]=0;walls[k[0]][k[1][3]]=0;seen[k[0]]=1;st.push(k[0]);}
+ // немного лишних проходов — проще для малышей
+ for(var e=0;e<C;e++){var cc=(Math.random()*C*R)|0,xx=cc%C;if(xx<C-1){walls[cc][1]=0;walls[cc+1][3]=0;}}
+ P={x:0,y:0};anim={x:0,y:0};goal={x:C-1,y:R-1};bones=[];var bn=Math.floor(C/2);while(bones.length<bn){var b={x:(Math.random()*C)|0,y:(Math.random()*R)|0};if((b.x||b.y)&&!(b.x===goal.x&&b.y===goal.y)&&!bones.some(function(q){return q.x===b.x&&q.y===b.y;}))bones.push(b);}
+ size();}
+function can(x,y,dx,dy){var w=walls[y*C+x];return !(dy<0&&w[0]||dx>0&&w[1]||dy>0&&w[2]||dx<0&&w[3]);}
+function move(dx,dy){if(won)return;if(!can(P.x,P.y,dx,dy)){TG.tone(160,.06,.06,'square');return;}P.x+=dx;P.y+=dy;if(dx)face=dx;steps++;$('steps').textContent=steps;TG.tone(420+((steps%4)*40),.05,.05,'sine');
+ for(var i=bones.length-1;i>=0;i--)if(bones[i].x===P.x&&bones[i].y===P.y){bones.splice(i,1);var tb=TG.get('pizza_bones',0)+1;TG.set('pizza_bones',tb);$('bones').textContent=tb;TG.tone(988,.1,.1);TG.tone(1319,.12,.08,'triangle',.06);}
+ if(P.x===goal.x&&P.y===goal.y){won=true;setTimeout(function(){TG.win();$('wt').textContent='Seviye '+lvl+' · Adım: '+steps;$('win').classList.add('on');},350);}}
+function solve(){var prev=new Int32Array(C*R).fill(-1),q=[P.y*C+P.x],seen=new Uint8Array(C*R);seen[q[0]]=1;
+ while(q.length){var c=q.shift(),x=c%C,y=(c/C)|0;if(x===goal.x&&y===goal.y)break;[[0,-1],[1,0],[0,1],[-1,0]].forEach(function(d){if(can(x,y,d[0],d[1])){var n=(y+d[1])*C+x+d[0];if(!seen[n]){seen[n]=1;prev[n]=c;q.push(n);}}});}
+ var p=[],c2=goal.y*C+goal.x;while(c2>=0){p.push(c2);c2=prev[c2];}return p.reverse();}
+function draw(){var W=cv.width,H=cv.height,s=W/C;cx.clearRect(0,0,W,H);
+ // трава-пол
+ for(var y=0;y<R;y++)for(var x=0;x<C;x++){cx.fillStyle=(x+y)%2?'#7ED957':'#72CC4C';cx.fillRect(x*s,y*s,s+1,s+1);}
+ if(glow>0&&path){cx.save();cx.globalAlpha=Math.min(1,glow);cx.strokeStyle='#7FE7FF';cx.lineWidth=s*.28;cx.lineCap='round';cx.lineJoin='round';cx.shadowColor='#2EA8FF';cx.shadowBlur=s*.5;cx.beginPath();path.forEach(function(c,i){var px=(c%C+.5)*s,py=(((c/C)|0)+.5)*s;i?cx.lineTo(px,py):cx.moveTo(px,py);});cx.stroke();cx.restore();}
+ // кусты-стены
+ cx.strokeStyle='#2B6B2E';cx.lineWidth=Math.max(4,s*.16);cx.lineCap='round';
+ for(y=0;y<R;y++)for(x=0;x<C;x++){var w=walls[y*C+x],X=x*s,Y=y*s;cx.beginPath();if(w[0]){cx.moveTo(X,Y);cx.lineTo(X+s,Y);}if(w[3]){cx.moveTo(X,Y);cx.lineTo(X,Y+s);}if(x===C-1&&w[1]){cx.moveTo(X+s,Y);cx.lineTo(X+s,Y+s);}if(y===R-1&&w[2]){cx.moveTo(X,Y+s);cx.lineTo(X+s,Y+s);}cx.stroke();}
+ cx.font=(s*.62)+'px serif';cx.textAlign='center';cx.textBaseline='middle';
+ bones.forEach(function(b){cx.fillText('🦴',(b.x+.5)*s,(b.y+.52)*s);});
+ var t=performance.now()/1000;cx.save();cx.translate((goal.x+.5)*s,(goal.y+.5)*s);cx.rotate(Math.sin(t*3)*.12);cx.font=(s*.8)+'px serif';cx.fillText('🍕',0,0);cx.restore();
+ anim.x+=(P.x-anim.x)*.35;anim.y+=(P.y-anim.y)*.35;
+ if(nyukh.complete&&nyukh.naturalWidth){var sz=s*.92;cx.save();cx.translate((anim.x+.5)*s,(anim.y+.5)*s);cx.scale(face,1);cx.beginPath();cx.arc(0,0,sz/2,0,7);cx.fillStyle='#fff';cx.fill();cx.clip();cx.drawImage(nyukh,-sz/2,-sz/2,sz,sz);cx.restore();
+   cx.beginPath();cx.arc((anim.x+.5)*s,(anim.y+.5)*s,s*.46,0,7);cx.strokeStyle='#FF8A1F';cx.lineWidth=3;cx.stroke();}
+ if(glow>0)glow-=.008;requestAnimationFrame(draw);}
+document.querySelectorAll('.pad button').forEach(function(b){var d=b.dataset.d.split(',').map(Number),t=null;b.addEventListener('pointerdown',function(e){e.preventDefault();move(d[0],d[1]);t=setInterval(function(){move(d[0],d[1]);},220);});['pointerup','pointerleave','pointercancel'].forEach(function(ev){b.addEventListener(ev,function(){clearInterval(t);});});});
+addEventListener('keydown',function(e){var m={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0]}[e.key];if(m){e.preventDefault();move(m[0],m[1]);}});
+// провести пальцем — Нюх идёт за пальцем по клеткам
+var drag=false;cv.addEventListener('pointerdown',function(e){drag=true;follow(e);});cv.addEventListener('pointermove',function(e){if(drag)follow(e);});addEventListener('pointerup',function(){drag=false;});
+function follow(e){var r=cv.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)/r.width*C),y=Math.floor((e.clientY-r.top)/r.height*R);var dx=x-P.x,dy=y-P.y;if(Math.abs(dx)+Math.abs(dy)!==1)return;move(dx,dy);}
+$('nose').onclick=function(){path=solve();glow=1.6;TG.tone(660,.1,.1);TG.tone(990,.2,.08,'sine',.1);};
+$('reset').onclick=gen;$('next').onclick=function(){$('win').classList.remove('on');lvl=Math.min(lvl+1,7);TG.set('pizza_lvl',lvl);gen();};
+addEventListener('resize',size);$('bones').textContent=TG.get('pizza_bones',0);
+gen();draw();
+window.__pz={state:function(){return {P:P,goal:goal,won:won,C:C};},solve:function(){return solve();},move:move};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

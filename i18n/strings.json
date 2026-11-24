@@ -110,6 +110,11 @@
   "id": "edb2df"
  },
  {
+  "ru": "📤 Поделиться с друзьями",
+  "page": "index.html",
+  "id": "73b14c"
+ },
+ {
   "ru": "Знаешь пароль Уха?",
   "page": "index.html",
   "id": "6a5fa5"
@@ -865,9 +870,34 @@
   "id": "eb7f92"
  },
  {
+  "ru": "⭐ Все игры",
+  "page": "index.html",
+  "id": "f56f48"
+ },
+ {
   "ru": "🧱 Строим Скалу",
   "page": "index.html",
   "id": "57dfd6"
+ },
+ {
+  "ru": "🦉 Поймай Уха",
+  "page": "index.html",
+  "id": "5fed9c"
+ },
+ {
+  "ru": "🃏 Мемори",
+  "page": "index.html",
+  "id": "ab487f"
+ },
+ {
+  "ru": "🍕 Нюх ищет пиццу",
+  "page": "index.html",
+  "id": "99ba71"
+ },
+ {
+  "ru": "🎵 Асила-оркестр",
+  "page": "index.html",
+  "id": "3ea4b6"
  },
  {
   "ru": "🧩 Пазл",
@@ -3303,6 +3333,371 @@
   "ru": "Прыжок",
   "page": "games/stroim/index.html",
   "id": "46d1b9"
+ },
+ {
+  "ru": "Поймай Уха — игра TUBETU",
+  "page": "games/ukh/index.html",
+  "id": "f4efe2"
+ },
+ {
+  "ru": "Поймай Уха",
+  "page": "games/ukh/index.html",
+  "id": "fc5502"
+ },
+ {
+  "ru": "Ух засыпает на посту! Нажми на него, пока не уснул. Скупщика не трогай!",
+  "page": "games/ukh/index.html",
+  "id": "02c572"
+ },
+ {
+  "ru": "Отлично! 🦉",
+  "page": "games/ukh/index.html",
+  "id": "c4e8c8"
+ },
+ {
+  "ru": "Разбудил Уха:",
+  "page": "games/ukh/index.html",
+  "id": "a848e9"
+ },
+ {
+  "ru": "раз",
+  "page": "games/ukh/index.html",
+  "id": "4171b6"
+ },
+ {
+  "ru": "🏆 Новый рекорд!",
+  "page": "games/ukh/index.html",
+  "id": "68d650"
+ },
+ {
+  "ru": "Совёнок Ух засыпает в окошках Скалы — успей его разбудить! Весёлая игра на скорость для малышей по мультсериалу TUBETU.",
+  "page": "games/ukh/index.html",
+  "id": "58b61c"
+ },
+ {
+  "ru": "Мемори с героями TUBETU — найди пары",
+  "page": "games/memori/index.html",
+  "id": "82402d"
+ },
+ {
+  "ru": "Мемори",
+  "page": "games/memori/index.html",
+  "id": "0b9b31"
+ },
+ {
+  "ru": "Малыш 6 карт",
+  "page": "games/memori/index.html",
+  "id": "a9849f"
+ },
+ {
+  "ru": "Легко 12",
+  "page": "games/memori/index.html",
+  "id": "29d75e"
+ },
+ {
+  "ru": "Средне 16",
+  "page": "games/memori/index.html",
+  "id": "256b32"
+ },
+ {
+  "ru": "Сложно 20",
+  "page": "games/memori/index.html",
+  "id": "a7ab41"
+ },
+ {
+  "ru": "🃏 Ходы:",
+  "page": "games/memori/index.html",
+  "id": "4fbdaa"
+ },
+ {
+  "ru": "⭐ Пары:",
+  "page": "games/memori/index.html",
+  "id": "bb51fe"
+ },
+ {
+  "ru": "Открой две карточки. Одинаковые герои — пара! Найди все пары.",
+  "page": "games/memori/index.html",
+  "id": "145e36"
+ },
+ {
+  "ru": "Все пары! 🎉",
+  "page": "games/memori/index.html",
+  "id": "63809f"
+ },
+ {
+  "ru": "Переворачивай карточки и находи пары героев мультсериала TUBETU: Лиско, Добрик, Вионка, Асила, Нюх, Квася, Дюша, Снежок. Игра на память для детей.",
+  "page": "games/memori/index.html",
+  "id": "5d8c5b"
+ },
+ {
+  "ru": "Мемори с героями TUBETU",
+  "page": "games/memori/index.html",
+  "id": "a7d588"
+ },
+ {
+  "ru": "Нюх ищет пиццу — лабиринт TUBETU",
+  "page": "games/pizza/index.html",
+  "id": "bf7bca"
+ },
+ {
+  "ru": "Нюх ищет пиццу",
+  "page": "games/pizza/index.html",
+  "id": "173cae"
+ },
+ {
+  "ru": "🍕 Уровень",
+  "page": "games/pizza/index.html",
+  "id": "6ac5ed"
+ },
+ {
+  "ru": "👃 Волшебный нос",
+  "page": "games/pizza/index.html",
+  "id": "8d0211"
+ },
+ {
+  "ru": "🔀 Другой лабиринт",
+  "page": "games/pizza/index.html",
+  "id": "e5eaf4"
+ },
+ {
+  "ru": "Веди Нюха к пицце: кнопками, стрелками или проведи пальцем по лабиринту. Собирай косточки!",
+  "page": "games/pizza/index.html",
+  "id": "4637e7"
+ },
+ {
+  "ru": "Ням! Пицца найдена! 🍕",
+  "page": "games/pizza/index.html",
+  "id": "3f1820"
+ },
+ {
+  "ru": "Следующий уровень ▶",
+  "page": "games/pizza/index.html",
+  "id": "839de3"
+ },
+ {
+  "ru": "Уровень ",
+  "page": "games/pizza/index.html",
+  "id": "06d14e"
+ },
+ {
+  "ru": " · Шагов: ",
+  "page": "games/pizza/index.html",
+  "id": "1052ca"
+ },
+ {
+  "ru": "Помоги псу Нюху найти пиццу в лабиринте! Волшебный нос подскажет дорогу. Детская игра-лабиринт по мультсериалу TUBETU.",
+  "page": "games/pizza/index.html",
+  "id": "dd13a1"
+ },
+ {
+  "ru": "Вверх",
+  "page": "games/pizza/index.html",
+  "id": "8b1b24"
+ },
+ {
+  "ru": "Вниз",
+  "page": "games/pizza/index.html",
+  "id": "34b027"
+ },
+ {
+  "ru": "Асила-оркестр — музыкальная игра TUBETU",
+  "page": "games/orkestr/index.html",
+  "id": "52ffff"
+ },
+ {
+  "ru": "Асила-оркестр",
+  "page": "games/orkestr/index.html",
+  "id": "66c9a4"
+ },
+ {
+  "ru": "🎹 Играй сам",
+  "page": "games/orkestr/index.html",
+  "id": "af365f"
+ },
+ {
+  "ru": "🎤 Повтори за Асилой",
+  "page": "games/orkestr/index.html",
+  "id": "04fdf5"
+ },
+ {
+  "ru": "🎶 Песенки",
+  "page": "games/orkestr/index.html",
+  "id": "d7ba4c"
+ },
+ {
+  "ru": "Нажимай на героев — каждый поёт свою ноту!",
+  "page": "games/orkestr/index.html",
+  "id": "c44fcf"
+ },
+ {
+  "ru": "⏺ Записать",
+  "page": "games/orkestr/index.html",
+  "id": "0552e5"
+ },
+ {
+  "ru": "▶ Слушать",
+  "page": "games/orkestr/index.html",
+  "id": "9964e6"
+ },
+ {
+  "ru": "▶ Начать",
+  "page": "games/orkestr/index.html",
+  "id": "e8f71a"
+ },
+ {
+  "ru": "Браво! 🎉",
+  "page": "games/orkestr/index.html",
+  "id": "0a9206"
+ },
+ {
+  "ru": "До",
+  "page": "games/orkestr/index.html",
+  "id": "c2aa9c"
+ },
+ {
+  "ru": "Ре",
+  "page": "games/orkestr/index.html",
+  "id": "8aee40"
+ },
+ {
+  "ru": "Ми",
+  "page": "games/orkestr/index.html",
+  "id": "12c73a"
+ },
+ {
+  "ru": "Фа",
+  "page": "games/orkestr/index.html",
+  "id": "7c25e3"
+ },
+ {
+  "ru": "Соль",
+  "page": "games/orkestr/index.html",
+  "id": "646298"
+ },
+ {
+  "ru": "Ля",
+  "page": "games/orkestr/index.html",
+  "id": "adc615"
+ },
+ {
+  "ru": "Си",
+  "page": "games/orkestr/index.html",
+  "id": "79c1e6"
+ },
+ {
+  "ru": "⏹ Стоп",
+  "page": "games/orkestr/index.html",
+  "id": "e35ebb"
+ },
+ {
+  "ru": "👏 Правильно!",
+  "page": "games/orkestr/index.html",
+  "id": "0da32b"
+ },
+ {
+  "ru": "Ой! Попробуй ещё раз 🙂",
+  "page": "games/orkestr/index.html",
+  "id": "688052"
+ },
+ {
+  "ru": "Асила споёт — а ты повтори!",
+  "page": "games/orkestr/index.html",
+  "id": "e5b4a9"
+ },
+ {
+  "ru": "Нажми на песенку — герои споют её!",
+  "page": "games/orkestr/index.html",
+  "id": "ab2fcb"
+ },
+ {
+  "ru": "🎤 Уровень ",
+  "page": "games/orkestr/index.html",
+  "id": "df8b7e"
+ },
+ {
+  "ru": ": слушай…",
+  "page": "games/orkestr/index.html",
+  "id": "4d60be"
+ },
+ {
+  "ru": "Твоя очередь! 👆 (",
+  "page": "games/orkestr/index.html",
+  "id": "0fbcd9"
+ },
+ {
+  "ru": "🎄 В лесу родилась ёлочка",
+  "page": "games/orkestr/index.html",
+  "id": "8ba8d4"
+ },
+ {
+  "ru": "⭐ Звёздочка",
+  "page": "games/orkestr/index.html",
+  "id": "a23e1d"
+ },
+ {
+  "ru": "🎂 С днём рождения",
+  "page": "games/orkestr/index.html",
+  "id": "4e30ff"
+ },
+ {
+  "ru": "🎵 Ту-би-ту!",
+  "page": "games/orkestr/index.html",
+  "id": "f580cd"
+ },
+ {
+  "ru": "🔴 Играй — я записываю!",
+  "page": "games/orkestr/index.html",
+  "id": "76717d"
+ },
+ {
+  "ru": "Готово! Нажми «Слушать» 🎧",
+  "page": "games/orkestr/index.html",
+  "id": "273894"
+ },
+ {
+  "ru": "Нажимай на героев, когда идёт запись",
+  "page": "games/orkestr/index.html",
+  "id": "2536b5"
+ },
+ {
+  "ru": "Нажимай на героев TUBETU — каждый поёт свою ноту! Сочини песенку, запиши её или повтори мелодию за Асилой. Музыкальная игра для детей.",
+  "page": "games/orkestr/index.html",
+  "id": "116085"
+ },
+ {
+  "ru": "Все игры TUBETU — детские игры онлайн",
+  "page": "igry/index.html",
+  "id": "30b8b7"
+ },
+ {
+  "ru": "🎮 Все игры TUBETU",
+  "page": "igry/index.html",
+  "id": "59279e"
+ },
+ {
+  "ru": "Выбирай и играй с героями!",
+  "page": "igry/index.html",
+  "id": "a9f472"
+ },
+ {
+  "ru": "НОВАЯ",
+  "page": "igry/index.html",
+  "id": "63e3ae"
+ },
+ {
+  "ru": "Строим Скалу",
+  "page": "igry/index.html",
+  "id": "2b26cd"
+ },
+ {
+  "ru": "Все детские игры по мультсериалу TUBETU: Спасатели, Строим Скалу, Поймай Уха, Мемори, Нюх ищет пиццу, Асила-оркестр, пазл, найди отличия и раскраска. Бесплатно, прямо в браузере.",
+  "page": "igry/index.html",
+  "id": "e5f6f2"
+ },
+ {
+  "ru": "Все игры TUBETU",
+  "page": "igry/index.html",
+  "id": "64614f"
  },
  {
   "ru": "Онлайн-раскраска TUBETU",

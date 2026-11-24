@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="sw">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
+<title>Mkamate Ukh — mchezo wa TUBETU</title>
+<meta content="Bundi mdogo Ukh anasinzia madirishani mwa Mwamba — mwamshe kwa wakati! Mchezo wa kasi kwa watoto wadogo kutoka katuni TUBETU." name="description"/>
+<meta content="Mkamate Ukh — mchezo wa TUBETU" property="og:title"/>
+<meta content="https://tubetu.com/assets/ukh.jpg" property="og:image"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="/games/_common.css" rel="stylesheet"/>
+<style>
+body{background:linear-gradient(180deg,#1E2A78,#5B3FB8 55%,#FF9E6B)}
+.rock{position:relative;max-width:560px;margin:0 auto;border-radius:32px;padding:18px;background:linear-gradient(160deg,#8C95A8,#5D6578);box-shadow:inset 0 -10px 0 rgba(0,0,0,.15),0 18px 40px rgba(11,18,64,.45)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.win-hole{position:relative;aspect-ratio:1;border-radius:50% 50% 18px 18px;background:radial-gradient(circle at 50% 70%,#1A1040,#0B0620);box-shadow:inset 0 8px 18px rgba(0,0,0,.7),0 4px 0 #FFC72C;overflow:hidden;cursor:pointer;touch-action:manipulation}
+.win-hole img{position:absolute;left:8%;width:84%;height:84%;object-fit:cover;object-position:50% 0;border-radius:50%;bottom:-100%;transition:bottom .18s ease-out;pointer-events:none}
+.win-hole.up img{bottom:2%}
+.win-hole .z{position:absolute;right:8%;top:6%;font-size:22px;font-weight:900;color:#fff;opacity:0;transition:opacity .3s}
+.win-hole.sleepy .z{opacity:1;animation:zz 1s infinite}
+.win-hole.sleepy img{filter:brightness(.75)}
+.win-hole.woke{box-shadow:inset 0 8px 18px rgba(0,0,0,.7),0 4px 0 #8BD62A,0 0 24px #8BD62A}
+.win-hole.bad{box-shadow:inset 0 8px 18px rgba(0,0,0,.7),0 4px 0 #FF3B30,0 0 24px #FF3B30}
+.pop{position:absolute;left:50%;top:30%;transform:translate(-50%,-50%);font-weight:900;font-size:26px;color:#FFE066;text-shadow:0 2px 6px #000;animation:up .7s forwards;pointer-events:none}
+@keyframes up{to{transform:translate(-50%,-160%);opacity:0}}
+@keyframes zz{50%{transform:translateY(-6px)}}
+.start{text-align:center;margin:16px 0}
+.hearts{letter-spacing:2px}
+.lead{text-align:center;color:#fff;font-weight:800;margin:0 0 12px}
+</style>
+</head>
+<body>
+<header class="top"><a href="/sw/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>Mkamate Ukh</h1><div class="sp"></div><a href="/sw/igry/">⭐ Michezo yote</a></header>
+<div class="wrap">
+<p class="lead">Ukh anasinzia kazini! Mguse kabla hajalala. Usimguse Skupshchik!</p>
+<div class="pills"><span class="pill">🦉 <b id="score">0</b></span><span class="pill hearts" id="hearts">❤️❤️❤️</span><span class="pill">🏆 <b id="best">0</b></span></div>
+<div class="rock"><div class="grid" id="grid"></div></div>
+<div class="start"><button class="btn" id="go">Cheza ▶</button></div>
+<div class="more"></div>
+</div>
+<div class="win" id="win"><div class="card"><h2 id="wt">Hongera! 🦉</h2><p style="font-weight:800;font-size:20px">Ulimwamsha Ukh: <b id="fs">0</b> mara</p><p id="nb" style="font-weight:800"></p><button class="btn" id="again">Tena</button></div></div>
+<canvas id="conf"></canvas>
+<script src="/games/_common.js"></script>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i);},N=9,holes=[],score=0,lives=3,run=false,timer=null,speed=1300,best=TG.get('ukh_best',0);
+$('best').textContent=best;
+for(var i=0;i<N;i++){var h=document.createElement('div');h.className='win-hole';h.innerHTML='<img alt=""><span class="z">z<small>z</small></span>';h.dataset.i=i;$('grid').appendChild(h);holes.push({el:h,who:null,t:0});
+ h.addEventListener('pointerdown',hit);}
+function hearts(){$('hearts').textContent='❤️'.repeat(Math.max(0,lives))+'🤍'.repeat(3-Math.max(0,lives));}
+function pop(el,t){var p=document.createElement('div');p.className='pop';p.textContent=t;el.appendChild(p);setTimeout(function(){p.remove();},700);}
+function hit(e){if(!run)return;var H=holes[+this.dataset.i];if(!H.who)return;var el=H.el;
+ if(H.who==='ukh'){score++;$('score').textContent=score;el.classList.add('woke');pop(el,'+1');TG.tone(880,.1,.12);TG.tone(1320,.12,.08,'triangle',.06);
+   if(score%10===0){TG.tone(1568,.2,.1,'triangle',.12);speed=Math.max(520,speed-120);}}
+ else{lives--;hearts();el.classList.add('bad');pop(el,'😤');TG.tone(180,.25,.12,'square');if(lives<=0)end();}
+ down(H);}
+function down(H){clearTimeout(H.t);H.el.classList.remove('up','sleepy');H.who=null;setTimeout(function(){H.el.classList.remove('woke','bad');},250);}
+function spawn(){if(!run)return;var free=holes.filter(function(h){return !h.who;});if(free.length){var H=free[(Math.random()*free.length)|0],bad=score>4&&Math.random()<.18;
+  H.who=bad?'sk':'ukh';H.el.querySelector('img').src=bad?'/games/img/full-skupshchik.webp':'/assets/ukh-face.png';H.el.classList.add('up');
+  if(!bad){H.t=setTimeout(function(){H.el.classList.add('sleepy');H.t=setTimeout(function(){if(H.who==='ukh'){lives--;hearts();TG.tone(220,.3,.08,'sine');down(H);if(lives<=0)end();}},speed*.9);},speed);}
+  else H.t=setTimeout(function(){down(H);},speed*1.3);}
+ timer=setTimeout(spawn,speed*(.55+Math.random()*.5));}
+function start(){score=0;lives=3;speed=1300;$('score').textContent=0;hearts();holes.forEach(down);run=true;$('go').style.visibility='hidden';$('win').classList.remove('on');TG.tone(523,.1,.1);setTimeout(spawn,500);}
+function end(){run=false;clearTimeout(timer);holes.forEach(down);$('go').style.visibility='visible';var nb=score>best;if(nb){best=score;TG.set('ukh_best',best);$('best').textContent=best;}
+ $('fs').textContent=score;$('nb').textContent=nb?'🏆 Rekodi mpya!':'';if(nb||score>=10)TG.win();$('win').classList.add('on');}
+$('go').onclick=start;$('again').onclick=start;
+window.__uk={start:start,state:function(){return {score:score,lives:lives,run:run};}};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>
