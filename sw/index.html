@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html lang="sw">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>TUBETU — katuni ambapo wema hurudi</title>
+<meta content="TUBETU ni mfululizo wa katuni kwa watoto na wazazi. Marafiki wanne na wasaidizi wao wa kuchekesha huruka kumsaidia yeyote anayeita. Sehemu ya 1 — «Mwamba wa Hazina»." name="description"/>
+<meta content="TUBETU — katuni ambapo wema hurudi" property="og:title"/>
+<meta content="Sehemu ya 1 — «Mwamba wa Hazina». Lisko, Dobrik, Vionka na Asila wanaruka kuokoa!" property="og:description"/>
+<meta content="https://tubetu.com/assets/hero.jpg" property="og:image"/>
+<meta content="https://tubetu.com/sw/" property="og:url"/>
+<meta content="website" property="og:type"/>
+<meta content="TUBETU" property="og:site_name"/>
+<meta content="uTVyieo3rhgaWscBOPc3gFSzmuu1OxjCOici2fVroCU" name="google-site-verification"/>
+<meta content="ru_RU" property="og:locale"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<link href="https://tubetu.com/" rel="canonical"/>
+<link href="https://tubetu.com/" hreflang="ru" rel="alternate"/>
+<link href="https://tubetu.com/en/" hreflang="en" rel="alternate"/>
+<link href="https://tubetu.com/kz/" hreflang="kk" rel="alternate"/>
+<link href="https://tubetu.com/tr/" hreflang="tr" rel="alternate"/>
+<link href="https://tubetu.com/zh/" hreflang="zh" rel="alternate"/>
+<link href="https://tubetu.com/es/" hreflang="es" rel="alternate"/>
+<link href="https://tubetu.com/hi/" hreflang="hi" rel="alternate"/>
+<link href="https://tubetu.com/sw/" hreflang="sw" rel="alternate"/>
+<link href="https://tubetu.com/pt/" hreflang="pt" rel="alternate"/>
+<link href="https://tubetu.com/ar/" hreflang="ar" rel="alternate"/>
+<link href="https://tubetu.com/" hreflang="x-default" rel="alternate"/>
+<meta content="katuni za watoto, mfululizo wa katuni, TUBETU, Mwamba wa Hazina, michoro ya kupaka rangi, michezo ya watoto, katuni nzuri" name="keywords"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"TUBETU","url":"https://tubetu.com/","logo":"https://tubetu.com/assets/logo.png","email":"tubetu.team@gmail.com","sameAs":["https://www.youtube.com/@tubetuapp","https://www.tiktok.com/@tubetu.team","https://www.instagram.com/tubetu.team","https://t.me/tubetu_official","https://x.com/tubetuapp"]},{"@type":"TVSeries","name":"TUBETU","alternateName":"TUBETU","url":"https://tubetu.com/","inLanguage":"ru","genre":["Katuni","Watoto"],"description":"Mfululizo wa katuni kwa watoto na wazazi kuhusu marafiki wanne wanaoruka kumsaidia yeyote anayeita. Wema hurudi.","image":"https://tubetu.com/assets/hero.jpg"}]}</script>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<link href="/icon.svg" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&amp;display=swap" rel="stylesheet"/>
+<script>
+/* Ссылки входа/восстановления из старых писем ведут на платформу */
+(function(){var h=location.hash,s=location.search;if(/access_token|refresh_token|type=recovery|error_description/.test(h)||/[?&](code|mode)=/.test(s)){location.replace('/sw/platform.html'+s+h);}})();
+</script>
+<style>
+:root{
+  --navy:#0B1240; --navy2:#141C5C; --sky:#EAF6FF; --ink:#1B1F3B; --muted:#5A6185;
+  --orange:#FF8A1F; --lime:#8BD62A; --purple:#8E3BF5; --pink:#FF3FA4; --blue:#2EA8FF; --gold:#FFC72C;
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;font-weight:600;color:var(--ink);background:var(--sky);line-height:1.5}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:20;background:rgba(11,18,64,.92);backdrop-filter:blur(8px);color:#fff}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.nav .logo img{height:34px;width:auto}
+.nav .logo{flex:none}
+.nav ul{display:flex;gap:6px;list-style:none;margin:0 0 0 auto;padding:0}
+.nav ul a{text-decoration:none;padding:8px 7px;border-radius:999px;font-weight:800;font-size:14px;white-space:nowrap}
+.nav ul a:hover{background:rgba(255,255,255,.12)}
+.nav .yt{background:var(--pink);color:#fff;text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:900;font-size:14px;white-space:nowrap}
+.burger{display:none;margin-left:auto;background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
+@media(max-width:1120px){
+  .nav ul{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;background:var(--navy);padding:10px 16px 16px}
+  .nav ul.open{display:flex}
+  .burger{display:block}
+  .nav .yt{display:none}
+}
+
+/* HERO */
+.hero{position:relative;color:#fff;background:var(--navy);overflow:hidden}
+.hero img.bg{width:100%;height:auto;aspect-ratio:1672/941;object-fit:cover}
+.hero .shade{position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(transparent,rgba(11,18,64,.95))}
+.hero .txt{position:absolute;left:0;right:0;bottom:6%;text-align:center}
+.hero h1{margin:0 0 6px;font-size:clamp(26px,4.6vw,56px);font-weight:900;text-shadow:0 3px 18px rgba(0,0,0,.5)}
+.hero p{margin:0 auto 18px;max-width:640px;font-size:clamp(15px,2vw,20px);opacity:.95}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;text-decoration:none;font:inherit;font-weight:900;font-size:17px;padding:14px 22px;border-radius:999px;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.main{background:var(--gold);color:var(--ink);box-shadow:0 6px 0 #C98F00}
+.btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.5)}
+@media(max-width:700px){
+  .hero .txt{position:static;background:var(--navy);padding:18px 16px 28px}
+  .hero .shade{display:none}
+}
+
+/* SECTIONS */
+section{padding:64px 0}
+.kicker{display:inline-block;font-weight:900;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);background:#fff;padding:6px 12px;border-radius:999px}
+h2{font-size:clamp(28px,4vw,44px);font-weight:900;margin:12px 0 12px;line-height:1.15}
+.lead{font-size:18px;color:var(--muted);max-width:720px}
+
+/* EPISODE */
+.episode{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
+.episode video{width:100%;border-radius:var(--radius);box-shadow:0 18px 40px rgba(11,18,64,.25);background:#000}
+.badge{display:inline-block;background:var(--pink);color:#fff;font-weight:900;padding:6px 14px;border-radius:999px;font-size:14px}
+@media(max-width:860px){.episode{grid-template-columns:1fr}}
+
+/* HEROES */
+.dark{background:var(--navy);color:#fff}
+.dark .lead{color:#C7CDF5}
+.dark .kicker{background:rgba(255,255,255,.1);color:var(--gold)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px}
+.card{background:var(--navy2);border-radius:var(--radius);overflow:hidden;border:3px solid var(--c);display:flex;flex-direction:column}
+.card img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.card img.full{aspect-ratio:3/4;object-fit:contain;object-position:50% 100%;background:radial-gradient(circle at 50% 40%,#fff,#DDE6FF)}
+.card .in{padding:16px 18px 20px}
+.card h3{margin:0;font-size:24px;font-weight:900;color:var(--c)}
+.card .role{font-size:14px;color:#C7CDF5;margin:2px 0 10px}
+.card .q{font-size:15px;font-style:italic}
+@media(max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.cards{grid-template-columns:1fr}}
+.friends{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.friend{display:flex;gap:14px;align-items:center;background:rgba(255,255,255,.06);border-radius:var(--radius);padding:12px}
+.friend img{width:110px;height:110px;object-fit:cover;border-radius:18px;flex:none}
+.friend h4{margin:0;font-size:19px;font-weight:900}
+.friend p{margin:2px 0 0;font-size:14px;color:#C7CDF5}
+@media(max-width:860px){.friends{grid-template-columns:1fr}}
+
+/* EXTRA */
+.nav ul a.login{border:2px solid rgba(255,255,255,.5)}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.thumb{background:#fff;border-radius:20px;overflow:hidden;text-decoration:none;color:var(--ink);box-shadow:0 6px 20px rgba(11,18,64,.08);display:flex;flex-direction:column}
+.thumb img{aspect-ratio:4/3;object-fit:contain;background:#fff;width:100%;border-bottom:1px solid #eee}
+.thumb span{padding:12px 16px;font-weight:900;display:flex;justify-content:space-between}
+.thumb span em{font-style:normal;color:var(--orange)}
+.empty{border:3px dashed #C9D3F0;border-radius:20px;padding:26px;text-align:center;color:var(--muted);margin-top:22px;font-weight:700}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.review{background:#fff;border-radius:20px;padding:18px;box-shadow:0 6px 20px rgba(11,18,64,.08)}
+.review p{margin:0 0 10px;font-style:italic}
+.review b{color:var(--purple)}
+form.rf{background:#fff;border-radius:24px;padding:22px;margin-top:22px;display:grid;gap:12px;max-width:640px;box-shadow:0 6px 20px rgba(11,18,64,.08)}
+form.rf input,form.rf textarea{font:inherit;padding:12px 14px;border:2px solid #D7DDF2;border-radius:14px;width:100%;box-sizing:border-box}
+form.rf textarea{min-height:110px;resize:vertical}
+form.rf label.ch{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
+form.rf label.ch input{width:auto;margin-top:3px}
+form.rf button{justify-self:start;border:0;cursor:pointer;font:inherit}
+.hp{position:absolute!important;left:0!important;width:1px!important;height:1px!important;padding:0!important;border:0!important;opacity:0;pointer-events:none;overflow:hidden}
+.rmsg{font-weight:800}
+.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.pay div{background:rgba(255,255,255,.08);border-radius:20px;padding:18px;border:2px solid rgba(255,255,255,.15)}
+.pay b{display:block;font-size:19px}
+.pay small{display:inline-block;margin-top:8px;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px;background:var(--gold);color:var(--navy)}
+.pay small.on{background:var(--lime)}
+.pay a{color:#fff}
+.diary{list-style:none;padding:0;margin:22px 0 0;border-left:4px solid var(--orange)}
+.diary li{padding:0 0 18px 20px;position:relative}
+.diary li:before{content:"";position:absolute;left:-12px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--orange);border:4px solid #fff}
+.diary b{display:block;color:var(--orange);font-size:14px}
+.tg{background:linear-gradient(135deg,#2AABEE,#2EA8FF);color:#fff;border-radius:32px;padding:30px 36px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.tg h2{margin:0}.tg p{margin:6px 0 0}
+@media(max-width:860px){.thumbs,.reviews{grid-template-columns:1fr 1fr}.pay{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.thumbs,.reviews,.pay{grid-template-columns:1fr}}
+
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-auto-rows:220px;gap:14px;margin-top:26px}
+.gallery figure{margin:0;position:relative;border-radius:20px;overflow:hidden}
+.gallery figure.big{grid-row:span 2}
+.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gallery figure:hover img{transform:scale(1.05)}
+.gallery figcaption{position:absolute;left:10px;bottom:10px;background:rgba(11,18,64,.75);padding:6px 12px;border-radius:999px;font-weight:900;font-size:14px}
+@media(max-width:860px){.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.gallery figure.big{grid-column:span 2;grid-row:span 2}}
+
+/* SONG */
+.song{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.lyrics{background:#fff;border-radius:var(--radius);padding:28px;font-size:22px;font-weight:800;line-height:1.6;box-shadow:0 12px 30px rgba(11,18,64,.1)}
+.lyrics span{color:var(--pink)}
+.song img{border-radius:var(--radius);box-shadow:0 18px 40px rgba(11,18,64,.2)}
+@media(max-width:860px){.song{grid-template-columns:1fr}}
+
+/* WATCH */
+.links{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+.links a{display:flex;align-items:center;gap:12px;text-decoration:none;background:#fff;border-radius:18px;padding:16px;font-weight:900;font-size:17px;box-shadow:0 6px 18px rgba(11,18,64,.08);transition:transform .15s}
+.links a:hover{transform:translateY(-3px)}
+.links i{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#fff;font-style:normal;font-size:20px;flex:none}
+.links small{display:block;font-weight:600;font-size:13px;color:var(--muted)}
+@media(max-width:860px){.links{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.links{grid-template-columns:1fr}}
+
+/* PARENTS */
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+.value{background:#fff;border-radius:var(--radius);padding:22px;border-top:6px solid var(--c)}
+.value b{display:block;font-size:20px;font-weight:900;margin-bottom:6px}
+.value p{margin:0;color:var(--muted)}
+@media(max-width:860px){.values{grid-template-columns:1fr}}
+
+/* GAMES */
+.games{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;border-radius:32px;padding:36px;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.games h2{margin:0}
+.games p{margin:6px 0 0;opacity:.95}
+
+footer{background:var(--navy);color:#C7CDF5;padding:36px 0;font-size:15px}
+footer .wrap{display:flex;gap:24px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+footer img{height:40px;width:auto}
+footer a{color:#fff}
+</style>
+</head>
+<body>
+<nav class="nav">
+<div class="wrap">
+<a aria-label="TUBETU — mwanzo" class="logo" href="#top"><img alt="TUBETU" src="/assets/logo.png"/></a>
+<button aria-label="Menyu" class="burger" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+<ul id="menu" onclick="if(event.target.tagName==='A')this.classList.remove('open')">
+<li><a href="#seriya">Sehemu ya 1</a></li>
+<li><a href="#geroi">Mashujaa</a></li>
+<li><a href="#mir">Ulimwengu</a></li>
+<li><a href="#konkurs">Shindano</a></li>
+<li><a href="#raskraski">Kupaka rangi</a></li>
+<li><a href="#smotret">Tazama</a></li>
+<li><a href="#roditelyam">Wazazi</a></li>
+<li><a href="#podderzhat">Tuunge mkono</a></li>
+<li><a href="/sw/games/">Michezo</a></li>
+<li><a class="login" href="/sw/platform.html">Ingia</a></li>
+</ul>
+<a class="yt" href="https://www.youtube.com/@tubetuapp" rel="noopener" target="_blank">▶ YouTube</a>
+</div>
+</nav>
+<header class="hero" id="top">
+<img alt="Herufi za TUBETU kwenye Mwamba wa Hazina kati ya milima na maporomoko ya maji" class="bg" fetchpriority="high" src="/assets/hero.jpg"/>
+<div class="shade"></div>
+<div class="txt wrap">
+<h1>Katuni ambapo wema hurudi</h1>
+<p>Marafiki wanne na wasaidizi wao wa kuchekesha huruka kumsaidia yeyote anayeita. Sehemu ya 1 — «Mwamba wa Hazina».</p>
+<div class="btns">
+<a class="btn main" href="#seriya">▶ Tazama utangulizi</a>
+<a class="btn ghost" href="#geroi">Kutana na mashujaa</a>
+</div>
+</div>
+</header>
+<section style="padding:22px 0 0">
+<div class="wrap">
+<a href="/sw/dver/" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;text-decoration:none;color:#fff;background:linear-gradient(110deg,#0B1240,#3B2A86);border-radius:28px;padding:14px 22px;box-shadow:0 10px 30px rgba(11,18,64,.25)">
+<img alt="Bundi Ukh" src="/assets/ukh-face.png" style="width:72px;height:72px;flex:none"/>
+<span style="flex:1;min-width:200px"><b style="font-size:22px;font-weight:900;display:block">Unajua nenosiri la Ukh?</b><span style="opacity:.9;font-weight:700">Ukh analinda mlango wa siri wa Mwamba. Sema nenosiri kutoka kwenye video zetu — na uingie!</span></span>
+<span style="background:#FFC72C;color:#3a2300;font-weight:900;padding:10px 18px;border-radius:999px;white-space:nowrap">Fungua mlango →</span>
+</a>
+</div>
+</section>
+<section id="seriya">
+<div class="wrap episode">
+<video controls="" playsinline="" poster="/assets/zastavka-poster.jpg" preload="none" src="/assets/zastavka.mp4"></video>
+<div>
+<span class="badge">Onyesho la kwanza 19 Desemba, 19:00</span>
+<h2>Sehemu ya 1. «Mwamba wa Hazina»</h2>
+<p class="lead">Miroshka mdogo aliingia kwenye ufa wa barafu akimfuata mwanambuzi wake — akakwama. Juu tayari wanazunguka Skupshchik mlafi na droni zake zinazovuma: wanataka fuwele zinazong'aa. Lisko, Dobrik, Vionka na Asila wanaruka kutoka Mwamba wa Hazina kusaidia. Watafika kwa wakati? Na Skupshchik atachagua nini atakapolazimika kuchagua kati ya fuwele na uhai?</p>
+<p class="lead">Jiunge kwenye YouTube usikose onyesho la kwanza. <a href="/sw/seriya-1/" style="font-weight:900">Yote kuhusu sehemu hii →</a></p>
+<div class="btns" style="justify-content:flex-start;margin-top:14px">
+<a class="btn main" href="https://www.youtube.com/@tubetuapp" rel="noopener" target="_blank">Jiunge kwenye YouTube</a>
+</div>
+</div>
+</div>
+</section>
+<section class="dark" id="geroi">
+<div class="wrap">
+<span class="kicker">Timu ya TUBETU</span>
+<h2>Kutana na mashujaa</h2>
+<p class="lead">Kila mmoja ana nguvu ya ajabu, chombo cha usafiri na herufi moja katika neno TUBETU. Pamoja wao ni timu.</p>
+<div class="cards">
+<article class="card" style="--c:var(--orange)">
+<img alt="Lisko akiwa na ndoano ya kuvulia" class="full" loading="lazy" src="/assets/art-lisko.jpg"/>
+<div class="in"><h3>Lisko</h3><div class="role">Mvumbuzi na mjuzi wa lugha, 12</div><div class="q">«Ninavumbua, ninajenga, ninatengeneza — kwa ajili ya timu!»</div></div>
+</article>
+<article class="card" style="--c:var(--lime)">
+<img alt="Dobrik akiwa na mpira akionyesha kidole gumba" class="full" loading="lazy" src="/assets/art-dobrik.jpg"/>
+<div class="in"><h3>Dobrik</h3><div class="role">Mpelelezi, mwongozaji na mjumbe, 10</div><div class="q">«Kwa kasi, mbali zaidi, pamoja!»</div></div>
+</article>
+<article class="card" style="--c:var(--purple)">
+<img alt="Vionka akiwa na sindano za kufuma za dhahabu" class="full" loading="lazy" src="/assets/art-vionka.jpg"/>
+<div class="in"><h3>Vionka</h3><div class="role">Fundi wa kufuma kwa uchawi</div><div class="q">«Ninafuma wazo — na linakuwa hai!»</div></div>
+</article>
+<article class="card" style="--c:var(--pink)">
+<img alt="Asila akiwa na peremende ya upinde wa mvua" class="full" loading="lazy" src="/assets/art-asila.jpg"/>
+<div class="in"><h3>Asila</h3><div class="role">Fundi wa muziki na furaha, 9</div><div class="q">«Mawazo matamu hufanya dunia kuwa nzuri zaidi!»</div></div>
+</article>
+</div>
+<div style="margin-top:22px"><a class="btn main" href="/sw/geroi/">Zaidi kuhusu kila shujaa →</a></div>
+<h3 style="font-size:28px;font-weight:900;margin:48px 0 0">Marafiki wa timu</h3>
+<p class="lead" style="margin-top:4px">Bila wao hakuna safari ya kusisimua.</p>
+<div class="cards">
+<article class="card" style="--c:var(--blue)">
+<img alt="Kasuku Dyusha" loading="lazy" src="/assets/dyusha.jpg"/>
+<div class="in"><h3>Dyusha</h3><div class="role">Kasuku mwongozaji na mpeleka-ujumbe</div><div class="q">Daima huruka mbele na huchanganya kulia na kushoto. «Mrembo!»</div></div>
+</article>
+<article class="card" style="--c:var(--orange)">
+<img alt="Mbwa Nyukh" loading="lazy" src="/assets/nyukh.jpg" style="object-position:70% 40%"/>
+<div class="in"><h3>Nyukh</h3><div class="role">Mbwa mwenye pua ya uchawi</div><div class="q">Pua yake inang'aa kama GPS. Anapenda pizza na kila mtu duniani.</div></div>
+</article>
+<article class="card" style="--c:var(--lime)">
+<img alt="Dubu wa kufumwa Kvasya akicheza" loading="lazy" src="/assets/kvasya-tanets.jpg"/>
+<div class="in"><h3>Kvasya</h3><div class="role">Dubu wa kufumwa anayependa vitamu</div><div class="q">Kipenzi kimya: huangusha kila kitu — lakini daima wakati unaofaa. Nguvu yake ni «kuanguka kwa bahati».</div></div>
+</article>
+<article class="card" style="--c:#B8C4FF">
+<img alt="Chinchila Shushik" loading="lazy" src="/assets/shushik.jpg"/>
+<div class="in"><h3>Shushik</h3><div class="role">Chinchila mhandisi</div><div class="q">Mchapakazi na mwenye kununa. Anajua kila handaki la Mwamba na hupiga chafya kwa vumbi.</div></div>
+</article>
+<article class="card" style="--c:var(--purple)">
+<img alt="Paka Skot mwenye miwani ya jicho moja" loading="lazy" src="/assets/skot.jpg" style="object-position:60% 30%"/>
+<div class="in"><h3>Skot</h3><div class="role">Paka, mkuu wa makao makuu</div><div class="q">Maridadi na mwerevu. Hutoa ushauri (si sahihi kila mara) na anaogopa kuchafuka.</div></div>
+</article>
+<article class="card" style="--c:#C89B6D">
+<img alt="Bundi Ukh na kasuku Dyusha karibu na kiota" loading="lazy" src="/assets/ukh2.jpg"/>
+<div class="in"><h3>Ukh</h3><div class="role">Bundi mdogo, mlinzi wa Mwamba</div><div class="q">Hutangaza kila sehemu… kama hatalala akiwa zamu.</div></div>
+</article>
+<article class="card" style="--c:#9FD8FF">
+<img alt="Mtoto wa chui wa theluji Snezhok mwenye skafu nyekundu" loading="lazy" src="/assets/art-snezhok.jpg" style="object-fit:contain;background:#fff"/>
+<div class="in"><h3>Snezhok</h3><div class="role">Mtoto wa chui wa theluji kutoka milima ya theluji</div><div class="q">Haongei — anakoroma, anapuliza pua na kupiga chafya. Lakini anajua kila njia ya mlimani.</div></div>
+</article>
+</div>
+</div>
+</section>
+<section id="zlodei" style="background:#FFF1E6">
+<div class="wrap">
+<span class="kicker">Wahalifu wa kuchekesha</span>
+<h2>Genge la Skupshchik</h2>
+<p class="lead">Wahalifu wetu ni wa kuchekesha, si wa kutisha. Wanataka kujichukulia kila kitu — na kila mara wanaingia matatani.</p>
+<div class="values">
+<div class="value" style="--c:#8B5A2B;padding:0;overflow:hidden"><img alt="Skupshchik mwenye koti lenye viraka na mifuko iliyojaa sarafu" loading="lazy" src="/assets/art-skupshchik.jpg" style="aspect-ratio:4/3;object-fit:contain;background:#fff"/><div style="padding:18px"><b>Skupshchik</b><p>Mlafi mjanja mwenye koti refu. Sarafu mfukoni mwake hulia kama bata wa mpira. Neno lake ni «Changu!», na udhaifu wake ni chochote cha bure.</p></div></div>
+<div class="value" style="--c:#E07A5F;padding:0;overflow:hidden"><img alt="Ngiri Bugor mwenye gunia begani" loading="lazy" src="/assets/art-bugor.jpg" style="aspect-ratio:4/3;object-fit:contain;background:#fff"/><div style="padding:18px"><b>Bugor</b><p>Ngiri mbeba-mizigo mkubwa na mpole. «Bosi amesema — nabeba.» Kwa peremende yuko tayari kuhamia upande wa wema.</p></div></div>
+<div class="value" style="--c:#D62828;padding:0;overflow:hidden"><img alt="Droni mvumaji" loading="lazy" src="/assets/drony.jpg" style="aspect-ratio:4/3;object-fit:cover"/><div style="padding:18px"><b>Wavumaji</b><p>Droni wezi: «Bzzz! Kamata!» Wanapenda muziki — wimbo wa Asila unawafanya wacheze.</p></div></div>
+</div>
+</div>
+</section>
+<section class="dark" id="mir">
+<div class="wrap">
+<span class="kicker">Ulimwengu wa TUBETU</span>
+<h2>Timu inaishi wapi</h2>
+<p class="lead">Juu milimani kuna Mwamba wa Hazina. Mlango wake hufunguka kwa marafiki tu — na ndani kuna makao makuu makubwa yenye kuba ya kioo, mahandaki na kona ya vitamu.</p>
+<div class="gallery">
+<figure class="big"><img alt="Mwamba wa Hazina wenye mlango wa dhahabu na maporomoko ya maji" loading="lazy" src="/assets/skala.jpg"/><figcaption>Mwamba wa Hazina</figcaption></figure>
+<figure><img alt="Makao makuu ndani ya Mwamba chini ya kuba ya kioo" loading="lazy" src="/assets/shtab.jpg"/><figcaption>Makao makuu chini ya kuba</figcaption></figure>
+<figure><img alt="Handaki la kurukia na milango ya mashujaa" loading="lazy" src="/assets/tunnel.jpg"/><figcaption>Handaki la kurukia</figcaption></figure>
+<figure><img alt="Miroshka na mwanambuzi kwenye ufa wa barafu" loading="lazy" src="/assets/lednik.jpg"/><figcaption>Barafu na Miroshka</figcaption></figure>
+<figure><img alt="Timu nzima wakicheka pamoja" loading="lazy" src="/assets/komanda.jpg"/><figcaption>Timu nzima</figcaption></figure>
+<figure><img alt="Lisko kwenye barafu, Skupshchik nyuma" loading="lazy" src="/assets/lisko-lednik.jpg"/><figcaption>Kufukuzana kwenye barafu</figcaption></figure>
+<figure><img alt="Nyukh akiwa amembeba Kvasya mgongoni msituni" loading="lazy" src="/assets/nyukh-kvasya2.jpg"/><figcaption>Nyukh na Kvasya msituni</figcaption></figure>
+<figure><img alt="Kvasya anampa rafiki joto kwa skafu ya kufumwa" loading="lazy" src="/assets/kvasya-sharf.jpg"/><figcaption>Kvasya anampa rafiki joto</figcaption></figure>
+</div>
+</div>
+</section>
+<section id="konkurs" style="background:linear-gradient(180deg,#FFF6D6,#EAF6FF)">
+<div class="wrap">
+<span class="kicker">Shindano la kuchora</span>
+<h2>Chora shujaa wako unayempenda wa TUBETU!</h2>
+<p class="lead">Lisko, Dobrik, Vionka, Asila, Dyusha, Nyukh, Kvasya, Ukh, Snezhok — chora unayempenda zaidi. Penseli, rangi, kalamu — upendavyo!</p>
+<div class="values">
+<div class="value" style="--c:var(--orange)"><b>1. Chora</b><p>Shujaa wako unayempenda au timu nzima. Unaweza kubuni wataruka wapi wakati ujao.</p></div>
+<div class="value" style="--c:var(--blue)"><b>2. Tuma</b><p>Wazazi huweka picha ya mchoro kwenye Instagram au TikTok pamoja na hashtag <b style="display:inline;font-size:inherit">#TUBETUmchoro</b> au wanatuma kwenye <a href="https://t.me/tubetu_chat" rel="noopener" target="_blank">gumzo letu la Telegram</a>.</p></div>
+<div class="value" style="--c:var(--pink)"><b>3. Pata zawadi</b><p>Kazi bora zitapata vyeti vya TUBETU na zawadi — kalenda za mashujaa na mshangao. Michoro mizuri zaidi tutaionyesha hapa kwenye tovuti.</p></div>
+</div>
+<p class="lead" style="font-size:15px;margin-top:18px">Kwa wazazi: kwa kutuma mchoro, unakubali tuuonyeshe kwenye tovuti na mitandao ya TUBETU pamoja na jina la kwanza na umri wa mtoto. Hatuchapishi kamwe majina ya ukoo, anwani au picha za watoto. Matokeo — kwenye mitandao yetu.</p>
+</div>
+</section>
+<section id="raskraski" style="background:#fff">
+<div class="wrap">
+<span class="kicker">Kupaka rangi</span>
+<h2>Chapisha na upake rangi!</h2>
+<p class="lead">Karatasi za A4 — pakua PDF, chapisha na mpe mtoto penseli za rangi. Mchoro uliokamilika unaweza kutumwa kwenye shindano!</p>
+<a class="btn main" href="/sw/raskraska/" style="margin-top:6px">🖌 Paka rangi mtandaoni — moja kwa moja kwenye simu</a>
+<div class="thumbs">
+<a class="thumb" download="" href="/raskraski/lisko.pdf"><img alt="Kupaka rangi: Lisko" loading="lazy" src="/assets/col-lisko.jpg"/><span>Lisko <em>Pakua PDF ↓</em></span></a>
+<a class="thumb" download="" href="/raskraski/dobrik.pdf"><img alt="Kupaka rangi: Dobrik" loading="lazy" src="/assets/col-dobrik.jpg"/><span>Dobrik <em>Pakua PDF ↓</em></span></a>
+<a class="thumb" download="" href="/raskraski/vionka.pdf"><img alt="Kupaka rangi: Vionka" loading="lazy" src="/assets/col-vionka.jpg"/><span>Vionka <em>Pakua PDF ↓</em></span></a>
+<a class="thumb" download="" href="/raskraski/asila.pdf"><img alt="Kupaka rangi: Asila" loading="lazy" src="/assets/col-asila.jpg"/><span>Asila <em>Pakua PDF ↓</em></span></a>
+<a class="thumb" download="" href="/raskraski/kvasya.pdf"><img alt="Kupaka rangi: Kvasya" loading="lazy" src="/assets/col-kvasya.jpg"/><span>Kvasya <em>Pakua PDF ↓</em></span></a>
+<a class="thumb" download="" href="/raskraski/dyusha.pdf"><img alt="Kupaka rangi: Dyusha" loading="lazy" src="/assets/col-dyusha.jpg"/><span>Dyusha <em>Pakua PDF ↓</em></span></a>
+<a class="thumb" download="" href="/raskraski/bugor.pdf"><img alt="Kupaka rangi: Bugor" loading="lazy" src="/assets/col-bugor.jpg"/><span>Bugor <em>Pakua PDF ↓</em></span></a>
+<a class="thumb" download="" href="/raskraski/drony.pdf"><img alt="Kupaka rangi: Mvumaji" loading="lazy" src="/assets/col-drony.jpg"/><span>Mvumaji <em>Pakua PDF ↓</em></span></a>
+</div>
+</div>
+</section>
+<section id="risunki" style="padding-top:0;background:#fff">
+<div class="wrap">
+<span class="kicker">Matunzio ya michoro</span>
+<h2>Michoro ya watazamaji wetu</h2>
+<div class="empty">Michoro ya watoto, upigaji kura na washindi — kwenye matunzio ya shindano.<br/><br/><a class="btn main" href="/sw/risunki/">🏆 Fungua matunzio na upige kura</a></div>
+</div>
+</section>
+<section id="pesnya">
+<div class="wrap song">
+<div>
+<span class="kicker">Wimbo wetu</span>
+<h2>Tubetu, twende, marafiki!</h2>
+<div class="lyrics">
+<span>Tubetu</span>, twende, marafiki!<br/>
+        Pamoja sisi ni familia moja!<br/>
+        Juu ya milima, kupitia miaka —<br/>
+        Sisi ni timu milele!<br/>
+<span>Tubetu! Tubetu!</span>
+</div>
+</div>
+<img alt="Lisko, Dobrik, Vionka na Asila ndani ya pango la fuwele" loading="lazy" src="/assets/komanda-poster.jpg"/>
+</div>
+</section>
+<section id="smotret" style="background:#fff">
+<div class="wrap">
+<span class="kicker">Tazama wapi</span>
+<h2>Tupate hapa</h2>
+<p class="lead">Sehemu, video fupi, nyimbo na nyuma ya pazia — tufuate popote unapopenda.</p>
+<div class="links">
+<a href="https://www.youtube.com/@tubetuapp" rel="noopener" target="_blank"><i style="background:#FF0000">▶</i><span>YouTube<small>Sehemu na trela</small></span></a>
+<a href="https://www.tiktok.com/@tubetu.team" rel="noopener" target="_blank"><i style="background:#111">♪</i><span>TikTok<small>Video fupi</small></span></a>
+<a href="https://www.instagram.com/tubetu.team" rel="noopener" target="_blank"><i style="background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF)">◎</i><span>Instagram<small>Reels</small></span></a>
+<a href="https://t.me/tubetu_official" rel="noopener" target="_blank"><i style="background:#2AABEE">✈</i><span>Telegram<small>Habari na maonyesho ya kwanza</small></span></a>
+<a href="https://t.me/tubetu_chat" rel="noopener" target="_blank"><i style="background:#229ED9">💬</i><span>Gumzo la familia<small>Gumzo la wazazi</small></span></a>
+<a href="https://www.facebook.com/profile.php?id=61587033427469" rel="noopener" target="_blank"><i style="background:#1877F2">f</i><span>Facebook<small>Habari</small></span></a>
+<a href="https://x.com/tubetuapp" rel="noopener" target="_blank"><i style="background:#000">𝕏</i><span>X<small>Matangazo</small></span></a>
+<a href="https://suno.com/@tubetu_team" rel="noopener" target="_blank"><i style="background:var(--purple)">♫</i><span>Suno<small>Nyimbo za katuni</small></span></a>
+</div>
+</div>
+</section>
+<section id="roditelyam">
+<div class="wrap">
+<span class="kicker">Wazazi</span>
+<h2>Katuni yetu inahusu nini</h2>
+<p class="lead">TUBETU ni «to be two» — kuwa pamoja. Tunawaambia watoto kwamba pamoja mnaweza zaidi, na wema daima hurudi.</p>
+<div class="values">
+<div class="value" style="--c:var(--orange)"><b>Urafiki na kazi ya pamoja</b><p>Mashujaa ni tofauti, lakini wanashinda pamoja tu — kila mmoja kwa nguvu yake.</p></div>
+<div class="value" style="--c:var(--lime)"><b>Msaada bila malipo</b><p>Timu inaruka kwa yeyote anayeita — hata inamnyooshea mkono mhalifu mlafi.</p></div>
+<div class="value" style="--c:var(--purple)"><b>Kicheko na wahalifu wema</b><p>Wahalifu wetu ni wa kuchekesha, si wa kutisha. Ucheshi mwingi, ukatili hakuna.</p></div>
+</div>
+</div>
+</section>
+<section style="padding:0 0 10px">
+<div class="wrap">
+<a href="/sw/pozdravlenie/" style="display:flex;align-items:center;gap:16px;text-decoration:none;color:#fff;background:linear-gradient(110deg,#FF3FA4,#8E3BF5);border-radius:28px;padding:16px 22px;flex-wrap:wrap">
+<span style="font-size:44px">🎂</span>
+<span style="flex:1;min-width:220px"><b style="font-size:22px;font-weight:900;display:block">Pongezi kutoka kwa mashujaa</b><span style="font-weight:700;opacity:.95">Ni siku ya kuzaliwa ya mtoto wako? Lisko, Dobrik, Vionka na Asila watampongeza kwa jina lake!</span></span>
+<span style="background:#fff;color:#8E3BF5;font-weight:900;padding:10px 18px;border-radius:999px">Tengeneza kadi →</span>
+</a>
+</div>
+</section>
+<section id="dnevnik" style="background:#fff">
+<div class="wrap">
+<span class="kicker">Shajara ya utengenezaji</span>
+<h2>Tunavyotengeneza katuni</h2>
+<p class="lead">Sehemu ya 1 «Mwamba wa Hazina» inaandaliwa sasa hivi. Hiki ndicho kilicho tayari.</p>
+<ul class="diary">
+<li><b>Novemba 2026</b>Utangulizi wa «TU-BE-TU» uko tayari: herufi zinaruka kutoka Mwambani na kuunda jina.</li>
+<li><b>Novemba 2026</b>Mashujaa wameanza kuongea: sauti za timu nzima, marafiki zao na genge la Skupshchik zimerekodiwa.</li>
+<li><b>Novemba 2026</b>Bundi Ukh amepata kazi — sasa anatangaza kila sehemu.</li>
+<li><b>Novemba 2026</b>Tovuti, shindano la kuchora na mchezo «TUBETU: Waokoaji» vimefunguliwa.</li>
+<li><b>Hivi karibuni</b>Onyesho la kwanza la sehemu ya 1 kwenye YouTube. Jiunge usikose!</li>
+</ul>
+</div>
+</section>
+<section id="otzyvy">
+<div class="wrap">
+<span class="kicker">Maoni</span>
+<h2>Wazazi wanasema nini</h2>
+<div class="reviews" id="reviewsList"><div class="empty" style="grid-column:1/-1;margin:0">Bado hakuna maoni — kuwa wa kwanza!</div></div>
+<form class="rf" id="reviewForm">
+<b style="font-size:20px">Acha maoni</b>
+<input maxlength="40" name="name" placeholder="Jina lako (k.m. «mama yake Aliya»)" required=""/>
+<input maxlength="40" name="city" placeholder="Mji (si lazima)"/>
+<textarea maxlength="600" name="text" placeholder="Wewe na mtoto wako mlipenda nini?" required=""></textarea>
+<input aria-hidden="true" autocomplete="off" class="hp" name="website" tabindex="-1"/>
+<label class="ch"><input name="ok" required="" type="checkbox"/> Mimi ni mtu mzima na nakubali maoni yangu pamoja na jina langu yaonekane kwenye tovuti baada ya kukaguliwa.</label>
+<button class="btn main" type="submit">Tuma</button>
+<div class="rmsg" id="reviewMsg" role="status"></div>
+</form>
+</div>
+</section>
+<section class="dark" id="podderzhat">
+<div class="wrap">
+<span class="kicker">Kwa watu wazima</span>
+<h2>Iunge mkono TUBETU</h2>
+<p class="lead">Tunatengeneza katuni hii nzuri kwa nguvu zetu wenyewe. Ukipenda TUBETU, iunge mkono timu: kila msaada unaleta sehemu mpya karibu.</p>
+<div class="pay">
+<div><b>▶ YouTube</b>Jiunge, penda na shiriki sehemu — ni bure na inasaidia sana.<br/><small class="on"><a href="https://www.youtube.com/@tubetuapp" rel="noopener" style="color:var(--navy);text-decoration:none" target="_blank">Jiunge</a></small></div>
+<div><b>Kaspi</b>Uhamisho au msimbo wa QR kwa watazamaji wa Kazakhstan.<br/><small>Hivi karibuni</small></div>
+<div><b>Boosty</b>Usajili wenye bonasi: michoro ya kupaka rangi, nyuma ya pazia, kuona mapema.<br/><small>Hivi karibuni</small></div>
+<div><b>Patreon</b>Kwa watazamaji wa nchi nyingine.<br/><small>Hivi karibuni</small></div>
+</div>
+<p class="lead" style="font-size:14px;margin-top:16px">Watoto, tafadhali msitume pesa wenyewe — waulizeni wazazi.</p>
+</div>
+</section>
+<section style="padding-bottom:0">
+<div class="wrap">
+<div class="tg">
+<div><h2>Habari za TUBETU</h2><p>Maonyesho ya kwanza, michezo mipya na matokeo ya shindano — kwanza kabisa. Kwenye Telegram au kwa barua pepe.</p></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+<a class="btn main" href="https://t.me/tubetu_official" rel="noopener" target="_blank">Telegram</a>
+<form id="subForm" style="display:flex;gap:6px;flex-wrap:wrap"><input id="subEmail" placeholder="Barua pepe ya mzazi" required="" style="font:700 16px Nunito,sans-serif;padding:12px 14px;border-radius:999px;border:0;min-width:200px" type="email"/><button class="btn main" type="submit">Kwa barua pepe</button></form>
+<div id="subMsg2" style="font-weight:800;width:100%"></div>
+</div>
+</div>
+</div>
+</section>
+<section style="padding-top:28px">
+<div class="wrap">
+<div class="games">
+<div><h2>Michezo ya TUBETU</h2><p>Ruka juu ya milima, kusanya fuwele, pasua mapovu pamoja na marafiki na kwepa magunia ya Skupshchik!</p></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn main" href="/sw/games/">🎮 Waokoaji</a><a class="btn main" href="/sw/games/pazl/">🧩 Fumbo</a><a class="btn main" href="/sw/games/otlichiya/">🔍 Tafuta tofauti</a><a class="btn main" href="/sw/raskraska/">🖌 Kupaka rangi</a></div>
+</div>
+</div>
+</section>
+<footer>
+<div class="wrap">
+<img alt="TUBETU" src="/assets/logo.png"/>
+<div>© 2026 TUBETU · Barua pepe: <a href="mailto:tubetu.team@gmail.com">tubetu.team@gmail.com</a></div>
+<div><a href="/sw/platform.html">Kuingia kwa wazazi</a> · <a href="#otzyvy">Maoni</a> · <a href="#podderzhat">Tuunge mkono</a></div>
+</div>
+</footer>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}</script>
+<script>
+(function(){
+var U='https://zbgfuitelvmkrpzbpcrj.supabase.co/rest/v1/reviews',K='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
+var H={apikey:K,Authorization:'Bearer '+K};
+function esc(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+fetch(U+'?select=name,city,text&order=created_at.desc&limit=12',{headers:H}).then(function(r){return r.ok?r.json():[];}).then(function(a){
+  if(!a||!a.length)return;document.getElementById('reviewsList').innerHTML=a.map(function(x){return '<div class="review"><p>«'+esc(x.text)+'»</p><b>'+esc(x.name)+'</b>'+(x.city?' · '+esc(x.city):'')+'</div>';}).join('');}).catch(function(){});
+var sf=document.getElementById('subForm');sf.addEventListener('submit',function(e){e.preventDefault();var em=document.getElementById('subEmail').value.trim(),sm=document.getElementById('subMsg2');
+  fetch(U.replace('/reviews','/subscribers'),{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({email:em})}).then(function(r){if(!r.ok&&r.status!==409)throw 0;sf.reset();sm.textContent='Tayari! Tutaandika kuhusu mambo muhimu tu.';}).catch(function(){sm.textContent='Kuna hitilafu. Jaribu baadaye au tufuate kwenye Telegram.';});});
+var f=document.getElementById('reviewForm'),m=document.getElementById('reviewMsg');
+f.addEventListener('submit',function(e){e.preventDefault();if(f.elements.website.value)return;
+  var b=f.querySelector('button');b.disabled=true;m.style.color='';m.textContent='Inatuma…';
+  fetch(U,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({name:f.elements.name.value.trim(),city:f.elements.city.value.trim(),text:f.elements.text.value.trim()})})
+  .then(function(r){if(!r.ok)throw 0;f.reset();m.style.color='#2E7D32';m.textContent='Asante! Maoni yako yataonekana kwenye tovuti baada ya kukaguliwa.';})
+  .catch(function(){m.style.color='#C62828';m.textContent='Imeshindikana kutuma. Tuandikie tubetu.team@gmail.com';})
+  .then(function(){b.disabled=false;});});
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

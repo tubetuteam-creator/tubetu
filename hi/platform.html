@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="hi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<title>परिवार कक्ष — TUBETU</title>
+<meta content="TUBETU परिवार कक्ष: ड्रॉइंग प्रतियोगिता, समीक्षाएँ, गेम, कलरिंग पेज और कार्टून की ख़बरें।" name="description"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--navy:#0B1240;--navy2:#141C5C;--sky:#EAF6FF;--ink:#1B1F3B;--muted:#5A6185;--orange:#FF8A1F;--lime:#8BD62A;--purple:#8E3BF5;--pink:#FF3FA4;--blue:#2EA8FF;--gold:#FFC72C;--r:24px}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Nunito,system-ui,sans-serif;color:var(--ink);background:var(--sky);min-height:100vh}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+/* top */
+.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:10}
+.top .wrap{display:flex;align-items:center;gap:12px;height:62px}
+.top .logo img{height:34px;width:auto}
+.top .sp{flex:1}
+.top a.link,.top button.link{color:#fff;text-decoration:none;font:800 15px Nunito,sans-serif;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:0;cursor:pointer}
+.top a.link:hover,.top button.link:hover{background:rgba(255,255,255,.2)}
+/* hero */
+.hero{position:relative;color:#fff;background:var(--navy);overflow:hidden;min-height:calc(100vh - 130px);display:flex;align-items:center}.hero>.wrap{width:100%}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,18,64,.92) 0%,rgba(11,18,64,.55) 55%,rgba(11,18,64,.2))}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding-top:40px;padding-bottom:40px}
+.hero h1{font-size:clamp(30px,4.6vw,48px);font-weight:900;line-height:1.08;margin:0 0 12px}
+.hero h1 span{color:var(--gold)}
+.hero p.lead{font-size:18px;opacity:.95;margin:0 0 18px;max-width:520px}
+.perks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.perks li{display:flex;gap:12px;align-items:center;font-weight:800;background:rgba(255,255,255,.1);border-radius:16px;padding:10px 14px;backdrop-filter:blur(4px)}
+.perks b{font-size:22px;width:30px;text-align:center}
+/* auth card */
+.card{background:#fff;color:var(--ink);border-radius:28px;padding:24px;box-shadow:0 20px 60px rgba(11,18,64,.35)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#EEF2FF;border-radius:999px;padding:5px;margin-bottom:18px}
+.tabs button{border:0;background:none;font:900 16px Nunito,sans-serif;padding:10px;border-radius:999px;cursor:pointer;color:var(--muted)}
+.tabs button.on{background:#fff;color:var(--navy);box-shadow:0 3px 10px rgba(11,18,64,.12)}
+label.f{display:block;font-weight:800;font-size:14px;margin:12px 0 6px}
+input.in,select.in{width:100%;background:#fff;font:700 16px Nunito,sans-serif;padding:13px 15px;border:2px solid #D7DDF2;border-radius:14px;outline:none;transition:border .2s}
+input.in:focus{border-color:var(--blue)}
+.ch{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);font-weight:700;margin-top:12px}
+.ch input{margin-top:3px;width:18px;height:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:900 17px Nunito,sans-serif;padding:14px 26px;border-radius:999px;text-decoration:none;color:#fff;background:linear-gradient(180deg,#FFB347,#FF7A00);box-shadow:0 6px 0 #B85500;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 3px 0 #B85500}
+.btn.full{width:100%;margin-top:18px}
+.btn.ghost{background:#EEF2FF;color:var(--navy);box-shadow:none}
+.btn[disabled]{opacity:.6;cursor:wait}
+.small{font-size:14px;color:var(--muted);font-weight:700}
+.linkbtn{background:none;border:0;color:var(--blue);font:800 14px Nunito,sans-serif;cursor:pointer;padding:0;margin-top:12px}
+.msg{margin-top:14px;font-weight:800;font-size:15px;border-radius:14px;padding:0}
+.msg.ok{color:#2E7D32;background:#E8F7EA;padding:12px 14px}
+.msg.err{color:#C62828;background:#FDECEC;padding:12px 14px}
+.hide{display:none!important}
+/* cabinet */
+.hello{background:linear-gradient(120deg,var(--navy),#2B2F8A);color:#fff}
+.hello .wrap{display:flex;align-items:center;gap:22px;padding-top:28px;padding-bottom:28px}
+.hello .fav{width:110px;height:140px;object-fit:contain;filter:drop-shadow(0 8px 16px rgba(0,0,0,.35));flex:none}
+.hello h1{margin:0;font-size:clamp(26px,4vw,40px);font-weight:900}
+.hello p{margin:6px 0 0;opacity:.9;font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
+.tile{background:#fff;border-radius:22px;padding:18px;text-decoration:none;color:var(--ink);box-shadow:0 6px 20px rgba(11,18,64,.07);border:3px solid transparent;transition:transform .15s,border-color .15s;display:flex;flex-direction:column;gap:6px}
+.tile:hover{transform:translateY(-3px);border-color:var(--c)}
+.tile .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:color-mix(in srgb,var(--c) 18%,#fff)}
+.tile b{font-size:18px;font-weight:900}
+.tile span{font-size:14px;color:var(--muted);font-weight:700}
+h2.sec{font-size:26px;font-weight:900;margin:30px 0 4px}
+p.sub{margin:0 0 14px;color:var(--muted);font-weight:700}
+.heroes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hpick{background:#fff;border:3px solid transparent;border-radius:22px;padding:10px;cursor:pointer;text-align:center;font:900 17px Nunito,sans-serif;color:var(--ink);transition:all .2s}
+.hpick img{height:150px;margin:0 auto 6px;object-fit:contain}
+.hpick.on{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 30%,transparent);transform:translateY(-4px)}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 40px}
+.panel{background:#fff;border-radius:24px;padding:22px;box-shadow:0 6px 20px rgba(11,18,64,.07)}
+.panel h3{margin:0 0 6px;font-size:21px;font-weight:900}
+.steps{margin:10px 0 0;padding-left:20px;font-weight:700;line-height:1.6}
+.stat{display:flex;gap:12px;align-items:center;background:#FFF6D6;border-radius:18px;padding:14px;margin-top:10px;font-weight:800}
+.stat b{font-size:30px;color:var(--orange)}
+footer{background:var(--navy);color:#C7CDF5;padding:24px 0;font-weight:700;font-size:14px}
+footer a{color:#fff}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.tiles{grid-template-columns:1fr 1fr}.heroes{grid-template-columns:1fr 1fr}.panels{grid-template-columns:1fr}}
+@media(max-width:520px){.hello .fav{width:80px;height:100px}.hpick img{height:120px}.top a.link.hidem{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="wrap">
+<a aria-label="TUBETU — होम" class="logo" href="/hi/"><img alt="TUBETU" src="/assets/logo.png"/></a>
+<div class="sp"></div>
+<a class="link hidem" href="/hi/games/">🎮 गेम</a>
+<a class="link" href="/hi/">वेबसाइट पर</a>
+<button class="link hide" id="logoutBtn" type="button">लॉग आउट</button>
+</div>
+</header>
+<!-- ===== GUEST: login / register ===== -->
+<section class="hero" id="guest">
+<img alt="" class="bg" src="/assets/komanda-poster.jpg"/>
+<div class="wrap">
+<div>
+<h1>परिवार कक्ष <span>TUBETU</span></h1>
+<p class="lead">रजिस्टर कोई वयस्क करता है — मम्मी, पापा या दादी। बच्चे को अलग अकाउंट की ज़रूरत नहीं।</p>
+<ul class="perks">
+<li><b>🏆</b>ड्रॉइंग प्रतियोगिता में हिस्सा लें और प्रमाणपत्र पाएँ</li>
+<li><b>⭐</b>कार्टून के बारे में समीक्षा लिखें</li>
+<li><b>💛</b>बच्चे का पसंदीदा हीरो चुनें</li>
+<li><b>🔔</b>नए एपिसोड के बारे में सबसे पहले जानें</li>
+</ul>
+</div>
+<div class="card">
+<div id="authBox">
+<div class="tabs" role="tablist">
+<button class="on" id="tabLogin" role="tab" type="button">लॉग इन</button>
+<button id="tabReg" role="tab" type="button">रजिस्टर करें</button>
+</div>
+<form id="authForm" novalidate="">
+<div class="hide" id="nameRow">
+<label class="f" for="name">हम आपको क्या कहकर बुलाएँ</label>
+<input autocomplete="nickname" class="in" id="name" maxlength="40" placeholder="जैसे, आलिया की मम्मी"/>
+</div>
+<label class="f" for="email">ईमेल</label>
+<input autocomplete="email" class="in" id="email" placeholder="you@example.com" required="" type="email"/>
+<label class="f" for="pass">पासवर्ड</label>
+<input autocomplete="current-password" class="in" id="pass" minlength="6" placeholder="कम से कम 6 अक्षर" required="" type="password"/>
+<label class="ch hide" id="adultRow"><input id="adult" type="checkbox"/> मेरी उम्र 18 साल या उससे ज़्यादा है। मैं सहमत हूँ कि TUBETU परिवार कक्ष के लिए मेरा ईमेल और नाम रखे। हम बच्चों का डेटा नहीं लेते।</label>
+<button class="btn full" id="authSubmit" type="submit">अंदर जाएँ</button>
+<button class="linkbtn" id="forgotBtn" type="button">पासवर्ड भूल गए?</button>
+<div class="msg" id="authMsg" role="status"></div>
+</form>
+</div>
+<form class="hide" id="recoverBox" novalidate="">
+<h2 style="margin:0 0 6px;font-weight:900">नया पासवर्ड</h2>
+<p class="small">परिवार कक्ष के लिए नया पासवर्ड बनाएँ।</p>
+<label class="f" for="newPass">नया पासवर्ड</label>
+<input autocomplete="new-password" class="in" id="newPass" minlength="6" placeholder="कम से कम 6 अक्षर" type="password"/>
+<button class="btn full" id="recoverSubmit" type="submit">पासवर्ड सेव करें</button>
+<div class="msg" id="recoverMsg" role="status"></div>
+</form>
+</div>
+</div>
+</section>
+<!-- ===== CABINET ===== -->
+<div class="hide" id="cabinet">
+<section class="hello">
+<div class="wrap">
+<img alt="" class="fav" id="favImg" src="/games/img/full-lisko.webp"/>
+<div>
+<h1 id="helloTitle">नमस्ते!</h1>
+<p id="helloSub">खज़ाने की चट्टान में स्वागत है। दरवाज़ा खुला है — आप अपने हैं!</p>
+</div>
+</div>
+</section>
+<main class="wrap">
+<div class="tiles">
+<a class="tile" href="/hi/games/" style="--c:var(--orange)"><div class="ic">🎮</div><b>खेलें</b><span>«TUBETU: बचाव दल»</span></a>
+<a class="tile" href="/hi/raskraska/" style="--c:var(--blue)"><div class="ic">🖍️</div><b>रंग भरें</b><span>ऑनलाइन रंग भरें</span></a>
+<a class="tile" href="#konkurs" style="--c:var(--pink)"><div class="ic">🏆</div><b>प्रतियोगिता</b><span>चित्र भेजें</span></a>
+<a class="tile" href="/hi/#otzyvy" style="--c:var(--lime)"><div class="ic">⭐</div><b>समीक्षा</b><span>अपनी राय दें</span></a>
+<a class="tile" href="https://www.youtube.com/@tubetuapp" rel="noopener" style="--c:#FF0000" target="_blank"><div class="ic">▶️</div><b>देखें</b><span>हमारा YouTube</span></a>
+<a class="tile" href="https://t.me/tubetu_chat" rel="noopener" style="--c:#229ED9" target="_blank"><div class="ic">💬</div><b>परिवार चैट</b><span>माता-पिता चैट</span></a>
+<a class="tile" href="https://t.me/tubetu_official" rel="noopener" style="--c:#2AABEE" target="_blank"><div class="ic">🔔</div><b>ख़बरें</b><span>Telegram चैनल</span></a>
+<a class="tile" href="/hi/#podderzhat" style="--c:var(--purple)"><div class="ic">💜</div><b>सहयोग</b><span>टीम की मदद करें</span></a>
+<a class="tile" href="/hi/pozdravlenie/" style="--c:var(--pink)"><div class="ic">🎂</div><b>बधाई</b><span>जन्मदिन कार्ड</span></a>
+<a class="tile" href="/hi/dver/" style="--c:var(--gold)"><div class="ic">🔑</div><b>गुप्त दरवाज़ा</b><span>उख का पासवर्ड</span></a>
+<a class="tile" href="/hi/games/pazl/" style="--c:var(--blue)"><div class="ic">🧩</div><b>पज़ल</b><span>तस्वीर जोड़ो</span></a>
+<a class="tile" href="/hi/games/otlichiya/" style="--c:var(--lime)"><div class="ic">🔍</div><b>अंतर ढूँढो</b><span>ध्यान वाला गेम</span></a>
+</div>
+<h2 class="sec">पसंदीदा हीरो</h2>
+<p class="sub">आपके बच्चे को सबसे ज़्यादा कौन पसंद है? वह हीरो परिवार कक्ष में आपका स्वागत करेगा।</p>
+<div class="heroes" id="heroes"></div>
+<div class="msg" id="favMsg" role="status"></div>
+<div class="panels">
+<div class="panel" id="konkurs">
+<h3>🏆 ड्रॉइंग प्रतियोगिता</h3>
+<p class="small">बच्चा अपना पसंदीदा TUBETU हीरो बनाता है। चित्र की फ़ोटो लेकर यहाँ अपलोड करें — मॉडरेशन के बाद वह <a href="/hi/risunki/">गैलरी</a> में दिखेगा, और लोग उसे वोट दे सकेंगे।</p>
+<form id="drawForm" novalidate="">
+<label class="f" for="dFile">चित्र की फ़ोटो</label>
+<input accept="image/*" class="in" id="dFile" type="file"/>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:8px">
+<div><label class="f" for="dName">कलाकार का नाम</label><input class="in" id="dName" maxlength="20" placeholder="सिर्फ़ पहला नाम"/></div>
+<div><label class="f" for="dAge">उम्र</label><input class="in" id="dAge" inputmode="numeric" max="17" min="1" type="number"/></div>
+</div>
+<label class="f" for="dHero">किसका चित्र है</label>
+<select class="in" id="dHero"><option value="team">पूरी टीम</option><option value="lisko">लिस्को</option><option value="dobrik">दोब्रिक</option><option value="vionka">वियोन्का</option><option value="asila">असीला</option><option value="kvasya">क्वास्या</option><option value="nyukh">न्यूख</option><option value="dyusha">द्यूशा</option><option value="ukh">उख</option><option value="snezhok">स्नेझोक</option><option value="shushik">शुशिक</option><option value="skot">स्कॉट</option></select>
+<label class="ch"><input id="dOk" type="checkbox"/> मैं माता-पिता (कानूनी अभिभावक) हूँ और सहमत हूँ कि चित्र बच्चे के नाम और उम्र के साथ TUBETU वेबसाइट पर दिखाया जाए। मैं बच्चे का उपनाम या फ़ोटो अपलोड नहीं कर रहा/रही।</label>
+<button class="btn full" id="dSend" type="submit">प्रतियोगिता में भेजें</button>
+<div class="msg" id="dMsg" role="status"></div>
+</form>
+<div id="myDrawings"></div>
+<p class="small" style="margin-top:10px">या पुराने तरीके से: फ़ोटो भेजें — <a href="https://t.me/tubetu_chat" rel="noopener" target="_blank">परिवार चैट</a> हैशटैग के साथ <b>#TUBETUdrawing</b>.</p>
+</div>
+<div class="panel">
+<h3>🎮 तुम्हारी उपलब्धियाँ</h3>
+<p class="small">इस डिवाइस पर «बचाव दल» का रिकॉर्ड:</p>
+<div class="stat"><b id="bestScore">0</b><span>अंक — तोड़ सकते हो?</span></div>
+<a class="btn ghost" href="/hi/games/" style="margin-top:14px">फिर खेलें</a>
+<h3 style="margin-top:22px">⚙️ सेटिंग्स</h3>
+<label class="f" for="newName">हम आपको क्या कहकर बुलाएँ</label>
+<input class="in" id="newName" maxlength="40"/>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+<button class="btn ghost" id="saveName" type="button">नाम सेव करें</button>
+<button class="btn ghost" id="changePass" type="button">पासवर्ड बदलें</button>
+</div>
+<div class="msg" id="setMsg" role="status"></div>
+<h3 style="margin-top:22px">🔔 ईमेल पर ख़बरें</h3>
+<p class="small">नया एपिसोड, गेम या प्रतियोगिता के नतीजे आने पर हम लिखेंगे। हफ़्ते में एक बार से ज़्यादा नहीं।</p>
+<button class="btn ghost" id="subBtn" style="margin-top:8px" type="button">ख़बरों के लिए सब्सक्राइब करें</button>
+<div class="msg" id="subMsg" role="status"></div>
+</div>
+</div>
+</main>
+</div>
+<footer><div class="wrap">© 2026 TUBETU · <a href="/hi/">tubetu.com</a> · ईमेल: <a href="mailto:tubetu.team@gmail.com">tubetu.team@gmail.com</a></div></footer>
+<script>
+(function(){
+'use strict';
+var SUPABASE_URL='https://zbgfuitelvmkrpzbpcrj.supabase.co',SUPABASE_KEY='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
+var SITE='https://tubetu.com/hi/platform.html';
+var HEROES=[{id:'lisko',name:'लिस्को',c:'#FF8A1F',g:'आपसे'},{id:'dobrik',name:'दोब्रिक',c:'#8BD62A',g:'आपसे'},{id:'vionka',name:'वियोन्का',c:'#8E3BF5',g:'आपसे'},{id:'asila',name:'असीला',c:'#FF3FA4',g:'आपसे'}];
+var $=function(id){return document.getElementById(id);};
+var db=null,user=null,regMode=false,recovery=/[?&]mode=recovery/.test(location.search)||/type=recovery/.test(location.hash);
+try{db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:window.localStorage,storageKey:'sb-zbgfuitelvmkrpzbpcrj-auth-token'}});}catch(e){console.error(e);}
+
+function msg(id,text,ok){var e=$(id);e.textContent=text||'';e.className='msg'+(text?(ok?' ok':' err'):'');}
+function busy(id,on,text){var b=$(id);if(on){b.dataset.t=b.textContent;b.textContent=text;b.disabled=true;}else{b.textContent=b.dataset.t||b.textContent;b.disabled=false;}}
+function ruErr(e){var m=(e&&e.message)||String(e);
+  if(/Invalid login/i.test(m))return 'ईमेल या पासवर्ड ग़लत है।';
+  if(/Email not confirmed/i.test(m))return 'ईमेल अभी कन्फ़र्म नहीं हुआ। TUBETU का ईमेल खोलें और लिंक पर क्लिक करें।';
+  if(/already registered|already exists/i.test(m))return 'यह ईमेल पहले से रजिस्टर है। लॉग इन करें या पासवर्ड रीसेट करें।';
+  if(/Password should be/i.test(m))return 'पासवर्ड बहुत छोटा है — कम से कम 6 अक्षर।';
+  if(/rate limit|too many/i.test(m))return 'बहुत ज़्यादा कोशिशें। एक मिनट रुककर फिर कोशिश करें।';
+  if(/fetch|network/i.test(m))return 'सर्वर से कनेक्शन नहीं है। इंटरनेट जाँचें।';
+  return 'त्रुटि: '+m;}
+
+function setMode(reg){regMode=reg;$('tabLogin').classList.toggle('on',!reg);$('tabReg').classList.toggle('on',reg);$('nameRow').classList.toggle('hide',!reg);$('adultRow').classList.toggle('hide',!reg);
+  $('authSubmit').textContent=reg?'अकाउंट बनाएँ':'अंदर जाएँ';$('pass').autocomplete=reg?'new-password':'current-password';$('forgotBtn').classList.toggle('hide',reg);msg('authMsg','');}
+$('tabLogin').onclick=function(){setMode(false);};$('tabReg').onclick=function(){setMode(true);};
+
+$('authForm').addEventListener('submit',async function(ev){ev.preventDefault();if(!db)return msg('authMsg','सेवा अभी उपलब्ध नहीं है। पेज रिफ़्रेश करें।');
+  var email=$('email').value.trim(),pass=$('pass').value,name=$('name').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return msg('authMsg','ईमेल जाँचें।');
+  if(pass.length<6)return msg('authMsg','पासवर्ड — कम से कम 6 अक्षर।');
+  if(regMode){if(name.length<2)return msg('authMsg','बताएँ कि आपको क्या कहकर बुलाएँ।');if(!$('adult').checked)return msg('authMsg','पुष्टि करें कि आपकी उम्र 18 साल या ज़्यादा है — सिर्फ़ वयस्क रजिस्टर कर सकते हैं।');}
+  busy('authSubmit',true,regMode?'बनाया जा रहा है…':'लॉग इन हो रहा है…');
+  try{if(regMode){var r=await db.auth.signUp({email:email,password:pass,options:{emailRedirectTo:SITE,data:{username:name,display_name:name}}});if(r.error)throw r.error;
+      if(r.data.session){user=r.data.user;render();}else msg('authMsg','बस थोड़ा और! हमने ईमेल भेजा है: '+email+'। उसे खोलें और लिंक पर क्लिक करें — फिर लॉग इन करें।',true);}
+    else{var l=await db.auth.signInWithPassword({email:email,password:pass});if(l.error)throw l.error;user=l.data.user;if(!afterLogin())render();}}
+  catch(e){msg('authMsg',ruErr(e));}finally{busy('authSubmit',false);}});
+
+$('forgotBtn').onclick=async function(){var email=$('email').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return msg('authMsg','ऊपर वाले फ़ील्ड में अपना ईमेल लिखें — और «पासवर्ड भूल गए?» फिर से दबाएँ।');
+  try{var r=await db.auth.resetPasswordForEmail(email,{redirectTo:SITE+'?mode=recovery'});if(r.error)throw r.error;msg('authMsg','अगर ऐसा अकाउंट है, तो हमने नया पासवर्ड बनाने के लिंक वाला ईमेल भेज दिया है।',true);}catch(e){msg('authMsg',ruErr(e));}};
+
+function openRecovery(){recovery=true;$('guest').classList.remove('hide');$('cabinet').classList.add('hide');$('authBox').classList.add('hide');$('recoverBox').classList.remove('hide');}
+$('recoverBox').addEventListener('submit',async function(ev){ev.preventDefault();var p=$('newPass').value;if(p.length<6)return msg('recoverMsg','पासवर्ड — कम से कम 6 अक्षर।');
+  busy('recoverSubmit',true,'सेव हो रहा है…');try{var r=await db.auth.updateUser({password:p});if(r.error)throw r.error;msg('recoverMsg','पासवर्ड सेव हो गया! परिवार कक्ष खुल रहा है…',true);recovery=false;history.replaceState(null,'','/hi/platform.html');setTimeout(function(){$('authBox').classList.remove('hide');$('recoverBox').classList.add('hide');render();},900);}
+  catch(e){msg('recoverMsg',ruErr(e));}finally{busy('recoverSubmit',false);}});
+
+function meta(){return (user&&user.user_metadata)||{};}
+function render(){var logged=!!user&&!recovery;$('guest').classList.toggle('hide',logged);$('cabinet').classList.toggle('hide',!logged);$('logoutBtn').classList.toggle('hide',!user);
+  if(!logged)return;var m=meta(),name=m.display_name||m.username||'';$('helloTitle').textContent='नमस्ते'+(name?', '+name:'')+'!';$('newName').value=name;
+  var fav=HEROES.filter(function(h){return h.id===m.fav_hero;})[0]||HEROES[0];$('favImg').src='/games/img/full-'+fav.id+'.webp';$('favImg').alt=fav.name;
+  $('helloSub').textContent=m.fav_hero?(fav.name+' '+fav.g+' मिलकर बहुत खुश है! चट्टान का दरवाज़ा खुला है — आप अपने हैं।'):'खज़ाने की चट्टान में स्वागत है। दरवाज़ा खुला है — आप अपने हैं!';
+  $('heroes').innerHTML='';HEROES.forEach(function(h){var b=document.createElement('button');b.type='button';b.className='hpick'+(m.fav_hero===h.id?' on':'');b.style.setProperty('--c',h.c);b.innerHTML='<img src="/games/img/full-'+h.id+'.webp" alt=""><span style="color:'+h.c+'">'+h.name+'</span>';
+    b.onclick=async function(){try{var r=await db.auth.updateUser({data:{fav_hero:h.id}});if(r.error)throw r.error;user=r.data.user;render();msg('favMsg',h.name+' — बढ़िया चुनाव!',true);}catch(e){msg('favMsg',ruErr(e));}};$('heroes').appendChild(b);});
+  var best=0;try{best=+JSON.parse(localStorage.getItem('tubetu_best2')||'0')||0;}catch(e){}$('bestScore').textContent=best;loadMine();}
+
+
+var NEXT=(location.search.match(/[?&]next=([^&]+)/)||[])[1];NEXT=NEXT&&/^\/[a-z0-9\-\/#%]*$/i.test(decodeURIComponent(NEXT))?decodeURIComponent(NEXT):null;
+function afterLogin(){if(NEXT){location.href=NEXT;return true;}return false;}
+function shrink(file,max){return new Promise(function(res,rej){var img=new Image();img.onload=function(){var s=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(function(b){b?res(b):rej(new Error('blob'));},'image/jpeg',.85);URL.revokeObjectURL(img.src);};img.onerror=function(){rej(new Error('तस्वीर नहीं खुल सकी'));};img.src=URL.createObjectURL(file);});}
+$('drawForm').addEventListener('submit',async function(ev){ev.preventDefault();var f=$('dFile').files[0],n=$('dName').value.trim().replace(/[<>"']/g,''),a=parseInt($('dAge').value,10);
+  if(!f)return msg('dMsg','चित्र की फ़ोटो चुनें।');if(n.length<2)return msg('dMsg','कलाकार का नाम लिखें (सिर्फ़ पहला नाम)।');if(!$('dOk').checked)return msg('dMsg','माता-पिता की सहमति की पुष्टि करें।');
+  busy('dSend',true,'अपलोड हो रहा है…');try{var blob=await shrink(f,1600),path=user.id+'/'+Date.now()+'.jpg';
+    var up=await db.storage.from('drawings').upload(path,blob,{contentType:'image/jpeg',upsert:false});if(up.error)throw up.error;
+    var ins=await db.from('drawings').insert({child_name:n,child_age:a>0&&a<18?a:null,hero:$('dHero').value,image_path:path});if(ins.error)throw ins.error;
+    msg('dMsg','चित्र भेज दिया गया! मॉडरेशन के बाद गैलरी में दिखेगा। धन्यवाद! 🎨',true);$('drawForm').reset();loadMine();}
+  catch(e){console.error(e);msg('dMsg',/bucket|relation|not found|does not exist/i.test(e.message||'')?'प्रतियोगिता बहुत जल्द शुरू होगी — अपलोड अभी सेट हो रहा है।':ruErr(e));}finally{busy('dSend',false);}});
+var ST={pending:'⏳ जाँच हो रही है',approved:'✅ गैलरी में',rejected:'✖ स्वीकार नहीं हुआ'};
+async function loadMine(){if(!db||!user)return;try{var r=await db.from('drawings').select('id,child_name,status,votes').eq('owner_id',user.id).order('id',{ascending:false}).limit(10);if(r.error||!r.data||!r.data.length){$('myDrawings').innerHTML='';return;}
+  $('myDrawings').innerHTML='<h3 style="margin-top:16px;font-size:17px">मेरे चित्र</h3>'+r.data.map(function(d){var t=document.createElement('div');t.textContent=d.child_name;return '<div class="small" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #EEF2FF"><span>'+t.innerHTML+' — '+(ST[d.status]||d.status)+'</span><span>❤ '+d.votes+(d.status==='approved'?' · <a href="/hi/risunki/#d'+d.id+'">खोलें</a>':'')+'</span></div>';}).join('');}catch(e){}}
+$('subBtn').onclick=async function(){try{var r=await db.from('subscribers').insert({email:user.email});if(r.error&&!/duplicate/i.test(r.error.message))throw r.error;msg('subMsg','हो गया! ख़बरें यहाँ आएँगी: '+user.email+'.',true);}catch(e){msg('subMsg',/relation|does not exist/i.test(e.message||'')?'सदस्यता बहुत जल्द शुरू होगी।':ruErr(e));}};
+$('saveName').onclick=async function(){var n=$('newName').value.trim();if(n.length<2)return msg('setMsg','नाम — कम से कम 2 अक्षर।');try{var r=await db.auth.updateUser({data:{display_name:n,username:n}});if(r.error)throw r.error;user=r.data.user;render();msg('setMsg','नाम सेव हो गया।',true);}catch(e){msg('setMsg',ruErr(e));}};
+$('changePass').onclick=async function(){try{var r=await db.auth.resetPasswordForEmail(user.email,{redirectTo:SITE+'?mode=recovery'});if(r.error)throw r.error;msg('setMsg','पासवर्ड बदलने का ईमेल भेजा गया: '+user.email+'.',true);}catch(e){msg('setMsg',ruErr(e));}};
+$('logoutBtn').onclick=async function(){try{await db.auth.signOut();}catch(e){}user=null;recovery=false;render();scrollTo(0,0);};
+
+async function init(){if(!db){render();return;}
+  db.auth.onAuthStateChange(function(event,session){if(event==='PASSWORD_RECOVERY'){openRecovery();return;}user=session&&session.user||null;if(!recovery)render();});
+  try{var s=await db.auth.getSession();user=s.data.session&&s.data.session.user||null;}catch(e){console.error(e);}
+  if(recovery)openRecovery();else if(!(user&&afterLogin()))render();
+  if(/access_token|type=signup/.test(location.hash)&&user){history.replaceState(null,'','/hi/platform.html');}}
+setMode(false);init();
+window.__cab={render:function(u){user=u;recovery=false;render();}};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 (function(){
 var L=[['ru','Русский'],['kz','Қазақша'],['en','English'],['tr','Türkçe'],['zh','中文'],['es','Español'],['hi','हिन्दी'],['sw','Kiswahili'],['pt','Português'],['ar','العربية']];
-var ON=['ru','kz','en'];L=L.filter(function(x){return ON.indexOf(x[0])>=0;});
+var ON=['ru','kz','en','tr','zh','es','hi','sw','pt','ar'];L=L.filter(function(x){return ON.indexOf(x[0])>=0;});
 var ALL=['ru','kz','en','tr','zh','es','hi','sw','pt','ar'];
 var codes=ALL;var _c=L.map(function(x){return x[0];});
 var m=location.pathname.match(/^\/([a-z]{2})(\/.*)$/),cur='ru',base=location.pathname;

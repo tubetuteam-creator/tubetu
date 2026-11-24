@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<title>Kaya'nın gizli kapısı — TUBETU</title>
+<meta content="Baykuş Ukh, Hazine Kayası'nın kapısını korur. TUBETU videolarındaki şifreyi biliyor musun? Söyle — kapı açılsın!" name="description"/>
+<meta content="Şifreyi biliyor musun? Ukh yabancıları içeri almaz!" property="og:title"/>
+<meta content="TUBETU Hazine Kayası'nın gizli kapısı. Şifreyi söyle ve ödülünü al." property="og:description"/>
+<meta content="https://tubetu.com/assets/dver-bg.jpg" property="og:image"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#0B1240;--gold:#FFC72C;--orange:#FF8A1F;--pink:#FF3FA4}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Nunito,system-ui,sans-serif;color:#fff;background:#0B1240}
+.scene{position:fixed;inset:0;background:url(/assets/dver-bg.jpg) center 60%/cover no-repeat;transition:transform 2.4s cubic-bezier(.5,0,.2,1),filter 1s}
+.scene.zoom{transform:scale(2.6) translateY(4%);filter:brightness(1.4)}
+.shade{position:fixed;inset:0;background:linear-gradient(180deg,rgba(11,18,64,.55),rgba(11,18,64,.15) 40%,rgba(11,18,64,.8))}
+.glow{position:fixed;left:50%;top:58%;width:30vmin;height:46vmin;transform:translate(-50%,-50%);border-radius:50% 50% 10% 10%/60% 60% 10% 10%;background:radial-gradient(closest-side,rgba(255,230,140,.95),rgba(255,180,40,.6) 50%,rgba(255,160,0,0));opacity:0;transition:opacity 1.2s,transform 2.4s;pointer-events:none;mix-blend-mode:screen}
+.glow.on{opacity:1;animation:pulse 1.2s infinite}
+.flash{position:fixed;inset:0;background:#FFF6D6;opacity:0;pointer-events:none;transition:opacity .8s}
+.flash.on{opacity:1}
+@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.08)}}
+.top{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;z-index:5}
+.top a{color:#fff;text-decoration:none;font-weight:800;background:rgba(11,18,64,.55);padding:8px 14px;border-radius:999px;backdrop-filter:blur(6px)}
+.top img{height:34px}
+.wrap{position:relative;z-index:3;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:80px 16px max(24px,env(safe-area-inset-bottom))}
+.box{width:100%;max-width:520px;background:rgba(11,18,64,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.22);border-radius:30px;padding:20px 20px 22px;box-shadow:0 20px 60px rgba(0,0,0,.4);transition:opacity .5s,transform .5s}
+.box.gone{opacity:0;transform:translateY(30px);pointer-events:none}
+.ux{display:flex;gap:14px;align-items:center}
+.ux img{width:84px;height:84px;flex:none;transition:transform .3s}
+.ux img.shake{animation:shake .5s}
+.ux img.awake{transform:scale(1.08) rotate(-4deg)}
+@keyframes shake{20%,60%{transform:rotate(-10deg)}40%,80%{transform:rotate(10deg)}}
+.bubble{position:relative;background:#fff;color:#1B1F3B;border-radius:20px;padding:12px 16px;font-weight:900;font-size:18px;line-height:1.25;flex:1}
+.bubble:before{content:"";position:absolute;left:-9px;top:50%;margin-top:-9px;border:9px solid transparent;border-right-color:#fff;border-left:0}
+.bubble small{display:block;font-weight:700;font-size:13px;color:#5A6185;margin-top:4px}
+form{display:flex;gap:8px;margin-top:16px}
+input{flex:1;min-width:0;font:800 19px Nunito,sans-serif;padding:14px 16px;border-radius:16px;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.95);color:#1B1F3B;outline:none}
+input:focus{border-color:var(--gold)}
+button{font-family:inherit;cursor:pointer;border:0}
+.go{font:900 18px Nunito,sans-serif;color:#fff;padding:0 22px;border-radius:16px;background:linear-gradient(180deg,#FFB347,#FF7A00);box-shadow:0 5px 0 #B85500}
+.go:active{transform:translateY(3px);box-shadow:0 2px 0 #B85500}
+.mic{width:54px;border-radius:16px;background:rgba(255,255,255,.18);font-size:24px;color:#fff}
+.mic.rec{background:var(--pink);animation:pulse2 1s infinite}
+@keyframes pulse2{50%{box-shadow:0 0 0 8px rgba(255,63,164,.3)}}
+.hint{margin:12px 0 0;font-size:14px;font-weight:700;opacity:.85;text-align:center}
+.keys{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.key{font-size:13px;font-weight:900;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.12);opacity:.45}
+.key.on{background:var(--gold);color:#3a2300;opacity:1}
+/* reward */
+.reward{position:fixed;inset:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .8s;overflow:auto}
+.reward.on{opacity:1;pointer-events:auto}
+.rcard{width:100%;max-width:640px;background:#fff;color:#1B1F3B;border-radius:30px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45);text-align:center}
+.rcard img.big{width:100%;aspect-ratio:16/9;object-fit:cover}
+.rcard .in{padding:20px 22px 24px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#FFE27A,#FFB347);color:#3a2300;font-weight:900;padding:8px 16px;border-radius:999px;margin-top:-40px;position:relative;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.rcard h2{font-size:clamp(24px,5vw,32px);font-weight:900;margin:12px 0 6px}
+.rcard p{font-weight:700;color:#5A6185;margin:0 0 10px}
+.next{background:#F1F4FF;border-radius:18px;padding:12px 14px;font-weight:800;margin:12px 0}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.btn{display:inline-block;text-decoration:none;font-weight:900;padding:12px 22px;border-radius:999px;color:#fff;background:linear-gradient(180deg,#FFB347,#FF7A00);box-shadow:0 5px 0 #B85500}
+.btn.alt{background:#EEF2FF;color:#0B1240;box-shadow:none}
+canvas#conf{position:fixed;inset:0;z-index:7;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="scene" id="scene"></div>
+<div class="shade"></div>
+<div class="glow" id="glow"></div>
+<div class="flash" id="flash"></div>
+<header class="top"><a aria-label="TUBETU" href="/tr/"><img alt="TUBETU" src="/assets/logo.png" style="background:none;padding:0"/></a><a href="/tr/">Siteye</a></header>
+<main class="wrap">
+<div class="box" id="box">
+<div class="ux">
+<img alt="Baykuş Ukh" id="ux" src="/assets/ukh-face.png"/>
+<div class="bubble" id="say">Hu-hu! Dur! Kim geliyor?<small>Kaya'nın kapısı yalnızca dostlara açılır. Şifreyi söyle!</small></div>
+</div>
+<form autocomplete="off" id="f">
+<input aria-label="Şifre" enterkeyhint="go" id="pw" maxlength="40" placeholder="Şifre…"/>
+<button aria-label="Yüksek sesle söyle" class="mic" id="mic" title="Yüksek sesle söyle" type="button">🎤</button>
+<button class="go" type="submit">Gir</button>
+</form>
+<p class="hint">Şifre TUBETU videolarında — <a href="https://www.youtube.com/@tubetuapp" rel="noopener" style="color:#FFE27A" target="_blank">YouTube</a> ve <a href="https://www.tiktok.com/@tubetu.team" rel="noopener" style="color:#FFE27A" target="_blank">TikTok</a>. 🎤'a bas ve yüksek sesle söyle!</p>
+<div class="keys" id="keys"></div>
+</div>
+</main>
+<div class="reward" id="reward"><div class="rcard" id="rcard"></div></div>
+<canvas id="conf"></canvas>
+<script>
+(function(){
+'use strict';
+/* Пароли. Новые добавлять сюда — по одному на каждый новый ролик. */
+var KEYS=[
+ {id:'main',words:['тубиту','тубитуоткройся','tubetu','tobetwo','тубетуоткройся','тубету'],label:'Kaya\'nın dostu',
+  img:'/assets/shtab.jpg',title:'Şifre doğru! Sen bizdensin!',
+  text:'Kapı açık, gir! Burası karargâhın ana salonu: cam kubbe, kahramanların kapıları ve fırlatma tüneli. Artık TUBETU ekibindesin!',
+  gift:{href:'/raskraski/lisko.pdf',label:'Gizli boyama: Lisko'},
+  next:'Bir sonraki şifreyi yeni videoda kahramanlardan biri söyleyecek. TUBETU\'yu salı, perşembe ve cumartesi akşamları izle!'},
+ {id:'dyusha',words:['красавчик'],label:'Yakışıklı',img:'/assets/dyusha.jpg',title:'“Yakışıklı!” dedi Dyusha',
+  text:'Dyusha\'nın en sevdiği kelimeyi biliyorsun! Papağan rota bulucu kanadıyla elini sıkıyor… ve yine sağı solu karıştırıyor.',gift:{href:'/raskraski/dyusha.pdf',label:'Boyama: Dyusha'},next:'Kahramanların başka gizli kelimeleri de var. Tahmin etmeye çalış!'},
+ {id:'skot',words:['фрр','фррр','фрррр'],label:'Frrr!',img:'/assets/skot.jpg',title:'Frrr! Skot memnun',
+  text:'Karargâh şefi memnuniyetle “Frrr!” diye solur ve monoklünü düzeltir. Skot konuşmaz — ama seni açıkça onaylıyor!',gift:{href:'/tr/games/',label:'“Kurtarıcılar”ı oyna'},next:'Kahramanların başka gizli kelimeleri de var. Tahmin etmeye çalış!'},
+ {id:'nyukh',words:['гав','гавгав','гавгавгав'],label:'Hav!',img:'/assets/nyukh.jpg',title:'Hav! Nyukh geliyor!',
+  text:'Nyukh seni sihirli burnuyla kokladı ve yalamaya koşuyor. Dikkat — cebinde pizza var!',gift:{href:'/tr/#raskraski',label:'Tüm boyamalar'},next:'Kahramanların başka gizli kelimeleri de var. Tahmin etmeye çalış!'}
+];
+var JOKES={'всёмоё':'Hu-hu! Bu Skupshchik\'in kelimesi! Açgözlü misafirler giremez! 😤','всемое':'Hu-hu! Bu Skupshchik\'in kelimesi! Açgözlü misafirler giremez! 😤','моё':'“Benim” mi?! Bunu sadece Skupshchik söyler. Geçemezsin!','бзз':'Vızzz? Vızvızlar! Kapıdan kış kış! 🐝','пароль':'Ha-ha! Kurnazsın! Ama hayır — gerçek şifreyi söyle.','ух':'Bu benim adım, şifre değil! Hu-hu!'};
+var WRONG=['Hu-hu! Şifre yanlış!','Hmm… Hayır. Bir daha düşün!','Hayır! İpucu: bu ekibimizin adı.','Hu… Videoyu benimle izle — orada şifreyi soruyorum.','*esner*… Hu-u-u… Bir daha dene!'];
+var $=function(id){return document.getElementById(id);};
+var tries=0,got=[];try{got=JSON.parse(localStorage.getItem('tubetu_keys')||'[]');}catch(e){}
+function norm(s){return (s||'').toLowerCase().replace(/ё/g,'е').replace(/[^a-zа-я0-9]/g,'');}
+function renderKeys(){$('keys').innerHTML=KEYS.map(function(k){var on=got.indexOf(k.id)>=0;return '<span class="key'+(on?' on':'')+'">'+(on?'🔑 '+k.label:'🔒 ?')+'</span>';}).join('');}
+function say(t,sub){$('say').innerHTML=t+(sub?'<small>'+sub+'</small>':'');}
+var AC=null;function tone(f,d,v,type,when){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();var t=AC.currentTime+(when||0),o=AC.createOscillator(),g=AC.createGain();o.type=type||'triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v||.15,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+.05);}catch(e){}}
+function check(raw){var n=norm(raw);if(!n)return;
+  var k=KEYS.filter(function(k){return k.words.some(function(w){var x=norm(w);return n===x||(x.length>4&&n.indexOf(x)>=0);});})[0];
+  if(k){open(k);return;}
+  var jk=Object.keys(JOKES).filter(function(j){return n===norm(j);})[0];
+  var ux=$('ux');ux.classList.remove('shake');void ux.offsetWidth;ux.classList.add('shake');tone(220,.25,.15,'square');
+  if(jk){say(JOKES[jk]);return;}
+  say(WRONG[Math.min(tries++,WRONG.length-1)],tries>=3?'İpucu: şifre çizgi filmimizin adı. “Açıl” ekleyebilirsin!':'');}
+function open(k){var first=got.indexOf(k.id)<0;if(first){got.push(k.id);try{localStorage.setItem('tubetu_keys',JSON.stringify(got));}catch(e){}}renderKeys();
+  $('ux').classList.add('awake');say('HU! Şifre doğru! Açıyorum!');
+  [523,659,784,1047].forEach(function(f,i){tone(f,.35,.14,'triangle',i*.12);});
+  $('glow').classList.add('on');setTimeout(function(){$('box').classList.add('gone');$('scene').classList.add('zoom');},700);
+  setTimeout(function(){$('flash').classList.add('on');tone(1568,.8,.08,'sine');},2300);
+  setTimeout(function(){showReward(k,first);$('flash').classList.remove('on');confetti();},3000);}
+function showReward(k,first){$('rcard').innerHTML='<img class="big" src="'+k.img+'" alt=""><div class="in"><span class="badge">🔑 '+(first?'Yeni anahtar':'Anahtar')+': «'+k.label+'»</span><h2>'+k.title+'</h2><p>'+k.text+'</p>'+
+  '<div class="next">🔮 '+k.next+'</div><div class="btns"><a class="btn" href="'+k.gift.href+'"'+(/\.pdf$/.test(k.gift.href)?' download':'')+'>🎁 '+k.gift.label+'</a><a class="btn alt" href="#" id="again">Başka bir şifre</a><a class="btn alt" href="/tr/platform.html">Aile odası</a></div>'+
+  '<p style="margin-top:14px;font-size:13px">Toplanan anahtarlar: '+got.length+' / '+KEYS.length+'</p></div>';
+  $('reward').classList.add('on');$('again').onclick=function(e){e.preventDefault();$('reward').classList.remove('on');$('scene').classList.remove('zoom');$('glow').classList.remove('on');$('box').classList.remove('gone');$('ux').classList.remove('awake');$('pw').value='';say('Hu! Başka bir gizli kelime biliyor musun?','Her kahramanın bir kelimesi var. Dene!');};}
+$('f').addEventListener('submit',function(e){e.preventDefault();check($('pw').value);});
+/* voice */
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition,rec=null;
+if(!SR){$('mic').style.display='none';}
+$('mic').onclick=function(){if(!SR)return;if(rec){rec.stop();return;}rec=new SR();rec.lang='tr-TR';rec.interimResults=false;rec.maxAlternatives=3;
+  $('mic').classList.add('rec');say('Hu… Dinliyorum! Şifreyi söyle…');
+  rec.onresult=function(ev){var alts=[];for(var i=0;i<ev.results[0].length;i++)alts.push(ev.results[0][i].transcript);$('pw').value=alts[0];
+    var hit=alts.filter(function(a){var n=norm(a);return KEYS.some(function(k){return k.words.some(function(w){return n.indexOf(norm(w))>=0;});});})[0];check(hit||alts[0]);};
+  rec.onerror=function(){say('Hu? Duyamadım. 🎤\'a bas ve daha yüksek söyle — ya da yaz.');};
+  rec.onend=function(){$('mic').classList.remove('rec');rec=null;};rec.start();};
+/* confetti */
+function confetti(){var c=$('conf'),x=c.getContext('2d'),W=c.width=innerWidth,H=c.height=innerHeight,cols=['#FFC72C','#FF3FA4','#8BD62A','#2EA8FF','#A65BFF'],ps=[];for(var i=0;i<160;i++)ps.push({x:Math.random()*W,y:-20-Math.random()*H*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,r:Math.random()*6,c:cols[i%5],s:5+Math.random()*6});
+  var t0=performance.now();(function f(t){x.clearRect(0,0,W,H);ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.r+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillStyle=p.c;x.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);x.restore();});if(t-t0<4500)requestAnimationFrame(f);else x.clearRect(0,0,W,H);})(t0);}
+renderKeys();
+if(got.length){say('Hu! Seni hatırlıyorum — sen bizdensin!','Anahtarların: '+got.length+' / '+KEYS.length+'. Başka şifre biliyor musun?');}
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

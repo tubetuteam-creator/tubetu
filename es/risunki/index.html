@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Concurso de dibujo TUBETU — vota por el mejor dibujo</title>
+<meta content="Dibujos de niños con los héroes de la serie TUBETU. Vota por el mejor — los ganadores reciben diplomas y calendarios." name="description"/>
+<meta content="¡Vota por un dibujo en el concurso TUBETU!" property="og:title"/>
+<meta content="https://tubetu.com/assets/komanda-poster.jpg" property="og:image"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--navy:#0B1240;--sky:#EAF6FF;--ink:#1B1F3B;--muted:#5A6185;--gold:#FFC72C;--pink:#FF3FA4}
+*{box-sizing:border-box}body{margin:0;font-family:Nunito,system-ui,sans-serif;background:var(--sky);color:var(--ink)}
+.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:5}.top .w{display:flex;align-items:center;gap:10px;height:60px}
+.top img{height:32px}.top .sp{flex:1}.top a.l{color:#fff;text-decoration:none;font-weight:800;background:rgba(255,255,255,.12);padding:7px 12px;border-radius:999px;font-size:14px}
+.w{max-width:1100px;margin:0 auto;padding:0 16px}
+.hero{background:linear-gradient(120deg,#FFF6D6,#FFE2F1);border-radius:30px;padding:26px;margin:18px 0;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.hero h1{margin:0;font-size:clamp(28px,5vw,44px);font-weight:900}
+.hero p{margin:6px 0 0;font-weight:700;color:var(--muted);max-width:620px}
+.btn{display:inline-block;border:0;cursor:pointer;text-decoration:none;font:900 16px Nunito,sans-serif;padding:12px 20px;border-radius:999px;background:var(--gold);color:var(--ink);box-shadow:0 5px 0 #C98F00}
+.tabs{display:flex;gap:8px;margin:6px 0 14px}.tabs button{border:0;border-radius:999px;padding:8px 16px;font:900 14px Nunito,sans-serif;background:#fff;cursor:pointer}.tabs button.on{background:var(--navy);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.d{background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 8px 22px rgba(11,18,64,.08);transition:box-shadow .3s}
+.d.hl{box-shadow:0 0 0 5px var(--gold),0 8px 22px rgba(11,18,64,.2)}
+.d img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#F1F4FF;cursor:zoom-in}
+.d .in{padding:12px 14px;display:flex;align-items:center;gap:10px}
+.d .who{flex:1}.d .who b{display:block;font-size:18px;font-weight:900}.d .who span{font-size:13px;color:var(--muted);font-weight:700}
+.vote{border:0;cursor:pointer;font:900 16px Nunito,sans-serif;padding:9px 14px;border-radius:999px;background:#FFE2F1;color:var(--pink);display:flex;gap:6px;align-items:center}
+.vote.done{background:var(--pink);color:#fff}
+.share{border:0;background:#F1F4FF;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:16px}
+.rank{position:absolute;margin:10px;background:var(--gold);font-weight:900;border-radius:999px;padding:4px 10px}
+.empty{background:#fff;border:3px dashed #C9D3F0;border-radius:24px;padding:30px;text-align:center;font-weight:800;color:var(--muted)}
+.msg{text-align:center;font-weight:800;margin:10px 0;min-height:22px}
+.zoom{position:fixed;inset:0;background:rgba(11,18,64,.9);display:none;align-items:center;justify-content:center;z-index:9;padding:16px;cursor:zoom-out}
+.zoom.on{display:flex}.zoom img{max-width:100%;max-height:90vh;border-radius:16px}
+footer{background:var(--navy);color:#C7CDF5;padding:22px 0;margin-top:40px;font-weight:700;font-size:14px}footer a{color:#fff}
+</style>
+</head>
+<body>
+<header class="top"><div class="w"><a href="/es/"><img alt="TUBETU" src="/assets/logo.png"/></a><div class="sp"></div><a class="l" href="/es/platform.html">Espacio familiar</a></div></header>
+<main class="w">
+<section class="hero">
+<div style="flex:1;min-width:260px"><h1>🏆 Concurso de dibujo</h1>
+<p>¡Los niños dibujan a sus héroes favoritos de TUBETU y tú votas! Los mejores trabajos recibirán diplomas y calendarios con los héroes. Pueden votar los adultos registrados — un voto por dibujo.</p></div>
+<a class="btn" href="/es/platform.html#konkurs">🖍 Enviar un dibujo</a>
+</section>
+<div class="tabs"><button class="on" data-s="votes">Los mejores</button><button data-s="new">Nuevos</button></div>
+<div class="msg" id="msg"></div>
+<div class="grid" id="grid"></div>
+</main>
+<div class="zoom" id="zoom"><img alt="" id="zimg"/></div>
+<footer><div class="w">© 2026 TUBETU · <a href="/es/">tubetu.com</a> · Solo publicamos el nombre y la edad del artista — con el permiso de los padres.</div></footer>
+<script>
+(function(){
+var URL0='https://zbgfuitelvmkrpzbpcrj.supabase.co',KEY='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
+var HN={lisko:'Lisko',dobrik:'Dobrik',vionka:'Vionka',asila:'Asila',kvasya:'Kvasya',nyukh:'Nyukh',dyusha:'Dyusha',ukh:'Ukh',snezhok:'Snezhok',shushik:'Shushik',skot:'Skot',team:'Todo el equipo'};
+var $=function(id){return document.getElementById(id);};
+var db=null,user=null,list=[],mine={},sort='votes';
+try{db=supabase.createClient(URL0,KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'sb-zbgfuitelvmkrpzbpcrj-auth-token'}});}catch(e){}
+function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML;}
+function imgUrl(p){return URL0+'/storage/v1/object/public/drawings/'+p.split('/').map(encodeURIComponent).join('/');}
+function age(a){if(!a)return '';var m=a%10,h=a%100;return ', '+a+' '+(m===1&&h!==11?'año':(m>=2&&m<=4&&(h<12||h>14))?'años':'años');}
+function render(){var g=$('grid');var arr=list.slice().sort(function(a,b){return sort==='votes'?(b.votes-a.votes)||(b.id-a.id):b.id-a.id;});
+  if(!arr.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">Aún no hay dibujos — ¡el tuyo puede ser el primero! 🖍<br><br><a class="btn" href="/es/platform.html#konkurs">Enviar un dibujo</a></div>';return;}
+  g.innerHTML=arr.map(function(d,i){var v=mine[d.id];return '<div class="d" id="d'+d.id+'" style="position:relative">'+(sort==='votes'&&i<3&&d.votes>0?'<span class="rank">'+['🥇','🥈','🥉'][i]+'</span>':'')+'<img src="'+imgUrl(d.image_path)+'" alt="Dibujo: '+esc(d.child_name)+'" loading="lazy" data-z="1">'+
+    '<div class="in"><div class="who"><b>'+esc(d.child_name)+esc(age(d.child_age))+'</b><span>'+(HN[d.hero]?'Héroe: '+HN[d.hero]:'')+'</span></div>'+
+    '<button class="vote'+(v?' done':'')+'" data-v="'+d.id+'">❤ '+d.votes+'</button><button class="share" data-s="'+d.id+'" title="Compartir">↗</button></div></div>';}).join('');
+  var h=location.hash.match(/^#d(\d+)/);if(h){var el=$('d'+h[1]);if(el){el.classList.add('hl');el.scrollIntoView({block:'center'});}}}
+async function load(){if(!db){$('msg').textContent='La galería no está disponible temporalmente.';return;}
+  try{var s=await db.auth.getSession();user=s.data.session&&s.data.session.user||null;}catch(e){}
+  var r=await db.from('drawings').select('id,child_name,child_age,hero,image_path,votes,status').eq('status','approved').limit(200);
+  if(r.error){console.error(r.error);$('msg').textContent='¡La galería abre pronto!';list=[];render();return;}
+  list=r.data||[];
+  if(user){var v=await db.from('drawing_votes').select('drawing_id');(v.data||[]).forEach(function(x){mine[x.drawing_id]=1;});}
+  render();}
+$('grid').addEventListener('click',async function(e){var b=e.target.closest('[data-v]'),s=e.target.closest('[data-s]'),z=e.target.closest('[data-z]');
+  if(z){$('zimg').src=z.src;$('zoom').classList.add('on');return;}
+  if(s){var u=location.origin+'/es/risunki/#d'+s.dataset.s,d=list.filter(function(x){return x.id==s.dataset.s;})[0],t='¡Vota por el dibujo de '+(d?d.child_name:'')+' en el concurso TUBETU! ❤';
+    if(navigator.share){try{await navigator.share({title:'Concurso TUBETU',text:t,url:u});}catch(e){}}else{try{await navigator.clipboard.writeText(t+' '+u);$('msg').textContent='Enlace copiado — ¡envíalo a tus amigos!';}catch(e){prompt('Copia el enlace:',u);}}return;}
+  if(!b)return;var id=+b.dataset.v;if(mine[id]){$('msg').textContent='Ya votaste por este dibujo ❤';return;}
+  if(!user){$('msg').innerHTML='Para votar, <a href="/es/platform.html?next=/es/risunki/%23d'+id+'">entra en el espacio familiar</a> — es gratis.';return;}
+  b.disabled=true;var r=await db.from('drawing_votes').insert({drawing_id:id});b.disabled=false;
+  if(r.error){$('msg').textContent=/duplicate/i.test(r.error.message)?'Ya votaste por este dibujo ❤':'No se pudo votar. Inténtalo más tarde.';return;}
+  mine[id]=1;list.forEach(function(x){if(x.id===id)x.votes++;});$('msg').textContent='¡Gracias! Tu voto se ha contado ❤';render();});
+$('zoom').onclick=function(){$('zoom').classList.remove('on');};
+document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){sort=b.dataset.s;document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b);});render();};});
+load();
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

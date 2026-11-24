@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="pt">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
+<title>Quebra-cabeça TUBETU — monte a imagem</title>
+<meta content="Monte um quebra-cabeça com os heróis e o mundo do desenho TUBETU. Um jogo infantil direto no navegador." name="description"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="/games/_common.css" rel="stylesheet"/>
+<style>
+.board{position:relative;margin:0 auto;border-radius:18px;overflow:hidden;box-shadow:0 14px 40px rgba(11,18,64,.35);background:#0B1240;touch-action:manipulation;user-select:none}
+.tile{position:absolute;background-repeat:no-repeat;cursor:pointer;transition:left .25s,top .25s,box-shadow .2s,transform .15s;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.tile.sel{box-shadow:inset 0 0 0 4px #FFC72C;transform:scale(.96);z-index:2}
+.tile.ok{box-shadow:none}
+.board.done .tile{box-shadow:none}
+.diff{display:flex;gap:8px;justify-content:center;margin:0 0 12px}
+.diff button{border:0;border-radius:999px;padding:8px 16px;font:900 15px Nunito,sans-serif;background:#fff;cursor:pointer}
+.diff button.on{background:#0B1240;color:#fff}
+.peek{margin-top:12px;text-align:center}
+</style>
+</head>
+<body>
+<header class="top"><a href="/pt/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>Quebra-cabeça</h1><div class="sp"></div><a href="/pt/games/">🎮 Resgatadores</a></header>
+<div class="wrap">
+<div class="choose" id="choose"></div>
+<div class="diff" id="diff"><button class="on" data-n="3">Fácil 3×3</button><button data-n="4">Médio 4×4</button><button data-n="5">Difícil 5×5</button></div>
+<div class="pills"><span class="pill">🧩 Jogadas: <b id="moves">0</b></span><span class="pill">⏱ <b id="time">0:00</b></span><span class="pill">🏆 Recorde: <b id="best">—</b></span></div>
+<div class="board" id="board"></div>
+<div class="peek"><button class="btn alt" id="peek">👀 Espiar</button> <button class="btn alt" id="shuffle">🔀 Recomeçar</button></div>
+<p style="text-align:center;font-weight:800;color:#0B1240">Toque em duas peças — elas trocam de lugar. Monte a imagem inteira!</p>
+<div class="more"><a href="/pt/games/">🎮 Resgatadores</a><a href="/pt/games/otlichiya/">🔍 Jogo dos erros</a><a href="/pt/raskraska/">🖌 Colorir</a></div>
+</div>
+<div class="win" id="win"><div class="card"><h2>Montado! 🎉</h2><p id="winText" style="font-weight:800"></p><button class="btn" id="again">Outro quebra-cabeça</button></div></div>
+<canvas id="conf"></canvas>
+<script src="/games/_common.js"></script>
+<script>
+(function(){
+var PICS=[['/assets/komanda-poster.jpg','Equipe'],['/assets/skala.jpg','Rocha'],['/assets/shtab.jpg','Quartel'],['/assets/tunnel.jpg','Túnel'],['/assets/lednik.jpg','Geleira'],['/assets/kvasya-sharf.jpg','Kvasya'],['/assets/nyukh-kvasya2.jpg','Nyukh']];
+var $=function(id){return document.getElementById(id);};
+var pic=0,N=3,order=[],sel=-1,moves=0,t0=0,timer=null,done=false,ratio=16/9;
+PICS.forEach(function(p,i){var b=document.createElement('button');b.innerHTML='<img src="'+p[0]+'" alt=""><span>'+p[1]+'</span>';b.onclick=function(){pic=i;start();};$('choose').appendChild(b);});
+document.querySelectorAll('#diff button').forEach(function(b){b.onclick=function(){N=+b.dataset.n;document.querySelectorAll('#diff button').forEach(function(x){x.classList.toggle('on',x===b);});start();};});
+function size(){var w=Math.min(document.querySelector('.wrap').clientWidth-32,900),h=w/ratio,maxH=innerHeight-260;if(h>maxH){h=Math.max(220,maxH);w=h*ratio;}return [w,h];}
+function start(){done=false;[].forEach.call($('choose').children,function(b,i){b.classList.toggle('on',i===pic);});
+  var img=new Image();img.onload=function(){ratio=img.naturalWidth/img.naturalHeight;order=[];for(var i=0;i<N*N;i++)order.push(i);
+    do{for(var k=order.length-1;k>0;k--){var j=Math.random()*(k+1)|0,t=order[k];order[k]=order[j];order[j]=t;}}while(order.every(function(v,i){return v===i;}));
+    moves=0;sel=-1;t0=Date.now();clearInterval(timer);timer=setInterval(tick,500);render(true);$('best').textContent=fmtBest();};img.src=PICS[pic][0];}
+function fmtBest(){var b=TG.get('pazl_'+pic+'_'+N,null);return b?b+' jogadas':'—';}
+function tick(){if(done)return;var s=(Date.now()-t0)/1000|0;$('time').textContent=(s/60|0)+':'+('0'+s%60).slice(-2);}
+function render(build){var sz=size(),w=sz[0],h=sz[1],tw=w/N,th=h/N,bd=$('board');bd.style.width=w+'px';bd.style.height=h+'px';bd.classList.toggle('done',done);
+  if(build){bd.innerHTML='';for(var i=0;i<N*N;i++){var d=document.createElement('div');d.className='tile';d.dataset.p=i;d.onclick=click;bd.appendChild(d);}}
+  [].forEach.call(bd.children,function(d){var piece=+d.dataset.p,pos=order.indexOf(piece),r=pos/N|0,c=pos%N,pr=piece/N|0,pc=piece%N;
+    d.style.width=tw+1+'px';d.style.height=th+1+'px';d.style.left=c*tw+'px';d.style.top=r*th+'px';d.style.backgroundImage='url('+PICS[pic][0]+')';d.style.backgroundSize=w+'px '+h+'px';d.style.backgroundPosition=(-pc*tw)+'px '+(-pr*th)+'px';
+    d.classList.toggle('ok',pos===piece);d.classList.toggle('sel',piece===sel);});
+  $('moves').textContent=moves;}
+function click(e){if(done)return;var p=+e.currentTarget.dataset.p;if(sel<0){sel=p;TG.tone(660,.08,.08);render();return;}
+  if(sel===p){sel=-1;render();return;}var a=order.indexOf(sel),b=order.indexOf(p);order[a]=p;order[b]=sel;sel=-1;moves++;
+  var okNow=order[a]===a||order[b]===b;TG.tone(okNow?880:440,.12,.1);render();
+  if(order.every(function(v,i){return v===i;})){done=true;clearInterval(timer);render();var key='pazl_'+pic+'_'+N,b0=TG.get(key,null);if(!b0||moves<b0)TG.set(key,moves);
+    setTimeout(function(){TG.win();$('winText').textContent='Jogadas: '+moves+' · Tempo: '+$('time').textContent+(!b0||moves<b0?' · Novo recorde!':'');$('win').classList.add('on');},500);}}
+$('again').onclick=function(){$('win').classList.remove('on');pic=(pic+1)%PICS.length;start();};
+$('shuffle').onclick=start;
+var peekOn=false;$('peek').onpointerdown=function(){var bd=$('board');bd.style.backgroundImage='url('+PICS[pic][0]+')';bd.style.backgroundSize='cover';[].forEach.call(bd.children,function(d){d.style.opacity=0;});};
+addEventListener('pointerup',function(){[].forEach.call($('board').children,function(d){d.style.opacity=1;});});
+addEventListener('resize',function(){render();});
+start();
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

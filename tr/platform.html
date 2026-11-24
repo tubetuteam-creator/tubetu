@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<title>Aile odası — TUBETU</title>
+<meta content="TUBETU aile odası: resim yarışması, yorumlar, oyunlar, boyamalar ve çizgi film haberleri." name="description"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--navy:#0B1240;--navy2:#141C5C;--sky:#EAF6FF;--ink:#1B1F3B;--muted:#5A6185;--orange:#FF8A1F;--lime:#8BD62A;--purple:#8E3BF5;--pink:#FF3FA4;--blue:#2EA8FF;--gold:#FFC72C;--r:24px}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Nunito,system-ui,sans-serif;color:var(--ink);background:var(--sky);min-height:100vh}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+/* top */
+.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:10}
+.top .wrap{display:flex;align-items:center;gap:12px;height:62px}
+.top .logo img{height:34px;width:auto}
+.top .sp{flex:1}
+.top a.link,.top button.link{color:#fff;text-decoration:none;font:800 15px Nunito,sans-serif;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:0;cursor:pointer}
+.top a.link:hover,.top button.link:hover{background:rgba(255,255,255,.2)}
+/* hero */
+.hero{position:relative;color:#fff;background:var(--navy);overflow:hidden;min-height:calc(100vh - 130px);display:flex;align-items:center}.hero>.wrap{width:100%}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,18,64,.92) 0%,rgba(11,18,64,.55) 55%,rgba(11,18,64,.2))}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding-top:40px;padding-bottom:40px}
+.hero h1{font-size:clamp(30px,4.6vw,48px);font-weight:900;line-height:1.08;margin:0 0 12px}
+.hero h1 span{color:var(--gold)}
+.hero p.lead{font-size:18px;opacity:.95;margin:0 0 18px;max-width:520px}
+.perks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.perks li{display:flex;gap:12px;align-items:center;font-weight:800;background:rgba(255,255,255,.1);border-radius:16px;padding:10px 14px;backdrop-filter:blur(4px)}
+.perks b{font-size:22px;width:30px;text-align:center}
+/* auth card */
+.card{background:#fff;color:var(--ink);border-radius:28px;padding:24px;box-shadow:0 20px 60px rgba(11,18,64,.35)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#EEF2FF;border-radius:999px;padding:5px;margin-bottom:18px}
+.tabs button{border:0;background:none;font:900 16px Nunito,sans-serif;padding:10px;border-radius:999px;cursor:pointer;color:var(--muted)}
+.tabs button.on{background:#fff;color:var(--navy);box-shadow:0 3px 10px rgba(11,18,64,.12)}
+label.f{display:block;font-weight:800;font-size:14px;margin:12px 0 6px}
+input.in,select.in{width:100%;background:#fff;font:700 16px Nunito,sans-serif;padding:13px 15px;border:2px solid #D7DDF2;border-radius:14px;outline:none;transition:border .2s}
+input.in:focus{border-color:var(--blue)}
+.ch{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted);font-weight:700;margin-top:12px}
+.ch input{margin-top:3px;width:18px;height:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:900 17px Nunito,sans-serif;padding:14px 26px;border-radius:999px;text-decoration:none;color:#fff;background:linear-gradient(180deg,#FFB347,#FF7A00);box-shadow:0 6px 0 #B85500;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 3px 0 #B85500}
+.btn.full{width:100%;margin-top:18px}
+.btn.ghost{background:#EEF2FF;color:var(--navy);box-shadow:none}
+.btn[disabled]{opacity:.6;cursor:wait}
+.small{font-size:14px;color:var(--muted);font-weight:700}
+.linkbtn{background:none;border:0;color:var(--blue);font:800 14px Nunito,sans-serif;cursor:pointer;padding:0;margin-top:12px}
+.msg{margin-top:14px;font-weight:800;font-size:15px;border-radius:14px;padding:0}
+.msg.ok{color:#2E7D32;background:#E8F7EA;padding:12px 14px}
+.msg.err{color:#C62828;background:#FDECEC;padding:12px 14px}
+.hide{display:none!important}
+/* cabinet */
+.hello{background:linear-gradient(120deg,var(--navy),#2B2F8A);color:#fff}
+.hello .wrap{display:flex;align-items:center;gap:22px;padding-top:28px;padding-bottom:28px}
+.hello .fav{width:110px;height:140px;object-fit:contain;filter:drop-shadow(0 8px 16px rgba(0,0,0,.35));flex:none}
+.hello h1{margin:0;font-size:clamp(26px,4vw,40px);font-weight:900}
+.hello p{margin:6px 0 0;opacity:.9;font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
+.tile{background:#fff;border-radius:22px;padding:18px;text-decoration:none;color:var(--ink);box-shadow:0 6px 20px rgba(11,18,64,.07);border:3px solid transparent;transition:transform .15s,border-color .15s;display:flex;flex-direction:column;gap:6px}
+.tile:hover{transform:translateY(-3px);border-color:var(--c)}
+.tile .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:color-mix(in srgb,var(--c) 18%,#fff)}
+.tile b{font-size:18px;font-weight:900}
+.tile span{font-size:14px;color:var(--muted);font-weight:700}
+h2.sec{font-size:26px;font-weight:900;margin:30px 0 4px}
+p.sub{margin:0 0 14px;color:var(--muted);font-weight:700}
+.heroes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hpick{background:#fff;border:3px solid transparent;border-radius:22px;padding:10px;cursor:pointer;text-align:center;font:900 17px Nunito,sans-serif;color:var(--ink);transition:all .2s}
+.hpick img{height:150px;margin:0 auto 6px;object-fit:contain}
+.hpick.on{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 30%,transparent);transform:translateY(-4px)}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0 40px}
+.panel{background:#fff;border-radius:24px;padding:22px;box-shadow:0 6px 20px rgba(11,18,64,.07)}
+.panel h3{margin:0 0 6px;font-size:21px;font-weight:900}
+.steps{margin:10px 0 0;padding-left:20px;font-weight:700;line-height:1.6}
+.stat{display:flex;gap:12px;align-items:center;background:#FFF6D6;border-radius:18px;padding:14px;margin-top:10px;font-weight:800}
+.stat b{font-size:30px;color:var(--orange)}
+footer{background:var(--navy);color:#C7CDF5;padding:24px 0;font-weight:700;font-size:14px}
+footer a{color:#fff}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.tiles{grid-template-columns:1fr 1fr}.heroes{grid-template-columns:1fr 1fr}.panels{grid-template-columns:1fr}}
+@media(max-width:520px){.hello .fav{width:80px;height:100px}.hpick img{height:120px}.top a.link.hidem{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="wrap">
+<a aria-label="TUBETU — ana sayfa" class="logo" href="/tr/"><img alt="TUBETU" src="/assets/logo.png"/></a>
+<div class="sp"></div>
+<a class="link hidem" href="/tr/games/">🎮 Oyun</a>
+<a class="link" href="/tr/">Siteye</a>
+<button class="link hide" id="logoutBtn" type="button">Çıkış</button>
+</div>
+</header>
+<!-- ===== GUEST: login / register ===== -->
+<section class="hero" id="guest">
+<img alt="" class="bg" src="/assets/komanda-poster.jpg"/>
+<div class="wrap">
+<div>
+<h1>Aile odası <span>TUBETU</span></h1>
+<p class="lead">Bir yetişkin kaydolur — anne, baba veya büyükanne. Çocuğun ayrı bir hesaba ihtiyacı yok.</p>
+<ul class="perks">
+<li><b>🏆</b>Resim yarışmasına katılın ve sertifika alın</li>
+<li><b>⭐</b>Çizgi film hakkında yorum bırakın</li>
+<li><b>💛</b>Çocuğunuzun en sevdiği kahramanı seçin</li>
+<li><b>🔔</b>Yeni bölümleri ilk siz öğrenin</li>
+</ul>
+</div>
+<div class="card">
+<div id="authBox">
+<div class="tabs" role="tablist">
+<button class="on" id="tabLogin" role="tab" type="button">Giriş</button>
+<button id="tabReg" role="tab" type="button">Kaydol</button>
+</div>
+<form id="authForm" novalidate="">
+<div class="hide" id="nameRow">
+<label class="f" for="name">Size nasıl hitap edelim</label>
+<input autocomplete="nickname" class="in" id="name" maxlength="40" placeholder="Örneğin Aliya'nın annesi"/>
+</div>
+<label class="f" for="email">E-posta</label>
+<input autocomplete="email" class="in" id="email" placeholder="you@example.com" required="" type="email"/>
+<label class="f" for="pass">Şifre</label>
+<input autocomplete="current-password" class="in" id="pass" minlength="6" placeholder="En az 6 karakter" required="" type="password"/>
+<label class="ch hide" id="adultRow"><input id="adult" type="checkbox"/> 18 yaşından büyüğüm. TUBETU'nun aile odası için e-postamı ve adımı saklamasını kabul ediyorum. Çocuklara ait veri toplamıyoruz.</label>
+<button class="btn full" id="authSubmit" type="submit">Gir</button>
+<button class="linkbtn" id="forgotBtn" type="button">Şifrenizi mi unuttunuz?</button>
+<div class="msg" id="authMsg" role="status"></div>
+</form>
+</div>
+<form class="hide" id="recoverBox" novalidate="">
+<h2 style="margin:0 0 6px;font-weight:900">Yeni şifre</h2>
+<p class="small">Aile odası için yeni bir şifre belirleyin.</p>
+<label class="f" for="newPass">Yeni şifre</label>
+<input autocomplete="new-password" class="in" id="newPass" minlength="6" placeholder="En az 6 karakter" type="password"/>
+<button class="btn full" id="recoverSubmit" type="submit">Şifreyi kaydet</button>
+<div class="msg" id="recoverMsg" role="status"></div>
+</form>
+</div>
+</div>
+</section>
+<!-- ===== CABINET ===== -->
+<div class="hide" id="cabinet">
+<section class="hello">
+<div class="wrap">
+<img alt="" class="fav" id="favImg" src="/games/img/full-lisko.webp"/>
+<div>
+<h1 id="helloTitle">Merhaba!</h1>
+<p id="helloSub">Hazine Kayası'na hoş geldiniz. Kapı açık — siz bizdensiniz!</p>
+</div>
+</div>
+</section>
+<main class="wrap">
+<div class="tiles">
+<a class="tile" href="/tr/games/" style="--c:var(--orange)"><div class="ic">🎮</div><b>Oyna</b><span>“TUBETU: Kurtarıcılar”</span></a>
+<a class="tile" href="/tr/raskraska/" style="--c:var(--blue)"><div class="ic">🖍️</div><b>Boyama</b><span>Çevrimiçi boya</span></a>
+<a class="tile" href="#konkurs" style="--c:var(--pink)"><div class="ic">🏆</div><b>Yarışma</b><span>Resim gönder</span></a>
+<a class="tile" href="/tr/#otzyvy" style="--c:var(--lime)"><div class="ic">⭐</div><b>Yorum</b><span>Görüşünüzü paylaşın</span></a>
+<a class="tile" href="https://www.youtube.com/@tubetuapp" rel="noopener" style="--c:#FF0000" target="_blank"><div class="ic">▶️</div><b>İzle</b><span>YouTube kanalımız</span></a>
+<a class="tile" href="https://t.me/tubetu_chat" rel="noopener" style="--c:#229ED9" target="_blank"><div class="ic">💬</div><b>Aile sohbeti</b><span>Ebeveyn sohbeti</span></a>
+<a class="tile" href="https://t.me/tubetu_official" rel="noopener" style="--c:#2AABEE" target="_blank"><div class="ic">🔔</div><b>Haberler</b><span>Telegram kanalı</span></a>
+<a class="tile" href="/tr/#podderzhat" style="--c:var(--purple)"><div class="ic">💜</div><b>Destek ol</b><span>Ekibe yardım edin</span></a>
+<a class="tile" href="/tr/pozdravlenie/" style="--c:var(--pink)"><div class="ic">🎂</div><b>Kutlama</b><span>Doğum günü kartı</span></a>
+<a class="tile" href="/tr/dver/" style="--c:var(--gold)"><div class="ic">🔑</div><b>Gizli kapı</b><span>Ukh'un şifresi</span></a>
+<a class="tile" href="/tr/games/pazl/" style="--c:var(--blue)"><div class="ic">🧩</div><b>Yapboz</b><span>Resmi tamamla</span></a>
+<a class="tile" href="/tr/games/otlichiya/" style="--c:var(--lime)"><div class="ic">🔍</div><b>Farkı bul</b><span>Dikkat oyunu</span></a>
+</div>
+<h2 class="sec">En sevdiği kahraman</h2>
+<p class="sub">Çocuğunuz en çok kimi seviyor? Kahraman sizi aile odasında karşılayacak.</p>
+<div class="heroes" id="heroes"></div>
+<div class="msg" id="favMsg" role="status"></div>
+<div class="panels">
+<div class="panel" id="konkurs">
+<h3>🏆 Resim yarışması</h3>
+<p class="small">Çocuk en sevdiği TUBETU kahramanını çizer. Resmin fotoğrafını çekip buraya yükleyin — moderasyondan sonra <a href="/tr/risunki/">galeride</a> görünecek ve ona oy verilebilecek.</p>
+<form id="drawForm" novalidate="">
+<label class="f" for="dFile">Resmin fotoğrafı</label>
+<input accept="image/*" class="in" id="dFile" type="file"/>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:8px">
+<div><label class="f" for="dName">Ressamın adı</label><input class="in" id="dName" maxlength="20" placeholder="Yalnızca ad"/></div>
+<div><label class="f" for="dAge">Yaş</label><input class="in" id="dAge" inputmode="numeric" max="17" min="1" type="number"/></div>
+</div>
+<label class="f" for="dHero">Kim çizildi</label>
+<select class="in" id="dHero"><option value="team">Bütün ekip</option><option value="lisko">Lisko</option><option value="dobrik">Dobrik</option><option value="vionka">Vionka</option><option value="asila">Asila</option><option value="kvasya">Kvasya</option><option value="nyukh">Nyukh</option><option value="dyusha">Dyusha</option><option value="ukh">Ukh</option><option value="snezhok">Snezhok</option><option value="shushik">Shushik</option><option value="skot">Skot</option></select>
+<label class="ch"><input id="dOk" type="checkbox"/> Ebeveyn (yasal vasi) olduğumu ve resmin çocuğun adı ve yaşıyla TUBETU sitesinde gösterilmesini kabul ediyorum. Çocuğun soyadını veya fotoğrafını yüklemiyorum.</label>
+<button class="btn full" id="dSend" type="submit">Yarışmaya gönder</button>
+<div class="msg" id="dMsg" role="status"></div>
+</form>
+<div id="myDrawings"></div>
+<p class="small" style="margin-top:10px">Ya da eski usul: fotoğrafı gönderin — <a href="https://t.me/tubetu_chat" rel="noopener" target="_blank">Aile sohbeti</a> etiketiyle <b>#TUBETUresim</b>.</p>
+</div>
+<div class="panel">
+<h3>🎮 Başarıların</h3>
+<p class="small">Bu cihazda “Kurtarıcılar” rekoru:</p>
+<div class="stat"><b id="bestScore">0</b><span>puan — geçebilir misin?</span></div>
+<a class="btn ghost" href="/tr/games/" style="margin-top:14px">Tekrar oyna</a>
+<h3 style="margin-top:22px">⚙️ Ayarlar</h3>
+<label class="f" for="newName">Size nasıl hitap edelim</label>
+<input class="in" id="newName" maxlength="40"/>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+<button class="btn ghost" id="saveName" type="button">Adı kaydet</button>
+<button class="btn ghost" id="changePass" type="button">Şifreyi değiştir</button>
+</div>
+<div class="msg" id="setMsg" role="status"></div>
+<h3 style="margin-top:22px">🔔 E-postayla haberler</h3>
+<p class="small">Yeni bölüm, oyun veya yarışma sonuçları çıktığında yazacağız. Haftada en fazla bir kez.</p>
+<button class="btn ghost" id="subBtn" style="margin-top:8px" type="button">Haberlere abone ol</button>
+<div class="msg" id="subMsg" role="status"></div>
+</div>
+</div>
+</main>
+</div>
+<footer><div class="wrap">© 2026 TUBETU · <a href="/tr/">tubetu.com</a> · E-posta: <a href="mailto:tubetu.team@gmail.com">tubetu.team@gmail.com</a></div></footer>
+<script>
+(function(){
+'use strict';
+var SUPABASE_URL='https://zbgfuitelvmkrpzbpcrj.supabase.co',SUPABASE_KEY='sb_publishable_2TBKUjp8mXw1g1Z9WhYxpQ_wJIA-Bk_';
+var SITE='https://tubetu.com/tr/platform.html';
+var HEROES=[{id:'lisko',name:'Lisko',c:'#FF8A1F',g:'sizi'},{id:'dobrik',name:'Dobrik',c:'#8BD62A',g:'sizi'},{id:'vionka',name:'Vionka',c:'#8E3BF5',g:'sizi'},{id:'asila',name:'Asila',c:'#FF3FA4',g:'sizi'}];
+var $=function(id){return document.getElementById(id);};
+var db=null,user=null,regMode=false,recovery=/[?&]mode=recovery/.test(location.search)||/type=recovery/.test(location.hash);
+try{db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:window.localStorage,storageKey:'sb-zbgfuitelvmkrpzbpcrj-auth-token'}});}catch(e){console.error(e);}
+
+function msg(id,text,ok){var e=$(id);e.textContent=text||'';e.className='msg'+(text?(ok?' ok':' err'):'');}
+function busy(id,on,text){var b=$(id);if(on){b.dataset.t=b.textContent;b.textContent=text;b.disabled=true;}else{b.textContent=b.dataset.t||b.textContent;b.disabled=false;}}
+function ruErr(e){var m=(e&&e.message)||String(e);
+  if(/Invalid login/i.test(m))return 'E-posta veya şifre yanlış.';
+  if(/Email not confirmed/i.test(m))return 'E-posta henüz doğrulanmadı. TUBETU\'dan gelen e-postayı açın ve bağlantıya tıklayın.';
+  if(/already registered|already exists/i.test(m))return 'Bu e-posta zaten kayıtlı. Giriş yapmayı veya şifrenizi sıfırlamayı deneyin.';
+  if(/Password should be/i.test(m))return 'Şifre çok kısa — en az 6 karakter.';
+  if(/rate limit|too many/i.test(m))return 'Çok fazla deneme. Bir dakika bekleyip tekrar deneyin.';
+  if(/fetch|network/i.test(m))return 'Sunucuya bağlantı yok. İnternetinizi kontrol edin.';
+  return 'Hata: '+m;}
+
+function setMode(reg){regMode=reg;$('tabLogin').classList.toggle('on',!reg);$('tabReg').classList.toggle('on',reg);$('nameRow').classList.toggle('hide',!reg);$('adultRow').classList.toggle('hide',!reg);
+  $('authSubmit').textContent=reg?'Hesap oluştur':'Gir';$('pass').autocomplete=reg?'new-password':'current-password';$('forgotBtn').classList.toggle('hide',reg);msg('authMsg','');}
+$('tabLogin').onclick=function(){setMode(false);};$('tabReg').onclick=function(){setMode(true);};
+
+$('authForm').addEventListener('submit',async function(ev){ev.preventDefault();if(!db)return msg('authMsg','Hizmet geçici olarak kullanılamıyor. Sayfayı yenileyin.');
+  var email=$('email').value.trim(),pass=$('pass').value,name=$('name').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return msg('authMsg','E-posta adresini kontrol edin.');
+  if(pass.length<6)return msg('authMsg','Şifre — en az 6 karakter.');
+  if(regMode){if(name.length<2)return msg('authMsg','Size nasıl hitap edeceğimizi yazın.');if(!$('adult').checked)return msg('authMsg','18 yaşından büyük olduğunuzu onaylayın — yalnızca yetişkinler kaydolabilir.');}
+  busy('authSubmit',true,regMode?'Oluşturuluyor…':'Giriş yapılıyor…');
+  try{if(regMode){var r=await db.auth.signUp({email:email,password:pass,options:{emailRedirectTo:SITE,data:{username:name,display_name:name}}});if(r.error)throw r.error;
+      if(r.data.session){user=r.data.user;render();}else msg('authMsg','Neredeyse bitti! Şu adrese e-posta gönderdik: '+email+'. Açın ve bağlantıya tıklayın — sonra giriş yapın.',true);}
+    else{var l=await db.auth.signInWithPassword({email:email,password:pass});if(l.error)throw l.error;user=l.data.user;if(!afterLogin())render();}}
+  catch(e){msg('authMsg',ruErr(e));}finally{busy('authSubmit',false);}});
+
+$('forgotBtn').onclick=async function(){var email=$('email').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return msg('authMsg','E-postanızı yukarıdaki alana yazın — ve “Şifrenizi mi unuttunuz?” düğmesine tekrar basın.');
+  try{var r=await db.auth.resetPasswordForEmail(email,{redirectTo:SITE+'?mode=recovery'});if(r.error)throw r.error;msg('authMsg','Böyle bir hesap varsa, yeni şifre belirleme bağlantısını içeren bir e-posta gönderdik.',true);}catch(e){msg('authMsg',ruErr(e));}};
+
+function openRecovery(){recovery=true;$('guest').classList.remove('hide');$('cabinet').classList.add('hide');$('authBox').classList.add('hide');$('recoverBox').classList.remove('hide');}
+$('recoverBox').addEventListener('submit',async function(ev){ev.preventDefault();var p=$('newPass').value;if(p.length<6)return msg('recoverMsg','Şifre — en az 6 karakter.');
+  busy('recoverSubmit',true,'Kaydediliyor…');try{var r=await db.auth.updateUser({password:p});if(r.error)throw r.error;msg('recoverMsg','Şifre kaydedildi! Aile odası açılıyor…',true);recovery=false;history.replaceState(null,'','/tr/platform.html');setTimeout(function(){$('authBox').classList.remove('hide');$('recoverBox').classList.add('hide');render();},900);}
+  catch(e){msg('recoverMsg',ruErr(e));}finally{busy('recoverSubmit',false);}});
+
+function meta(){return (user&&user.user_metadata)||{};}
+function render(){var logged=!!user&&!recovery;$('guest').classList.toggle('hide',logged);$('cabinet').classList.toggle('hide',!logged);$('logoutBtn').classList.toggle('hide',!user);
+  if(!logged)return;var m=meta(),name=m.display_name||m.username||'';$('helloTitle').textContent='Merhaba'+(name?', '+name:'')+'!';$('newName').value=name;
+  var fav=HEROES.filter(function(h){return h.id===m.fav_hero;})[0]||HEROES[0];$('favImg').src='/games/img/full-'+fav.id+'.webp';$('favImg').alt=fav.name;
+  $('helloSub').textContent=m.fav_hero?(fav.name+' '+fav.g+' gördüğüne çok sevindi! Kaya\'nın kapısı açık — siz bizdensiniz.'):'Hazine Kayası\'na hoş geldiniz. Kapı açık — siz bizdensiniz!';
+  $('heroes').innerHTML='';HEROES.forEach(function(h){var b=document.createElement('button');b.type='button';b.className='hpick'+(m.fav_hero===h.id?' on':'');b.style.setProperty('--c',h.c);b.innerHTML='<img src="/games/img/full-'+h.id+'.webp" alt=""><span style="color:'+h.c+'">'+h.name+'</span>';
+    b.onclick=async function(){try{var r=await db.auth.updateUser({data:{fav_hero:h.id}});if(r.error)throw r.error;user=r.data.user;render();msg('favMsg',h.name+' — harika seçim!',true);}catch(e){msg('favMsg',ruErr(e));}};$('heroes').appendChild(b);});
+  var best=0;try{best=+JSON.parse(localStorage.getItem('tubetu_best2')||'0')||0;}catch(e){}$('bestScore').textContent=best;loadMine();}
+
+
+var NEXT=(location.search.match(/[?&]next=([^&]+)/)||[])[1];NEXT=NEXT&&/^\/[a-z0-9\-\/#%]*$/i.test(decodeURIComponent(NEXT))?decodeURIComponent(NEXT):null;
+function afterLogin(){if(NEXT){location.href=NEXT;return true;}return false;}
+function shrink(file,max){return new Promise(function(res,rej){var img=new Image();img.onload=function(){var s=Math.min(1,max/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(function(b){b?res(b):rej(new Error('blob'));},'image/jpeg',.85);URL.revokeObjectURL(img.src);};img.onerror=function(){rej(new Error('Resim açılamadı'));};img.src=URL.createObjectURL(file);});}
+$('drawForm').addEventListener('submit',async function(ev){ev.preventDefault();var f=$('dFile').files[0],n=$('dName').value.trim().replace(/[<>"']/g,''),a=parseInt($('dAge').value,10);
+  if(!f)return msg('dMsg','Resmin fotoğrafını seçin.');if(n.length<2)return msg('dMsg','Ressamın adını yazın (yalnızca ad).');if(!$('dOk').checked)return msg('dMsg','Lütfen ebeveyn onayını işaretleyin.');
+  busy('dSend',true,'Yükleniyor…');try{var blob=await shrink(f,1600),path=user.id+'/'+Date.now()+'.jpg';
+    var up=await db.storage.from('drawings').upload(path,blob,{contentType:'image/jpeg',upsert:false});if(up.error)throw up.error;
+    var ins=await db.from('drawings').insert({child_name:n,child_age:a>0&&a<18?a:null,hero:$('dHero').value,image_path:path});if(ins.error)throw ins.error;
+    msg('dMsg','Resim gönderildi! Moderasyondan sonra galeride görünecek. Teşekkürler! 🎨',true);$('drawForm').reset();loadMine();}
+  catch(e){console.error(e);msg('dMsg',/bucket|relation|not found|does not exist/i.test(e.message||'')?'Yarışma çok yakında açılıyor — yükleme henüz ayarlanıyor.':ruErr(e));}finally{busy('dSend',false);}});
+var ST={pending:'⏳ inceleniyor',approved:'✅ galeride',rejected:'✖ kabul edilmedi'};
+async function loadMine(){if(!db||!user)return;try{var r=await db.from('drawings').select('id,child_name,status,votes').eq('owner_id',user.id).order('id',{ascending:false}).limit(10);if(r.error||!r.data||!r.data.length){$('myDrawings').innerHTML='';return;}
+  $('myDrawings').innerHTML='<h3 style="margin-top:16px;font-size:17px">Resimlerim</h3>'+r.data.map(function(d){var t=document.createElement('div');t.textContent=d.child_name;return '<div class="small" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #EEF2FF"><span>'+t.innerHTML+' — '+(ST[d.status]||d.status)+'</span><span>❤ '+d.votes+(d.status==='approved'?' · <a href="/tr/risunki/#d'+d.id+'">aç</a>':'')+'</span></div>';}).join('');}catch(e){}}
+$('subBtn').onclick=async function(){try{var r=await db.from('subscribers').insert({email:user.email});if(r.error&&!/duplicate/i.test(r.error.message))throw r.error;msg('subMsg','Tamam! Haberler şu adrese gelecek: '+user.email+'.',true);}catch(e){msg('subMsg',/relation|does not exist/i.test(e.message||'')?'Abonelik çok yakında açılıyor.':ruErr(e));}};
+$('saveName').onclick=async function(){var n=$('newName').value.trim();if(n.length<2)return msg('setMsg','Ad — en az 2 harf.');try{var r=await db.auth.updateUser({data:{display_name:n,username:n}});if(r.error)throw r.error;user=r.data.user;render();msg('setMsg','Ad kaydedildi.',true);}catch(e){msg('setMsg',ruErr(e));}};
+$('changePass').onclick=async function(){try{var r=await db.auth.resetPasswordForEmail(user.email,{redirectTo:SITE+'?mode=recovery'});if(r.error)throw r.error;msg('setMsg','Şifre değiştirme e-postası şu adrese gönderildi: '+user.email+'.',true);}catch(e){msg('setMsg',ruErr(e));}};
+$('logoutBtn').onclick=async function(){try{await db.auth.signOut();}catch(e){}user=null;recovery=false;render();scrollTo(0,0);};
+
+async function init(){if(!db){render();return;}
+  db.auth.onAuthStateChange(function(event,session){if(event==='PASSWORD_RECOVERY'){openRecovery();return;}user=session&&session.user||null;if(!recovery)render();});
+  try{var s=await db.auth.getSession();user=s.data.session&&s.data.session.user||null;}catch(e){console.error(e);}
+  if(recovery)openRecovery();else if(!(user&&afterLogin()))render();
+  if(/access_token|type=signup/.test(location.hash)&&user){history.replaceState(null,'','/tr/platform.html');}}
+setMode(false);init();
+window.__cab={render:function(u){user=u;recovery=false;render();}};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

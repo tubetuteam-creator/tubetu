@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" name="viewport"/>
+<title>تلوين أونلاين TUBETU</title>
+<meta content="لوّن أبطال كرتون TUBETU مباشرة على الهاتف أو الكمبيوتر: ليسكو، دوبريك، فيونكا، أسيلا، كفاسيا، ديوشا وغيرهم." name="description"/>
+<meta content="تلوين أونلاين TUBETU" property="og:title"/>
+<meta content="https://tubetu.com/assets/col-asila.jpg" property="og:image"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#0B1240;--orange:#FF8A1F;--sky:#EAF6FF}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;font-family:Nunito,system-ui,sans-serif;background:var(--sky);color:#1B1F3B}
+.top{background:var(--navy);color:#fff;display:flex;align-items:center;gap:10px;padding:10px 14px;position:sticky;top:0;z-index:5}
+.top img{height:30px}.top .sp{flex:1}.top a{color:#fff;text-decoration:none;font-weight:800;background:rgba(255,255,255,.12);padding:7px 12px;border-radius:999px;font-size:14px}
+h1{margin:0;font-size:18px;font-weight:900}
+.pick{display:flex;gap:10px;overflow-x:auto;padding:12px 14px;scrollbar-width:none}
+.pick::-webkit-scrollbar{display:none}
+.pick button{flex:none;width:92px;background:#fff;border:3px solid transparent;border-radius:16px;padding:4px;cursor:pointer;font:800 12px Nunito,sans-serif}
+.pick button img{width:100%;height:70px;object-fit:contain}
+.pick button.on{border-color:var(--orange)}
+.stage{display:flex;gap:14px;padding:0 14px 14px;align-items:flex-start}
+.board{flex:1;min-width:0;background:#fff;border-radius:22px;box-shadow:0 8px 24px rgba(11,18,64,.1);display:flex;justify-content:center;align-items:center;padding:10px;position:relative;touch-action:none}
+.cv{position:relative}
+.cv canvas{position:absolute;left:0;top:0;width:100%;height:100%}
+.cv canvas#lines{pointer-events:none}
+.tools{width:230px;flex:none;background:#fff;border-radius:22px;padding:14px;box-shadow:0 8px 24px rgba(11,18,64,.1)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tool{flex:1;min-width:60px;border:0;border-radius:14px;padding:10px 6px;font:900 14px Nunito,sans-serif;background:#EEF2FF;color:#0B1240;cursor:pointer}
+.tool.on{background:var(--navy);color:#fff}
+.pal{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:12px}
+.pal button{aspect-ratio:1;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px #D7DDF2;cursor:pointer}
+.pal button.on{box-shadow:0 0 0 3px #0B1240;transform:scale(1.1)}
+.sizes{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.sizes button{border:0;background:#EEF2FF;border-radius:50%;cursor:pointer;display:grid;place-items:center;width:40px;height:40px}
+.sizes button i{display:block;background:#0B1240;border-radius:50%}
+.sizes button.on{background:#FFE2C4}
+.act{width:100%;border:0;border-radius:999px;padding:12px;font:900 16px Nunito,sans-serif;cursor:pointer;margin-top:8px}
+.save{background:linear-gradient(180deg,#FFB347,#FF7A00);color:#fff;box-shadow:0 5px 0 #B85500}
+.ghost{background:#EEF2FF;color:#0B1240}
+.small{font-size:12px;color:#5A6185;font-weight:700;margin:8px 0 0}
+@media(max-width:760px){.stage{flex-direction:column}.tools{width:100%}.pal{grid-template-columns:repeat(12,1fr)}.acts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.act{margin-top:0}}
+</style>
+</head>
+<body>
+<header class="top"><a href="/ar/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>التلوين</h1><div class="sp"></div><a href="/ar/games/">🎮 اللعبة</a><a href="/ar/">إلى الموقع</a></header>
+<div class="pick" id="pick"></div>
+<div class="stage">
+<div class="board" id="board"><div class="cv" id="cv"><canvas id="paint"></canvas><canvas id="lines"></canvas></div></div>
+<div class="tools">
+<div class="row"><button class="tool on" data-t="fill">🪣 تعبئة</button><button class="tool" data-t="brush">🖌 فرشاة</button><button class="tool" data-t="erase">🧽 ممحاة</button></div>
+<div class="pal" id="pal"></div>
+<div class="sizes" id="sizes"></div>
+<div class="acts"><button class="act ghost" id="undo">↶ تراجع</button><button class="act ghost" id="clear">🗑 مسح</button><button class="act save" id="save">💾 حفظ</button></div>
+<p class="small">انتهيت؟ احفظ الصورة وأرسلها إلى <a href="/ar/platform.html#konkurs">مسابقة الرسم</a>!</p>
+</div>
+</div>
+<script>
+(function(){
+'use strict';
+var PICS=[['lisko','ليسكو'],['dobrik','دوبريك'],['vionka','فيونكا'],['asila','أسيلا'],['snezhok','سنيجوك'],['bugor','بوغور']];
+var COLORS=['#FF3B30','#FF8A1F','#FFC72C','#FFE98A','#8BD62A','#2E9E4F','#7FE7FF','#2EA8FF','#1D3FB8','#8E3BF5','#FF3FA4','#FFC2E3','#8B5A2B','#D9A066','#F4D3B5','#9AA3B8','#3A3F55','#FFFFFF'];
+var $=function(id){return document.getElementById(id);};
+var paint=$('paint'),lines=$('lines'),pc=paint.getContext('2d',{willReadFrequently:true}),lc=lines.getContext('2d');
+var tool='fill',color=COLORS[0],size=18,wall=null,W=0,H=0,undo=[],cur=null;
+PICS.forEach(function(p,i){var b=document.createElement('button');b.innerHTML='<img src="/raskraska/img/'+p[0]+'.png" alt="">'+p[1];b.onclick=function(){load(i);};$('pick').appendChild(b);});
+COLORS.forEach(function(c,i){var b=document.createElement('button');b.style.background=c;b.title=c;if(!i)b.className='on';b.onclick=function(){color=c;[].forEach.call($('pal').children,function(x){x.classList.remove('on');});b.classList.add('on');if(tool==='erase')setTool('brush');};$('pal').appendChild(b);});
+[8,18,34].forEach(function(s,i){var b=document.createElement('button');b.innerHTML='<i style="width:'+(6+i*7)+'px;height:'+(6+i*7)+'px"></i>';if(i===1)b.className='on';b.onclick=function(){size=s;[].forEach.call($('sizes').children,function(x){x.classList.remove('on');});b.classList.add('on');};$('sizes').appendChild(b);});
+function setTool(t){tool=t;document.querySelectorAll('.tool').forEach(function(b){b.classList.toggle('on',b.dataset.t===t);});}
+document.querySelectorAll('.tool').forEach(function(b){b.onclick=function(){setTool(b.dataset.t);};});
+function fit(){if(!W)return;var bw=$('board').clientWidth-20,bh=Math.max(320,innerHeight-(innerWidth<760?330:170));var s=Math.min(bw/W,bh/H);$('cv').style.width=W*s+'px';$('cv').style.height=H*s+'px';}
+addEventListener('resize',fit);
+function load(i){cur=PICS[i];[].forEach.call($('pick').children,function(x,j){x.classList.toggle('on',i===j);});
+  var img=new Image(),mk=new Image(),n=0;function ready(){if(++n<2)return;W=img.naturalWidth;H=img.naturalHeight;paint.width=lines.width=W;paint.height=lines.height=H;
+    lc.clearRect(0,0,W,H);lc.drawImage(mk,0,0);var d=lc.getImageData(0,0,W,H).data;wall=new Uint8Array(W*H);for(var k=0;k<W*H;k++)wall[k]=d[k*4+3]>60?1:0;
+    lc.clearRect(0,0,W,H);lc.drawImage(img,0,0);pc.fillStyle='#fff';pc.fillRect(0,0,W,H);undo=[];fit();}
+  img.onload=ready;mk.onload=ready;img.src='/raskraska/img/'+cur[0]+'.png';mk.src='/raskraska/img/'+cur[0]+'-m.png';}
+function snap(){try{undo.push(pc.getImageData(0,0,W,H));if(undo.length>15)undo.shift();}catch(e){}}
+function hexRgb(h){var n=parseInt(h.slice(1),16);return [(n>>16)&255,(n>>8)&255,n&255];}
+function fill(x,y){if(wall[y*W+x])return;snap();var img=pc.getImageData(0,0,W,H),d=img.data,rgb=hexRgb(color),seen=new Uint8Array(W*H),stack=[x,y];
+  while(stack.length){var py=stack.pop(),px=stack.pop(),i=py*W+px;
+    // scanline
+    var lx=px;while(lx>0&&!wall[py*W+lx-1]&&!seen[py*W+lx-1])lx--;var rx=px;while(rx<W-1&&!wall[py*W+rx+1]&&!seen[py*W+rx+1])rx++;
+    for(var xx=lx;xx<=rx;xx++){var j=py*W+xx;if(seen[j])continue;seen[j]=1;d[j*4]=rgb[0];d[j*4+1]=rgb[1];d[j*4+2]=rgb[2];d[j*4+3]=255;
+      if(py>0){var u=j-W;if(!wall[u]&&!seen[u])stack.push(xx,py-1);}if(py<H-1){var dn=j+W;if(!wall[dn]&&!seen[dn])stack.push(xx,py+1);}}}
+  // paint under thin line edges too
+  pc.putImageData(img,0,0);pop();}
+function pop(){try{var a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.frequency.value=660+Math.random()*300;g.gain.setValueAtTime(.08,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.15);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.16);}catch(e){}}
+function pos(e){var r=paint.getBoundingClientRect();return [Math.floor((e.clientX-r.left)/r.width*W),Math.floor((e.clientY-r.top)/r.height*H)];}
+var drawing=false,last=null;
+paint.addEventListener('pointerdown',function(e){if(!W)return;e.preventDefault();var p=pos(e);if(p[0]<0||p[1]<0||p[0]>=W||p[1]>=H)return;
+  if(tool==='fill'){fill(p[0],p[1]);return;}snap();drawing=true;last=p;paint.setPointerCapture(e.pointerId);dot(p,p);});
+paint.addEventListener('pointermove',function(e){if(!drawing)return;var p=pos(e);dot(last,p);last=p;});
+addEventListener('pointerup',function(){drawing=false;});
+function dot(a,b){var sc=W/paint.getBoundingClientRect().width;pc.strokeStyle=tool==='erase'?'#fff':color;pc.lineWidth=size*sc;pc.lineCap='round';pc.lineJoin='round';pc.beginPath();pc.moveTo(a[0],a[1]);pc.lineTo(b[0],b[1]);pc.stroke();}
+$('undo').onclick=function(){if(undo.length)pc.putImageData(undo.pop(),0,0);};
+$('clear').onclick=function(){snap();pc.fillStyle='#fff';pc.fillRect(0,0,W,H);};
+$('save').onclick=function(){var c=document.createElement('canvas'),pad=40;c.width=W+pad*2;c.height=H+pad*2+60;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(paint,pad,pad);x.drawImage(lines,pad,pad);
+  x.fillStyle='#0B1240';x.font='900 30px Nunito, sans-serif';x.fillText('TUBETU · '+cur[1],pad,H+pad+45);x.font='700 22px Nunito, sans-serif';x.textAlign='right';x.fillText('tubetu.com',c.width-pad,H+pad+45);
+  c.toBlob(function(bl){var a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download='TUBETU_raskraska_'+cur[0]+'.png';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1500);},'image/png');};
+var start=Math.max(0,PICS.findIndex(function(p){return location.hash==='#'+p[0];}));load(start);
+window.__rs={fill:function(x,y){fill(x,y);},size:function(){return [W,H];}};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>
