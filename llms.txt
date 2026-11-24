@@ -1,0 +1,33 @@
+# TUBETU
+
+> TUBETU (Тубиту) — мультсериал для детей 4–10 лет и их родителей, где добро возвращается. Четверо друзей и их забавные помощники летят на помощь всем, кто позвал. Первая серия — «Скала сокровищ». Сайт на 10 языках, бесплатные детские игры и раскраски, без рекламы на сайте.
+
+TUBETU (Tubetu) is an animated series for kids aged 4–10 and their parents about kindness that comes back. Four friends and their funny helpers fly to help anyone who calls. Episode 1: "Treasure Rock". The site is available in 10 languages with free kids' games and coloring pages.
+
+## Главное / Main
+- [Главная](https://tubetu.com/): о мультсериале, герои, песня «Ту-би-ту, вперёд, друзья!»
+- [Серия 1 «Скала сокровищ»](https://tubetu.com/seriya-1/)
+- [Герои](https://tubetu.com/geroi/)
+- [Игры для детей](https://tubetu.com/igry/): 9 бесплатных игр в браузере (Строим Скалу, Поймай Уха, Мемори, Нюх ищет пиццу, Асила-оркестр, пазл, найди отличия и др.)
+- [Раскраска онлайн](https://tubetu.com/raskraska/)
+- [Открытка-поздравление](https://tubetu.com/pozdravlenie/)
+
+## Языки / Languages
+- [English](https://tubetu.com/en/)
+- [Қазақша](https://tubetu.com/kz/)
+- [Türkçe](https://tubetu.com/tr/)
+- [中文](https://tubetu.com/zh/)
+- [Español](https://tubetu.com/es/)
+- [हिन्दी](https://tubetu.com/hi/)
+- [Kiswahili](https://tubetu.com/sw/)
+- [Português](https://tubetu.com/pt/)
+- [العربية](https://tubetu.com/ar/)
+
+## Смотреть и следить / Watch & follow
+- [YouTube @tubetuapp](https://www.youtube.com/@tubetuapp)
+- [Telegram](https://t.me/tubetu_official)
+- [Instagram](https://www.instagram.com/tubetu.team)
+- [TikTok](https://www.tiktok.com/@tubetu.team)
+
+## Optional
+- [Карта сайта / Sitemap](https://tubetu.com/sitemap.xml)
