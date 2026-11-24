@@ -1,3 +1,11 @@
+/* Яндекс Метрика: только подсчёт посещений (без Вебвизора). Счётчик 114653877 */
+(function(m,e,t,r,i,k,a){
+if(!/(^|\.)tubetu\.com$/.test(location.hostname))return;
+m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
+for(var j=0;j<e.scripts.length;j++){if(e.scripts[j].src===r)return;}
+k=e.createElement(t);a=e.getElementsByTagName(t)[0];k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
+m[i](114653877,'init',{ssr:true,webvisor:false,clickmap:true,referrer:e.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});
+})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=114653877','ym');
 /* TUBETU: кнопки «Поделиться», «Установить на телефон» и выбор языка — на всех страницах */
 (function(){
 var L=[['ru','Русский'],['kz','Қазақша'],['en','English'],['tr','Türkçe'],['zh','中文'],['es','Español'],['hi','हिन्दी'],['sw','Kiswahili'],['pt','Português'],['ar','العربية']];
