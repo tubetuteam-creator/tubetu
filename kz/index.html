@@ -1,0 +1,181 @@
+<!doctype html><html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TUBETU — жақсылық қайтып оралатын мультсериал</title><meta name="description" content="TUBETU — балалар мен ата-аналарға арналған мультсериал. Төрт дос пен олардың көмекшілері көмек сұраған әрбір адамға ұшып келеді. Бірінші серия — «Қазына жартасы»."><link rel="canonical" href="https://tubetu.com/kz/">
+<link rel="alternate" hreflang="ru" href="https://tubetu.com/"><link rel="alternate" hreflang="en" href="https://tubetu.com/en/"><link rel="alternate" hreflang="kk" href="https://tubetu.com/kz/">
+<meta property="og:title" content="TUBETU — жақсылық қайтып оралатын мультсериал"><meta property="og:description" content="TUBETU — балалар мен ата-аналарға арналған мультсериал. Төрт дос пен олардың көмекшілері көмек сұраған әрбір адамға ұшып келеді. Бірінші серия — «Қазына жартасы»."><meta property="og:image" content="https://tubetu.com/assets/hero.jpg">
+<meta name="theme-color" content="#0B1240"><link rel="icon" href="/icon.svg" type="image/svg+xml"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet"><style>
+:root{
+  --navy:#0B1240; --navy2:#141C5C; --sky:#EAF6FF; --ink:#1B1F3B; --muted:#5A6185;
+  --orange:#FF8A1F; --lime:#8BD62A; --purple:#8E3BF5; --pink:#FF3FA4; --blue:#2EA8FF; --gold:#FFC72C;
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;font-weight:600;color:var(--ink);background:var(--sky);line-height:1.5}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:20;background:rgba(11,18,64,.92);backdrop-filter:blur(8px);color:#fff}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.nav .logo img{height:34px;width:auto}
+.nav ul{display:flex;gap:6px;list-style:none;margin:0 0 0 auto;padding:0}
+.nav ul a{text-decoration:none;padding:8px 9px;border-radius:999px;font-weight:800;font-size:14px;white-space:nowrap}
+.nav ul a:hover{background:rgba(255,255,255,.12)}
+.nav .yt{background:var(--pink);color:#fff;text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:900;font-size:14px;white-space:nowrap}
+.burger{display:none;margin-left:auto;background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
+@media(max-width:1120px){
+  .nav ul{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;background:var(--navy);padding:10px 16px 16px}
+  .nav ul.open{display:flex}
+  .burger{display:block}
+  .nav .yt{display:none}
+}
+
+/* HERO */
+.hero{position:relative;color:#fff;background:var(--navy);overflow:hidden}
+.hero img.bg{width:100%;height:auto;aspect-ratio:1672/941;object-fit:cover}
+.hero .shade{position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(transparent,rgba(11,18,64,.95))}
+.hero .txt{position:absolute;left:0;right:0;bottom:6%;text-align:center}
+.hero h1{margin:0 0 6px;font-size:clamp(26px,4.6vw,56px);font-weight:900;text-shadow:0 3px 18px rgba(0,0,0,.5)}
+.hero p{margin:0 auto 18px;max-width:640px;font-size:clamp(15px,2vw,20px);opacity:.95}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;text-decoration:none;font:inherit;font-weight:900;font-size:17px;padding:14px 22px;border-radius:999px;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.main{background:var(--gold);color:var(--ink);box-shadow:0 6px 0 #C98F00}
+.btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.5)}
+@media(max-width:700px){
+  .hero .txt{position:static;background:var(--navy);padding:18px 16px 28px}
+  .hero .shade{display:none}
+}
+
+/* SECTIONS */
+section{padding:64px 0}
+.kicker{display:inline-block;font-weight:900;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);background:#fff;padding:6px 12px;border-radius:999px}
+h2{font-size:clamp(28px,4vw,44px);font-weight:900;margin:12px 0 12px;line-height:1.15}
+.lead{font-size:18px;color:var(--muted);max-width:720px}
+
+/* EPISODE */
+.episode{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
+.episode video{width:100%;border-radius:var(--radius);box-shadow:0 18px 40px rgba(11,18,64,.25);background:#000}
+.badge{display:inline-block;background:var(--pink);color:#fff;font-weight:900;padding:6px 14px;border-radius:999px;font-size:14px}
+@media(max-width:860px){.episode{grid-template-columns:1fr}}
+
+/* HEROES */
+.dark{background:var(--navy);color:#fff}
+.dark .lead{color:#C7CDF5}
+.dark .kicker{background:rgba(255,255,255,.1);color:var(--gold)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:28px}
+.card{background:var(--navy2);border-radius:var(--radius);overflow:hidden;border:3px solid var(--c);display:flex;flex-direction:column}
+.card img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.card img.full{aspect-ratio:3/4;object-fit:contain;object-position:50% 100%;background:radial-gradient(circle at 50% 40%,#fff,#DDE6FF)}
+.card .in{padding:16px 18px 20px}
+.card h3{margin:0;font-size:24px;font-weight:900;color:var(--c)}
+.card .role{font-size:14px;color:#C7CDF5;margin:2px 0 10px}
+.card .q{font-size:15px;font-style:italic}
+@media(max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.cards{grid-template-columns:1fr}}
+.friends{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+.friend{display:flex;gap:14px;align-items:center;background:rgba(255,255,255,.06);border-radius:var(--radius);padding:12px}
+.friend img{width:110px;height:110px;object-fit:cover;border-radius:18px;flex:none}
+.friend h4{margin:0;font-size:19px;font-weight:900}
+.friend p{margin:2px 0 0;font-size:14px;color:#C7CDF5}
+@media(max-width:860px){.friends{grid-template-columns:1fr}}
+
+/* EXTRA */
+.nav ul a.login{border:2px solid rgba(255,255,255,.5)}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.thumb{background:#fff;border-radius:20px;overflow:hidden;text-decoration:none;color:var(--ink);box-shadow:0 6px 20px rgba(11,18,64,.08);display:flex;flex-direction:column}
+.thumb img{aspect-ratio:4/3;object-fit:contain;background:#fff;width:100%;border-bottom:1px solid #eee}
+.thumb span{padding:12px 16px;font-weight:900;display:flex;justify-content:space-between}
+.thumb span em{font-style:normal;color:var(--orange)}
+.empty{border:3px dashed #C9D3F0;border-radius:20px;padding:26px;text-align:center;color:var(--muted);margin-top:22px;font-weight:700}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.review{background:#fff;border-radius:20px;padding:18px;box-shadow:0 6px 20px rgba(11,18,64,.08)}
+.review p{margin:0 0 10px;font-style:italic}
+.review b{color:var(--purple)}
+form.rf{background:#fff;border-radius:24px;padding:22px;margin-top:22px;display:grid;gap:12px;max-width:640px;box-shadow:0 6px 20px rgba(11,18,64,.08)}
+form.rf input,form.rf textarea{font:inherit;padding:12px 14px;border:2px solid #D7DDF2;border-radius:14px;width:100%;box-sizing:border-box}
+form.rf textarea{min-height:110px;resize:vertical}
+form.rf label.ch{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
+form.rf label.ch input{width:auto;margin-top:3px}
+form.rf button{justify-self:start;border:0;cursor:pointer;font:inherit}
+.hp{position:absolute;left:-9999px}
+.rmsg{font-weight:800}
+.pay{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.pay div{background:rgba(255,255,255,.08);border-radius:20px;padding:18px;border:2px solid rgba(255,255,255,.15)}
+.pay b{display:block;font-size:19px}
+.pay small{display:inline-block;margin-top:8px;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px;background:var(--gold);color:var(--navy)}
+.pay small.on{background:var(--lime)}
+.pay a{color:#fff}
+.diary{list-style:none;padding:0;margin:22px 0 0;border-left:4px solid var(--orange)}
+.diary li{padding:0 0 18px 20px;position:relative}
+.diary li:before{content:"";position:absolute;left:-12px;top:4px;width:20px;height:20px;border-radius:50%;background:var(--orange);border:4px solid #fff}
+.diary b{display:block;color:var(--orange);font-size:14px}
+.tg{background:linear-gradient(135deg,#2AABEE,#2EA8FF);color:#fff;border-radius:32px;padding:30px 36px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.tg h2{margin:0}.tg p{margin:6px 0 0}
+@media(max-width:860px){.thumbs,.reviews{grid-template-columns:1fr 1fr}.pay{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.thumbs,.reviews,.pay{grid-template-columns:1fr}}
+
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-auto-rows:220px;gap:14px;margin-top:26px}
+.gallery figure{margin:0;position:relative;border-radius:20px;overflow:hidden}
+.gallery figure.big{grid-row:span 2}
+.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.gallery figure:hover img{transform:scale(1.05)}
+.gallery figcaption{position:absolute;left:10px;bottom:10px;background:rgba(11,18,64,.75);padding:6px 12px;border-radius:999px;font-weight:900;font-size:14px}
+@media(max-width:860px){.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:150px}.gallery figure.big{grid-column:span 2;grid-row:span 2}}
+
+/* SONG */
+.song{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.lyrics{background:#fff;border-radius:var(--radius);padding:28px;font-size:22px;font-weight:800;line-height:1.6;box-shadow:0 12px 30px rgba(11,18,64,.1)}
+.lyrics span{color:var(--pink)}
+.song img{border-radius:var(--radius);box-shadow:0 18px 40px rgba(11,18,64,.2)}
+@media(max-width:860px){.song{grid-template-columns:1fr}}
+
+/* WATCH */
+.links{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+.links a{display:flex;align-items:center;gap:12px;text-decoration:none;background:#fff;border-radius:18px;padding:16px;font-weight:900;font-size:17px;box-shadow:0 6px 18px rgba(11,18,64,.08);transition:transform .15s}
+.links a:hover{transform:translateY(-3px)}
+.links i{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#fff;font-style:normal;font-size:20px;flex:none}
+.links small{display:block;font-weight:600;font-size:13px;color:var(--muted)}
+@media(max-width:860px){.links{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:460px){.links{grid-template-columns:1fr}}
+
+/* PARENTS */
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+.value{background:#fff;border-radius:var(--radius);padding:22px;border-top:6px solid var(--c)}
+.value b{display:block;font-size:20px;font-weight:900;margin-bottom:6px}
+.value p{margin:0;color:var(--muted)}
+@media(max-width:860px){.values{grid-template-columns:1fr}}
+
+/* GAMES */
+.games{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;border-radius:32px;padding:36px;display:flex;gap:24px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.games h2{margin:0}
+.games p{margin:6px 0 0;opacity:.95}
+
+footer{background:var(--navy);color:#C7CDF5;padding:36px 0;font-size:15px}
+footer .wrap{display:flex;gap:24px;justify-content:space-between;flex-wrap:wrap;align-items:center}
+footer img{height:40px;width:auto}
+footer a{color:#fff}
+
+.langs a{color:#fff;text-decoration:none;font-weight:900;padding:6px 10px;border-radius:999px;font-size:13px}.langs a.on{background:rgba(255,255,255,.2)}
+.frl{columns:2;font-weight:800;line-height:1.9;padding-left:20px}@media(max-width:600px){.frl{columns:1}}</style></head><body>
+<nav class="nav"><div class="wrap"><a class="logo" href="/kz/"><img src="/assets/logo.png" alt="TUBETU"></a>
+<button class="burger" aria-label="Menu" onclick="document.getElementById('menu').classList.toggle('open')">☰</button><ul id="menu" onclick="if(event.target.tagName==='A')this.classList.remove('open')"><li><a href="#seriya">1-серия</a></li><li><a href="#geroi">Кейіпкерлер</a></li><li><a href="#games">Ойындар</a></li><li><a href="#roditelyam">Ата-аналарға</a></li></ul>
+<span class="langs"><a href="/">RU</a><a href="/kz/" class="on">KZ</a><a href="/en/" class="">EN</a></span></div></nav>
+<header class="hero" id="top"><img class="bg" src="/assets/hero.jpg" alt="TUBETU"><div class="shade"></div><div class="txt wrap"><h1>Жақсылық қайтып оралатын мультфильм</h1><p class="lead">Лиско, Добрик, Вионка және Асила биік таулардағы Қазына жартасының ішінде тұрады. Біреу көмек сұраса, олар ғажайып көліктерімен ұшып шығып, әрқашан үлгереді.</p>
+<div class="btns"><a class="btn main" href="#seriya">▶ Заставканы көру</a><a class="btn ghost" href="#geroi">Кейіпкерлермен танысу</a></div></div></header>
+<section id="seriya"><div class="wrap episode"><video src="/assets/zastavka.mp4" poster="/assets/zastavka-poster.jpg" controls playsinline preload="none"></video>
+<div><span class="badge">Жақында</span><h2>1-серия. «Қазына жартасы»</h2><p class="lead">Кішкентай Мирошка лақшасының соңынан мұз жарығына түсіп, сонда қысылып қалды. Үстінде сараң Скупщик пен оның ызылдаған дрондары айналып жүр: оларға жарқыраған кристалдар керек. Лиско, Добрик, Вионка және Асила көмекке ұшады. YouTube-тағы премьера — 2026 жылғы 19 желтоқсан.</p><p class="lead" style="font-size:15px">Мультфильм орыс тілінде. Қазақша субтитрлер дайындалуда.</p>
+<div class="btns" style="justify-content:flex-start;margin-top:14px"><a class="btn main" href="https://www.youtube.com/@tubetuapp?sub_confirmation=1" target="_blank" rel="noopener">YouTube-қа жазылу</a></div></div></div></section>
+<section class="dark" id="geroi"><div class="wrap"><span class="kicker">TUBETU командасы</span><h2>Кейіпкерлермен танысыңыз</h2><p class="lead">Әрқайсысының өз суперкүші, көлігі және TUBETU сөзіндегі өз әрпі бар. Бірге олар — команда.</p><div class="cards"><article class="card" style="--c:#FF8A1F"><img src="/games/img/full-lisko.webp" alt="Лиско" loading="lazy" style="aspect-ratio:3/4;object-fit:contain;object-position:50% 100%;background:radial-gradient(circle at 50% 40%,#fff,#DDE6FF)"><div class="in"><h3>Лиско</h3><div class="role">Өнертапқыш, 12 жаста</div><div class="q">«Ойлап табамын, саламын, жөндеймін — команда үшін!»</div></div></article><article class="card" style="--c:#8BD62A"><img src="/games/img/full-dobrik.webp" alt="Добрик" loading="lazy" style="aspect-ratio:3/4;object-fit:contain;object-position:50% 100%;background:radial-gradient(circle at 50% 40%,#fff,#DDE6FF)"><div class="in"><h3>Добрик</h3><div class="role">Барлаушы және жол көрсетуші, 10 жаста</div><div class="q">«Жылдамырақ, алысырақ, бірге!»</div></div></article><article class="card" style="--c:#8E3BF5"><img src="/games/img/full-vionka.webp" alt="Вионка" loading="lazy" style="aspect-ratio:3/4;object-fit:contain;object-position:50% 100%;background:radial-gradient(circle at 50% 40%,#fff,#DDE6FF)"><div class="in"><h3>Вионка</h3><div class="role">Сиқырлы тоқудың шебері</div><div class="q">«Ойды тоқысам — ол тіріледі!»</div></div></article><article class="card" style="--c:#FF3FA4"><img src="/games/img/full-asila.webp" alt="Асила" loading="lazy" style="aspect-ratio:3/4;object-fit:contain;object-position:50% 100%;background:radial-gradient(circle at 50% 40%,#fff,#DDE6FF)"><div class="in"><h3>Асила</h3><div class="role">Музыка мен көңіл-күй шебері, 9 жаста</div><div class="q">«Тәтті идеялар әлемді мейірімді етеді!»</div></div></article></div>
+<h3 style="font-size:26px;font-weight:900;margin:40px 0 0">Олардың достары</h3><ul class="frl"><li>Дюша — тотықұс-жол көрсетуші</li><li>Нюх — сиқырлы мұрынды күшік</li><li>Квася — тоқылған аюжан</li><li>Шушик — шиншилла-инженер</li><li>Скот — штаб директоры, мысық</li><li>Ух — жартас күзетшісі, үкі</li><li>Снежок — ілбіс күшігі</li></ul></div></section>
+<section id="games"><div class="wrap"><span class="kicker">Ойна</span><h2>Ойындар</h2><div class="values"><a class="value" href="/games/" style="--c:var(--orange);text-decoration:none;color:inherit"><b>🎮 Құтқарушылар</b><p>Таулардың үстінен ұшып, кристалдар жина, достарыңды құтқар</p></a><a class="value" href="/games/pazl/" style="--c:var(--orange);text-decoration:none;color:inherit"><b>🧩 Пазл</b><p>Суретті құрастыр</p></a><a class="value" href="/games/otlichiya/" style="--c:var(--orange);text-decoration:none;color:inherit"><b>🔍 Айырмашылықты тап</b><p>5 айырмашылықты тап</p></a><a class="value" href="/raskraska/" style="--c:var(--orange);text-decoration:none;color:inherit"><b>🖌 Бояу</b><p>Кейіпкерлерді онлайн боя</p></a></div></div></section>
+<section id="roditelyam" style="background:#fff"><div class="wrap"><span class="kicker">Ата-аналарға</span><h2>Біздің мультфильм не туралы</h2><p class="lead">TUBETU — «to be two», яғни «бірге болу». Біз балаларға бірге көп нәрсеге қол жеткізуге болатынын және жақсылық әрқашан қайтып оралатынын айтамыз.</p><div class="values"><div class="value" style="--c:var(--orange)"><b>Достық және команда</b><p>Кейіпкерлер әртүрлі, бірақ тек бірге жеңеді.</p></div><div class="value" style="--c:var(--lime)"><b>Пайдасыз көмек</b><p>Команда шақырған әркімге ұшады — тіпті сараң зұлымға да.</p></div><div class="value" style="--c:var(--purple)"><b>Күлкі және мейірімді зұлымдар</b><p>Біздің зұлымдар қорқынышты емес, күлкілі. Әзіл көп, қатыгездік жоқ.</p></div></div></div></section>
+<section><div class="wrap"><h2>Қайдан көруге болады</h2><div class="links">
+<a href="https://www.youtube.com/@tubetuapp" target="_blank" rel="noopener"><i style="background:#FF0000">▶</i><span>YouTube</span></a>
+<a href="https://www.tiktok.com/@tubetu.team" target="_blank" rel="noopener"><i style="background:#111">♪</i><span>TikTok</span></a>
+<a href="https://www.instagram.com/tubetu.team" target="_blank" rel="noopener"><i style="background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF)">◎</i><span>Instagram</span></a>
+<a href="https://t.me/tubetu_official" target="_blank" rel="noopener"><i style="background:#2AABEE">✈</i><span>Telegram</span></a></div>
+<p style="margin-top:20px;font-weight:800"><a href="/">🇷🇺 Орысша нұсқасы — көбірек ойын, сурет байқауы және отбасы кабинеті →</a></p></div></section>
+<footer><div class="wrap"><img src="/assets/logo.png" alt="TUBETU"><div>© 2026 TUBETU · <a href="mailto:tubetu.team@gmail.com">tubetu.team@gmail.com</a></div></div></footer></body></html>
