@@ -23,6 +23,8 @@
 .lbl{position:absolute;left:8px;top:8px;background:rgba(11,18,64,.7);color:#fff;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px}
 @media(max-width:700px){.pair{grid-template-columns:1fr}}
 </style>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
 </head>
 <body>
 <header class="top"><a href="/en/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>Spot the difference</h1><div class="sp"></div><a href="/en/games/">🎮 Rescuers</a></header>
@@ -31,7 +33,7 @@
 <div class="pills"><span class="pill">🔍 Found: <b id="found">0</b> of <b id="total">5</b></span><span class="pill">⏱ <b id="time">0:00</b></span><button class="btn alt" id="hint" style="padding:8px 16px;font-size:15px">💡 Hint</button></div>
 <div class="pair"><div class="pic" id="pA"><canvas id="cA"></canvas><span class="lbl">Picture 1</span></div><div class="pic" id="pB"><canvas id="cB"></canvas><span class="lbl">Picture 2</span></div></div>
 <p style="text-align:center;font-weight:800;color:#0B1240">The pictures are almost the same, but Skupshchik changed a few things! Tap the differences on either picture.</p>
-<div class="more"><a href="/en/games/">🎮 Rescuers</a><a href="/en/games/pazl/">🧩 Puzzle</a><a href="/en/raskraska/">🖌 Coloring</a></div>
+<div class="more"><a href="/en/games/">🎮 Rescuers</a><a href="/en/games/stroim/">🧱 Build the Rock</a><a href="/en/games/pazl/">🧩 Puzzle</a><a href="/en/raskraska/">🖌 Coloring</a></div>
 </div>
 <div class="win" id="win"><div class="card"><h2>All differences found! 🎉</h2><p id="winText" style="font-weight:800"></p><button class="btn" id="again">Next picture</button></div></div>
 <canvas id="conf"></canvas>

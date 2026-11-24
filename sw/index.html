@@ -195,7 +195,20 @@ footer{background:var(--navy);color:#C7CDF5;padding:36px 0;font-size:15px}
 footer .wrap{display:flex;gap:24px;justify-content:space-between;flex-wrap:wrap;align-items:center}
 footer img{height:40px;width:auto}
 footer a{color:#fff}
+
+.kids{padding:18px 0 0}
+.kgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.kt{position:relative;display:block;border-radius:24px;overflow:hidden;aspect-ratio:1/1.05;text-decoration:none;color:#fff;box-shadow:0 8px 0 rgba(11,18,64,.18),0 12px 24px rgba(11,18,64,.18);transition:transform .15s}
+.kt:active{transform:scale(.94)}.kt:hover{transform:translateY(-4px) rotate(-1deg)}
+.kt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.kt .ki{position:absolute;left:0;right:0;bottom:0;padding:26px 8px 10px;background:linear-gradient(transparent,rgba(11,18,64,.88));text-align:center;font-weight:900;font-size:clamp(16px,2vw,21px);line-height:1.1;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.kt .ki b{display:block;font-size:clamp(30px,4vw,40px);line-height:1;margin-bottom:2px}
+.kt.ukh{background:radial-gradient(circle at 50% 35%,#7B5CFF,#2A1B6E)}.kt.ukh img{object-fit:contain;inset:8% 12% 28%;width:76%;height:64%}
+@media(max-width:760px){.kgrid{grid-template-columns:repeat(3,1fr);gap:10px}.kt{border-radius:20px}}
+@media(max-width:340px){.kgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.hero .txt p,.hero .btns{display:none}.hero .txt{padding:10px 14px 12px!important}.hero h1{font-size:21px!important;margin:0}.kids{padding-top:12px}.kt .ki{padding:18px 4px 7px;font-size:14px}.kt .ki b{font-size:26px}}
 </style>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
 </head>
 <body>
 <nav class="nav">
@@ -229,6 +242,16 @@ footer a{color:#fff}
 </div>
 </div>
 </header>
+<section aria-label="Kwa watoto" class="kids">
+<div class="wrap kgrid">
+<a class="kt" href="/sw/seriya-1/"><img alt="" loading="lazy" src="/assets/zastavka-poster.jpg"/><span class="ki"><b>▶️</b>Tazama</span></a>
+<a class="kt" href="/sw/games/"><img alt="" loading="lazy" src="/assets/komanda.jpg"/><span class="ki"><b>🎮</b>Michezo</span></a>
+<a class="kt" href="/sw/raskraska/"><img alt="" loading="lazy" src="/assets/col-asila.jpg" style="background:#fff"/><span class="ki"><b>🖍</b>Kupaka rangi</span></a>
+<a class="kt" href="/sw/geroi/"><img alt="" loading="lazy" src="/assets/art-lisko.jpg"/><span class="ki"><b>⭐</b>Mashujaa</span></a>
+<a class="kt ukh" href="/sw/dver/"><img alt="" loading="lazy" src="/assets/ukh-face.png"/><span class="ki"><b>🔑</b>Mlango wa Ukh</span></a>
+<a class="kt" href="/sw/pozdravlenie/"><img alt="" loading="lazy" src="/assets/kvasya-tanets.jpg"/><span class="ki"><b>🎂</b>Kadi</span></a>
+</div>
+</section>
 <section style="padding:22px 0 0">
 <div class="wrap">
 <a href="/sw/dver/" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;text-decoration:none;color:#fff;background:linear-gradient(110deg,#0B1240,#3B2A86);border-radius:28px;padding:14px 22px;box-shadow:0 10px 30px rgba(11,18,64,.25)">
@@ -492,7 +515,7 @@ footer a{color:#fff}
 <div class="wrap">
 <div class="games">
 <div><h2>Michezo ya TUBETU</h2><p>Ruka juu ya milima, kusanya fuwele, pasua mapovu pamoja na marafiki na kwepa magunia ya Skupshchik!</p></div>
-<div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn main" href="/sw/games/">🎮 Waokoaji</a><a class="btn main" href="/sw/games/pazl/">🧩 Fumbo</a><a class="btn main" href="/sw/games/otlichiya/">🔍 Tafuta tofauti</a><a class="btn main" href="/sw/raskraska/">🖌 Kupaka rangi</a></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn main" href="/sw/games/">🎮 Waokoaji</a><a class="btn main" href="/sw/games/stroim/">🧱 Jenga Mwamba</a><a class="btn main" href="/sw/games/pazl/">🧩 Fumbo</a><a class="btn main" href="/sw/games/otlichiya/">🔍 Tafuta tofauti</a><a class="btn main" href="/sw/raskraska/">🖌 Kupaka rangi</a></div>
 </div>
 </div>
 </section>

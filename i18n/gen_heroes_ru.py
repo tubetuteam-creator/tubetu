@@ -91,7 +91,9 @@ def head(title,desc,img,url):
     return f'''<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc)}"><link rel="canonical" href="https://tubetu.com{url}">
 <meta property="og:title" content="{html.escape(title)}"><meta property="og:description" content="{html.escape(desc)}"><meta property="og:image" content="https://tubetu.com{img}"><meta property="og:type" content="website">
-<meta name="theme-color" content="#0B1240"><link rel="icon" href="/icon.svg" type="image/svg+xml"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"><style>{CSS}</style></head><body>
+<meta name="theme-color" content="#0B1240"><link rel="icon" href="/icon.svg" type="image/svg+xml"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"><style>{CSS}</style><link rel="apple-touch-icon" href="/assets/app-icon-180.png">
+<link rel="manifest" href="/manifest.webmanifest">
+</head><body>
 <header class="top"><div class="w"><a href="/"><img src="/assets/logo.png" alt="TUBETU"></a><div class="sp"></div><a class="l" href="/geroi/">Все герои</a><a class="l" href="/games/">🎮 Игры</a></div></header>'''
 FOOT='<footer><div class="w">© 2026 TUBETU · <a href="/">tubetu.com</a> · Мультсериал, где добро возвращается</div></footer><script src="/i18n/switch.js" defer></script></body></html>'
 def mini(h):

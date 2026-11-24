@@ -2,7 +2,7 @@
   "id": "/",
   "name": "TUBETU",
   "short_name": "TUBETU",
-  "description": "TUBETU — мультсериал, где добро возвращается. Первая серия — «Скала сокровищ»",
+  "description": "TUBETU — мультсериал, где добро возвращается. Игры, раскраски, герои.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -10,10 +10,22 @@
   "theme_color": "#0B1240",
   "icons": [
     {
-      "src": "/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "/assets/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

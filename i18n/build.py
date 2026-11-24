@@ -55,7 +55,7 @@ def build(L):
         out=re.sub(r'(<meta content="https://tubetu\.com/)(?!assets)([^"]*)(" property="og:url")',r'\g<1>'+L+r'/\2\3',out)
         out=out.replace("rec.lang='ru-RU'","rec.lang='"+speech+"'")
         if p=='games/index.html':out=out.replace("'img/","'/games/img/").replace('"img/','"/games/img/')
-        if p.startswith('games/pazl') or p.startswith('games/otlichiya'):out=out.replace('../_common','/games/_common')
+        if p.startswith('games/pazl') or p.startswith('games/otlichiya') or p.startswith('games/stroim'):out=out.replace('../_common','/games/_common')
         if p=='raskraska/index.html':out=out.replace("'img/","'/raskraska/img/").replace('"img/','"/raskraska/img/')
         dst=os.path.join(ROOT,L,p);os.makedirs(os.path.dirname(dst),exist_ok=True)
         open(dst,'w').write(out)

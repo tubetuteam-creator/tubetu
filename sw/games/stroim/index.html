@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="sw">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" name="viewport"/>
+<title>Jenga Mwamba — mchezo wa TUBETU</title>
+<meta content="Jenga dunia yako ya vipande pamoja na mashujaa wa TUBETU: theluji, jiwe, barafu na fuwele za uchawi. Mchezo wa watoto kwenye kivinjari." name="description"/>
+<meta content="Jenga Mwamba — mchezo wa TUBETU" property="og:title"/>
+<meta content="https://tubetu.com/assets/skala.jpg" property="og:image"/>
+<meta content="#0B1240" name="theme-color"/>
+<link href="/icon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{margin:0;height:100%;overflow:hidden;background:#0B1240;font-family:Nunito,system-ui,sans-serif;overscroll-behavior:none;touch-action:none}
+canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block}
+.glass{background:rgba(11,18,64,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);color:#fff}
+#hud{position:fixed;left:10px;top:calc(10px + env(safe-area-inset-top));display:flex;gap:8px;align-items:center;z-index:5}
+#hud a,#hud .pill{height:40px;border-radius:999px;display:flex;align-items:center;gap:6px;padding:0 14px;font-weight:900;font-size:15px;text-decoration:none}
+#hud img{width:28px;height:28px;border-radius:50%;object-fit:cover;background:#fff}
+#quest{position:fixed;left:50%;top:calc(58px + env(safe-area-inset-top));transform:translateX(-50%);border-radius:999px;padding:7px 16px;font-weight:900;font-size:14px;z-index:5;white-space:nowrap;transition:opacity .4s}
+#ctrl{position:fixed;left:0;right:0;bottom:0;padding:0 12px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:flex-end;justify-content:space-between;pointer-events:none;z-index:5}
+.pad{display:flex;gap:10px;pointer-events:auto}
+.pad button{width:68px;height:68px;border-radius:22px;font-size:30px;font-weight:900;border:1px solid rgba(255,255,255,.25);touch-action:none;cursor:pointer}
+.pad button.on{background:rgba(255,199,44,.85);color:#3a2300}
+#bar{pointer-events:auto;display:flex;flex-direction:column;align-items:center;gap:8px;max-width:calc(100vw - 340px)}
+#mode{display:flex;border-radius:999px;overflow:hidden}
+#mode button{border:0;background:transparent;color:#fff;font:900 15px Nunito,sans-serif;padding:9px 16px;cursor:pointer}
+#mode button.on{background:#FFC72C;color:#3a2300}
+#hot{display:flex;gap:6px;overflow-x:auto;padding:6px;border-radius:18px;scrollbar-width:none;max-width:100%}
+#hot::-webkit-scrollbar{display:none}
+#hot button{flex:none;width:46px;height:46px;border-radius:12px;border:3px solid transparent;padding:0;cursor:pointer;background:#fff1}
+#hot button canvas{width:100%;height:100%;border-radius:8px;display:block;image-rendering:pixelated}
+#hot button.on{border-color:#FFC72C;transform:translateY(-3px)}
+@media(max-width:760px){#ctrl{flex-wrap:wrap}#bar{order:-1;width:100%;max-width:100%;margin-bottom:8px}.pad button{width:62px;height:62px}}
+#menu{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:10;background:radial-gradient(circle at 50% 30%,rgba(46,127,230,.55),rgba(11,18,64,.92));padding:16px}
+#menu .card{max-width:520px;width:100%;border-radius:28px;padding:22px;text-align:center}
+#menu h1{margin:4px 0 4px;font-size:34px;font-weight:900}
+#menu h1 span{color:#FFC72C}
+#menu p{margin:0 0 14px;font-weight:700;opacity:.92}
+#heroes{display:flex;gap:10px;justify-content:center;margin:6px 0 16px;flex-wrap:wrap}
+#heroes button{width:86px;border:3px solid transparent;border-radius:18px;background:#ffffff1f;padding:6px;cursor:pointer;color:#fff;font:800 13px Nunito,sans-serif}
+#heroes button img{width:64px;height:64px;border-radius:50%;object-fit:cover;background:#fff;display:block;margin:0 auto 4px}
+#heroes button.on{border-color:#FFC72C;background:#ffc72c33}
+.big{border:0;cursor:pointer;font:900 20px Nunito,sans-serif;padding:14px 34px;border-radius:999px;color:#3a2300;background:linear-gradient(180deg,#FFE066,#FFB300);box-shadow:0 6px 0 #B97F00}
+.small{border:0;background:none;color:#fff;opacity:.8;font:800 14px Nunito,sans-serif;margin-top:12px;cursor:pointer;text-decoration:underline}
+#help{font-size:13px;opacity:.8;margin-top:12px;font-weight:700}
+.links{margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.links a{color:#fff;font-weight:800;font-size:14px;background:#ffffff1f;padding:6px 12px;border-radius:999px;text-decoration:none}
+#toast{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%) scale(.6);opacity:0;z-index:8;border-radius:24px;padding:16px 26px;font-weight:900;font-size:22px;text-align:center;pointer-events:none;transition:all .3s}
+#toast.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#conf{position:fixed;inset:0;pointer-events:none;z-index:9}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud"><a class="glass" href="/sw/games/">←</a><span class="pill glass"><img alt="" id="hface" src="/games/img/lisko.png"/>💎 <b id="gems">0</b></span></div>
+<div class="glass" id="quest">💎 Tafuta fuwele 5!</div>
+<div id="ctrl">
+<div class="pad"><button aria-label="Kushoto" class="glass" id="bL">◀</button><button aria-label="Kulia" class="glass" id="bR">▶</button></div>
+<div id="bar"><div class="glass" id="mode"><button class="on" data-m="break">⛏ Vunja</button><button data-m="build">🧱 Jenga</button></div><div class="glass" id="hot"></div></div>
+<div class="pad"><button aria-label="Ruka" class="glass" id="bJ">⬆</button></div>
+</div>
+<div id="menu"><div class="card glass">
+<h1>Jenga <span>Mwamba</span></h1>
+<p>Vunja na ujenge kwa vipande vya uchawi! Tafuta fuwele mlimani na ujenge nyumba yako.</p>
+<div id="heroes"></div>
+<button class="big" id="play">Cheza ▶</button><br/>
+<button class="small" id="newWorld">🌍 Dunia mpya</button>
+<div id="help">Gusa kipande karibu na shujaa — kitavunjika. Washa «Jenga» uweke vipande.</div>
+<div class="links"><a href="/sw/games/">🎮 Waokoaji</a><a href="/sw/games/pazl/">🧩 Fumbo</a><a href="/sw/raskraska/">🖍 Kupaka rangi</a></div>
+</div></div>
+<div class="glass" id="toast"></div>
+<canvas id="conf"></canvas>
+<script src="/games/_common.js"></script>
+<script>
+(function(){
+'use strict';
+var cv=document.getElementById('c'),cx=cv.getContext('2d'),$=function(i){return document.getElementById(i);};
+var DPR=Math.min(2,window.devicePixelRatio||1),VW=0,VH=0,TS=40;
+function resize(){VW=innerWidth;VH=innerHeight;cv.width=VW*DPR;cv.height=VH*DPR;TS=VW<700?36:44;}
+addEventListener('resize',resize);resize();
+
+/* ---------- блоки ---------- */
+var AIR=0,B=[null,
+ {n:'Nyasi',top:'#6CD34A',c:'#8B5A2B'},      //1
+ {n:'Udongo',c:'#8B5A2B'},                    //2
+ {n:'Jiwe',c:'#8A93A6'},                   //3
+ {n:'Theluji',c:'#F4FAFF'},                     //4
+ {n:'Mbao',c:'#A0652E',wood:1},            //5
+ {n:'Majani',c:'#3FAE4A',leaf:1},            //6
+ {n:'Fuwele',c:'#B184FF',gem:1},           //7
+ {n:'Barafu',c:'#9EE4FF',ice:1},                //8
+ {n:'Tofali',c:'#E0563B',brick:1},           //9
+ {n:'Dhahabu',c:'#FFC72C',gold:1},            //10
+ {n:'Kioo',c:'#DDF6FF',glass:1},           //11
+ {n:'Mlango',c:'#E3A21A',door:1},             //12
+ {n:'Waridi',c:'#FF6FB5',brick:1},          //13
+ {n:'Buluu',c:'#2E8BFF',brick:1}             //14
+];
+var HOT=[1,2,3,4,5,6,8,9,13,14,11,10,7,12];
+function rnd(s){var x=Math.sin(s*12.9898)*43758.5453;return x-Math.floor(x);}
+var TEX=[];
+function mkTex(id){var S=32,c=document.createElement('canvas');c.width=c.height=S;var g=c.getContext('2d'),b=B[id];
+ g.fillStyle=b.c;g.fillRect(0,0,S,S);
+ for(var i=0;i<60;i++){var x=(rnd(id*99+i)*S)|0,y=(rnd(id*77+i*3)*S)|0,a=rnd(id+i*5)*.18;g.fillStyle=(i%2?'rgba(255,255,255,':'rgba(0,0,0,')+a+')';g.fillRect(x,y,3,3);}
+ if(b.top){g.fillStyle=b.top;g.fillRect(0,0,S,9);for(var k=0;k<S;k+=4){g.fillRect(k,9,3,(rnd(k+id)*5)|0);}g.fillStyle='rgba(255,255,255,.25)';g.fillRect(0,0,S,3);}
+ if(b.wood){g.fillStyle='rgba(0,0,0,.18)';for(var k2=4;k2<S;k2+=8)g.fillRect(k2,0,2,S);}
+ if(b.leaf){g.fillStyle='rgba(255,255,255,.15)';for(var k3=0;k3<14;k3++){g.beginPath();g.arc(rnd(k3*3)*S,rnd(k3*7)*S,3,0,7);g.fill();}}
+ if(b.gem){g.fillStyle='#6A3FD6';g.fillRect(0,0,S,S);g.fillStyle='#8A93A6';g.fillRect(0,0,S,S);[[8,10],[20,18],[12,24]].forEach(function(p,i){g.fillStyle=['#C9A6FF','#7FE7FF','#FF8FD2'][i];g.beginPath();g.moveTo(p[0],p[1]-7);g.lineTo(p[0]+5,p[1]);g.lineTo(p[0],p[1]+7);g.lineTo(p[0]-5,p[1]);g.closePath();g.fill();g.fillStyle='rgba(255,255,255,.7)';g.fillRect(p[0]-1,p[1]-4,2,3);});}
+ if(b.ice||b.glass){g.fillStyle='rgba(255,255,255,.55)';g.beginPath();g.moveTo(4,26);g.lineTo(26,4);g.lineTo(29,7);g.lineTo(7,29);g.fill();}
+ if(b.brick){g.fillStyle='rgba(0,0,0,.22)';for(var r=0;r<4;r++){g.fillRect(0,r*8+7,S,2);for(var q=0;q<3;q++)g.fillRect(((q*12)+(r%2)*6)%S,r*8,2,8);}}
+ if(b.gold){g.fillStyle='rgba(255,255,255,.45)';g.fillRect(3,3,10,4);g.fillStyle='rgba(180,110,0,.4)';g.fillRect(0,S-5,S,5);}
+ if(b.door){g.fillStyle='#8A5A10';g.fillRect(2,2,S-4,S-4);g.fillStyle='#FFD45A';g.fillRect(5,5,S-10,S-10);g.fillStyle='#E3A21A';g.fillRect(15,5,2,S-10);g.fillStyle='#fff';g.fillRect(20,16,3,3);}
+ g.strokeStyle='rgba(0,0,0,.15)';g.lineWidth=2;g.strokeRect(1,1,S-2,S-2);
+ return c;}
+for(var t=1;t<B.length;t++)TEX[t]=mkTex(t);
+
+/* ---------- мир ---------- */
+var WW=180,WH=64,world,seed;
+function gen(){seed=Math.random()*1000;world=new Uint8Array(WW*WH);
+ var h=[];for(var x=0;x<WW;x++){var v=28+Math.sin((x+seed)*.07)*5+Math.sin((x+seed)*.023)*9+Math.sin((x+seed)*.17)*1.5;h.push(Math.round(v));}
+ for(x=0;x<WW;x++){var top=h[x],high=top<24;
+  for(var y=top;y<WH;y++){var d=y-top,id;
+   if(d===0)id=high?4:1;else if(d<4)id=high&&d<2?4:2;else id=3;
+   if(id===3&&rnd(x*131+y*17+seed)<.045)id=7;
+   if(id===3&&y>WH-12&&rnd(x*7+y*3+seed)<.03)id=10;
+   if(id===3&&rnd(x*3+y*11+seed)<.05&&y<top+12)id=8;
+   world[y*WW+x]=id;}
+  // пещеры
+ }
+ for(var k=0;k<9;k++){var cx0=(rnd(seed+k)*WW)|0,cy0=40+((rnd(seed+k*3)*16)|0),r=2+((rnd(seed+k*5)*3)|0);for(var dy=-r;dy<=r;dy++)for(var dx=-r*2;dx<=r*2;dx++){if(dx*dx/4+dy*dy<=r*r)set(cx0+dx,cy0+dy,0);}}
+ // деревья
+ for(x=3;x<WW-3;x++){if(get(x,h[x])===1&&rnd(x+seed*2)<.09&&x%3===0){var th=3+((rnd(x)*2)|0);for(var i=1;i<=th;i++)set(x,h[x]-i,5);for(var lx=-2;lx<=2;lx++)for(var ly=-2;ly<=1;ly++){if(Math.abs(lx)+Math.abs(ly)<4&&!get(x+lx,h[x]-th-1+ly))set(x+lx,h[x]-th-1+ly,6);}}}
+ // маленькая Скала с золотой дверью у старта
+ var sx=WW/2|0,base=h[sx];for(var ax=sx-4;ax<=sx+4;ax++)for(var ay=base-6;ay<base;ay++){if(Math.abs(ax-sx)<=4-(base-ay>4?1:0))set(ax,ay,3);}
+ set(sx,base-1,12);set(sx,base-2,12);set(sx-1,base-1,0);set(sx+1,base-1,0);set(sx-1,base-2,0);set(sx+1,base-2,0);
+ for(ax=sx-3;ax<=sx+3;ax+=3)set(ax,base-7,7);
+ P.x=sx-6;P.y=h[sx-6]-2;snow.x=P.x-1.5;snow.y=P.y;gems=0;questStep=0;}
+function get(x,y){if(x<0||x>=WW||y>=WH)return 3;if(y<0)return 0;return world[y*WW+x];}
+function set(x,y,v){if(x<0||x>=WW||y<0||y>=WH)return;world[y*WW+x]=v;}
+function solid(x,y){var v=get(x,y);return v!==0&&v!==12;}
+
+/* ---------- герой ---------- */
+var HEROES=[['lisko','Lisko'],['dobrik','Dobrik'],['vionka','Vionka'],['asila','Asila']];
+var hero=TG.get('stroim_hero',0),heroImg=new Image(),snowImg=new Image();snowImg.src='/games/img/full-snezhok.webp';
+function setHero(i){hero=i;heroImg.src='/games/img/full-'+HEROES[i][0]+'.webp';$('hface').src='/games/img/'+HEROES[i][0]+'.png';TG.set('stroim_hero',i);[].forEach.call($('heroes').children,function(b,j){b.classList.toggle('on',j===i);});}
+HEROES.forEach(function(h,i){var b=document.createElement('button');b.innerHTML='<img src="/games/img/'+h[0]+'.png" alt="">'+h[1];b.onclick=function(){setHero(i);TG.tone(660,.12,.1);};$('heroes').appendChild(b);});
+setHero(hero);
+var P={x:0,y:0,vx:0,vy:0,w:.7,h:1.75,on:false,face:1,walk:0},snow={x:0,y:0,vx:0,vy:0,w:.9,h:.8,on:false,face:1};
+var keys={},mode='break',sel=0,gems=0,questStep=0,parts=[],cam={x:0,y:0},running=false;
+
+function collide(o,dt){
+ o.vy=Math.min(o.vy+38*dt,22);
+ o.x+=o.vx*dt;
+ if(o.vx){var dir=o.vx>0?1:-1,ex=dir>0?o.x+o.w:o.x;for(var yy=Math.floor(o.y+.02);yy<=Math.floor(o.y+o.h-.02);yy++){if(solid(Math.floor(ex),yy)){
+   // авто-подъём на 1 кубик
+   if(o.on&&!solid(Math.floor(ex),yy-1)&&yy===Math.floor(o.y+o.h-.02)&&!solid(Math.floor(o.x),Math.floor(o.y)-1)&&!solid(Math.floor(o.x+o.w-.01),Math.floor(o.y)-1)){o.y=yy-o.h;break;}
+   o.x=dir>0?Math.floor(ex)-o.w-.001:Math.floor(ex)+1.001;o.blocked=true;break;}}}
+ o.y+=o.vy*dt;o.on=false;
+ var x0=Math.floor(o.x+.02),x1=Math.floor(o.x+o.w-.02);
+ if(o.vy>0){var fy=Math.floor(o.y+o.h);for(var xx=x0;xx<=x1;xx++)if(solid(xx,fy)){o.y=fy-o.h;o.vy=0;o.on=true;break;}}
+ else if(o.vy<0){var hy=Math.floor(o.y);for(xx=x0;xx<=x1;xx++)if(solid(xx,hy)){o.y=hy+1;o.vy=0;break;}}
+ if(o.y>WH+5){o.y=5;o.vy=0;}}
+
+function jump(){if(P.on){P.vy=-12.6;TG.tone(520,.1,.07,'sine');}}
+function update(dt){
+ var mv=(keys.L?-1:0)+(keys.R?1:0);P.vx=mv*6.2;if(mv)P.face=mv;P.walk+=Math.abs(mv)*dt*10;
+ if(keys.J)jump();
+ P.blocked=false;collide(P,dt);P.x=Math.max(0,Math.min(WW-P.w,P.x));
+ // Снежок бежит за героем
+ var dx=(P.x-1.3*P.face)-snow.x;snow.vx=Math.abs(dx)>.6?Math.sign(dx)*Math.min(7,Math.abs(dx)*3):0;if(snow.vx)snow.face=Math.sign(snow.vx);
+ snow.blocked=false;collide(snow,dt);if(snow.blocked&&snow.on)snow.vy=-11;
+ if(Math.abs(snow.x-P.x)>12||Math.abs(snow.y-P.y)>10){snow.x=P.x-1;snow.y=P.y;}
+ for(var i=parts.length-1;i>=0;i--){var p=parts[i];p.vy+=30*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.t-=dt;if(p.t<=0)parts.splice(i,1);}
+ var tx=P.x+P.w/2-VW/TS/2,ty=P.y+P.h/2-VH/TS/2;cam.x+=(tx-cam.x)*Math.min(1,dt*6);cam.y+=(ty-cam.y)*Math.min(1,dt*6);
+ cam.x=Math.max(0,Math.min(WW-VW/TS,cam.x));cam.y=Math.max(-6,Math.min(WH-VH/TS,cam.y));}
+
+/* ---------- рисование ---------- */
+var clouds=[];for(var ci=0;ci<8;ci++)clouds.push({x:Math.random()*2000,y:20+Math.random()*160,s:.6+Math.random()*.8});
+function drawBg(){var g=cx.createLinearGradient(0,0,0,VH);g.addColorStop(0,'#3D8BFF');g.addColorStop(.6,'#A8DBFF');g.addColorStop(1,'#E9F6FF');cx.fillStyle=g;cx.fillRect(0,0,VW,VH);
+ cx.fillStyle='#FFF6C9';cx.beginPath();cx.arc(VW*.82,90,38,0,7);cx.fill();cx.fillStyle='rgba(255,246,201,.25)';cx.beginPath();cx.arc(VW*.82,90,62,0,7);cx.fill();
+ // дальние горы
+ [['#9CC6F2',.15,VH*.55,140],['#7FB0E6',.3,VH*.68,100]].forEach(function(L){cx.fillStyle=L[0];cx.beginPath();cx.moveTo(0,VH);var off=-cam.x*TS*L[1];for(var x=-200;x<=VW+200;x+=10){var wx=x-off;var y=L[2]-Math.abs(Math.sin(wx*.004))*L[3]-Math.sin(wx*.011)*20;cx.lineTo(x,y);}cx.lineTo(VW,VH);cx.fill();
+});
+ clouds.forEach(function(c){var x=((c.x-cam.x*TS*.08+performance.now()*.004*c.s)%(VW+300))-150;cx.fillStyle='rgba(255,255,255,.85)';cx.beginPath();cx.arc(x,c.y,22*c.s,0,7);cx.arc(x+24*c.s,c.y-10*c.s,26*c.s,0,7);cx.arc(x+52*c.s,c.y,20*c.s,0,7);cx.fill();});}
+function drawWorld(){var x0=Math.floor(cam.x),y0=Math.floor(cam.y),x1=x0+Math.ceil(VW/TS)+1,y1=y0+Math.ceil(VH/TS)+1;
+ cx.imageSmoothingEnabled=false;
+ for(var y=y0;y<=y1;y++)for(var x=x0;x<=x1;x++){var v=get(x,y);if(!v||y<0)continue;var px=Math.round((x-cam.x)*TS),py=Math.round((y-cam.y)*TS);
+  cx.globalAlpha=(v===11||v===8)?.78:1;cx.drawImage(TEX[v],px,py,TS+1,TS+1);
+  // тень вглубь
+  if(y>0&&get(x,y-1)&&v!==6){var depth=0;for(var k=1;k<5;k++)if(get(x,y-k))depth++;cx.globalAlpha=depth*.06;cx.fillStyle='#000';cx.fillRect(px,py,TS+1,TS+1);}
+  if(v===7){cx.globalAlpha=.25+.2*Math.sin(performance.now()*.004+x);cx.fillStyle='#E6D2FF';cx.fillRect(px,py,TS,TS);}}
+ cx.globalAlpha=1;cx.imageSmoothingEnabled=true;}
+function drawSprite(img,o,hpx,bob){if(!img.complete||!img.naturalWidth)return;var h=hpx,w=h*img.naturalWidth/img.naturalHeight,px=(o.x+o.w/2-cam.x)*TS,py=(o.y+o.h-cam.y)*TS;
+ cx.save();cx.translate(px,py+(bob||0));cx.scale(o.face<0?-1:1,1);cx.drawImage(img,-w/2,-h,w,h);cx.restore();}
+var aim=null;
+function draw(){cx.setTransform(DPR,0,0,DPR,0,0);drawBg();drawWorld();
+ if(aim){var px=(aim.x-cam.x)*TS,py=(aim.y-cam.y)*TS;cx.strokeStyle=mode==='build'?'#FFC72C':'#fff';cx.lineWidth=3;cx.setLineDash([6,4]);cx.strokeRect(px+1.5,py+1.5,TS-3,TS-3);cx.setLineDash([]);}
+ drawSprite(snowImg,snow,TS*1.05,0);
+ drawSprite(heroImg,P,TS*2.05,P.on&&Math.abs(P.vx)>0?-Math.abs(Math.sin(P.walk))*3:0);
+ parts.forEach(function(p){cx.globalAlpha=Math.min(1,p.t*2);cx.fillStyle=p.c;cx.fillRect((p.x-cam.x)*TS,(p.y-cam.y)*TS,p.s,p.s);});cx.globalAlpha=1;}
+
+/* ---------- ломать / строить ---------- */
+function burst(x,y,c,n){for(var i=0;i<(n||10);i++)parts.push({x:x+.5,y:y+.5,vx:(Math.random()-.5)*8,vy:-Math.random()*8,t:.6+Math.random()*.4,c:c,s:4+Math.random()*5});}
+function reach(x,y){var hx=P.x+P.w/2,hy=P.y+P.h/2;return Math.hypot(x+.5-hx,y+.5-hy)<=5.2;}
+function overlapsP(x,y,o){return x+1>o.x&&x<o.x+o.w&&y+1>o.y&&y<o.y+o.h;}
+function act(x,y,m){if(!reach(x,y)){toast('👣 Sogea karibu!',900);TG.tone(220,.12,.06,'square');return;}
+ var v=get(x,y);
+ if(m==='break'){if(!v)return;set(x,y,0);burst(x,y,v===7?'#C9A6FF':B[v].c,v===7?18:10);
+   if(v===7){gems++;$('gems').textContent=gems;TG.tone(988,.15,.12);TG.tone(1319,.2,.1,'triangle',.08);checkQuest();}else TG.tone(200+Math.random()*80,.08,.1,'square');}
+ else{if(v)return;var id=HOT[sel];if(overlapsP(x,y,P)||overlapsP(x,y,snow))return;set(x,y,id);burst(x,y,B[id].c,5);TG.tone(440+sel*30,.08,.08,'triangle');
+   if(questStep===1){built++;if(built>=10)checkQuest();}}
+ dirty=true;}
+var built=0;
+function checkQuest(){if(questStep===0&&gems>=5){questStep=1;built=0;TG.win();toast('🎉 Hongera! Fuwele 5!',1800);setQuest();}
+ else if(questStep===1&&built>=10){questStep=2;TG.win();toast('🏠 Nyumba nzuri!',1800);setQuest();}}
+function setQuest(){var q=$('quest');q.style.opacity=1;q.textContent=questStep===0?'💎 Tafuta fuwele 5! ('+gems+'/5)':questStep===1?'🧱 Jenga nyumba ndogo kwa vipande 10!':'⭐ Wewe ni mjenzi! Jenga chochote';if(questStep===2)setTimeout(function(){q.style.opacity=0;},4000);}
+var tt=null;function toast(t,ms){var e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){e.classList.remove('on');},ms||1200);}
+
+function tileAt(e){return {x:Math.floor(e.clientX/TS+cam.x),y:Math.floor(e.clientY/TS+cam.y)};}
+cv.addEventListener('pointerdown',function(e){if(!running)return;e.preventDefault();var t=tileAt(e);aim=t;var m=(e.button===2)?(mode==='break'?'build':'break'):mode;act(t.x,t.y,m);if(questStep===0)setQuest();});
+cv.addEventListener('pointermove',function(e){if(e.pointerType==='mouse'&&running)aim=tileAt(e);});
+cv.addEventListener('contextmenu',function(e){e.preventDefault();});
+
+/* ---------- управление ---------- */
+function hold(id,k){var b=$(id);b.addEventListener('pointerdown',function(e){e.preventDefault();keys[k]=true;b.classList.add('on');b.setPointerCapture&&b.setPointerCapture(e.pointerId);});
+ ['pointerup','pointercancel','lostpointercapture'].forEach(function(ev){b.addEventListener(ev,function(){keys[k]=false;b.classList.remove('on');});});}
+hold('bL','L');hold('bR','R');hold('bJ','J');
+addEventListener('keydown',function(e){var k=e.key.toLowerCase();if(k==='a'||k==='arrowleft')keys.L=true;if(k==='d'||k==='arrowright')keys.R=true;if(k===' '||k==='w'||k==='arrowup'){keys.J=true;e.preventDefault();}
+ if(/^[0-9]$/.test(k)){var n=(+k+9)%10;if(n<HOT.length)pick(n);}if(k==='e'||k==='q')setMode(mode==='break'?'build':'break');});
+addEventListener('keyup',function(e){var k=e.key.toLowerCase();if(k==='a'||k==='arrowleft')keys.L=false;if(k==='d'||k==='arrowright')keys.R=false;if(k===' '||k==='w'||k==='arrowup')keys.J=false;});
+function setMode(m){mode=m;document.querySelectorAll('#mode button').forEach(function(b){b.classList.toggle('on',b.dataset.m===m);});}
+document.querySelectorAll('#mode button').forEach(function(b){b.onclick=function(){setMode(b.dataset.m);TG.tone(600,.08,.08);};});
+HOT.forEach(function(id,i){var b=document.createElement('button');b.title=B[id].n;var c=document.createElement('canvas');c.width=c.height=32;c.getContext('2d').drawImage(TEX[id],0,0);b.appendChild(c);if(!i)b.className='on';b.onclick=function(){pick(i);setMode('build');};$('hot').appendChild(b);});
+function pick(i){sel=i;[].forEach.call($('hot').children,function(b,j){b.classList.toggle('on',j===i);});}
+
+/* ---------- сохранение ---------- */
+var dirty=false;
+function save(){try{var s='',run=0,prev=-1;for(var i=0;i<world.length;i++){var v=world[i];if(v===prev&&run<255)run++;else{if(prev>=0)s+=String.fromCharCode(prev+65,run+32);prev=v;run=1;}}s+=String.fromCharCode(prev+65,run+32);
+ localStorage.setItem('tubetu_stroim_world',JSON.stringify({w:s,x:P.x,y:P.y,g:gems,q:questStep,v:1}));dirty=false;}catch(e){}}
+function load(){try{var d=JSON.parse(localStorage.getItem('tubetu_stroim_world'));if(!d||d.v!==1)return false;world=new Uint8Array(WW*WH);var k=0;for(var i=0;i<d.w.length;i+=2){var v=d.w.charCodeAt(i)-65,n=d.w.charCodeAt(i+1)-32;for(var j=0;j<n;j++)world[k++]=v;}
+ P.x=d.x;P.y=d.y;gems=d.g||0;questStep=d.q||0;snow.x=P.x-1;snow.y=P.y;return k===WW*WH;}catch(e){return false;}}
+setInterval(function(){if(dirty)save();},4000);
+addEventListener('visibilitychange',function(){if(document.hidden&&world)save();});
+
+/* ---------- старт ---------- */
+if(!load())gen();
+$('gems').textContent=gems;
+$('play').onclick=function(){$('menu').style.display='none';running=true;setQuest();TG.tone(523,.12,.1);TG.tone(784,.18,.1,'triangle',.1);};
+$('newWorld').onclick=function(){gen();save();$('gems').textContent=0;toast('🌍 Dunia mpya!',1000);};
+var last=performance.now();
+function loop(t){var dt=Math.min(.033,(t-last)/1000);last=t;if(running)update(dt);else{cam.x=P.x-VW/TS/2;cam.y=P.y-VH/TS/2;cam.x=Math.max(0,Math.min(WW-VW/TS,cam.x));}draw();requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+window.__st={P:P,get:get,act:act,mode:setMode,state:function(){return {gems:gems,q:questStep,run:running};}};
+})();
+</script>
+<script defer="" src="/i18n/switch.js"></script>
+</body>
+</html>

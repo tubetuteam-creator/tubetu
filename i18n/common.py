@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup,NavigableString,Comment
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CYR=re.compile('[А-Яа-яЁё]')
 PAGES=['index.html','seriya-1/index.html','geroi/index.html']+[f'geroi/{d}/index.html' for d in sorted(os.listdir(os.path.join(ROOT,'geroi'))) if os.path.isdir(os.path.join(ROOT,'geroi',d))]+\
- ['dver/index.html','games/index.html','games/pazl/index.html','games/otlichiya/index.html','raskraska/index.html','pozdravlenie/index.html','risunki/index.html','platform.html','404.html']
+ ['dver/index.html','games/index.html','games/pazl/index.html','games/otlichiya/index.html','games/stroim/index.html','raskraska/index.html','pozdravlenie/index.html','risunki/index.html','platform.html','404.html']
 ATTRS=['alt','placeholder','title','aria-label','content']
 JSSTR=re.compile(r"""'((?:[^'\\\n]|\\.)*)'|"((?:[^"\\\n]|\\.)*)\"""")
 def norm(s):return re.sub(r'\s+',' ',s).strip()

@@ -23,6 +23,8 @@
 .lbl{position:absolute;left:8px;top:8px;background:rgba(11,18,64,.7);color:#fff;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px}
 @media(max-width:700px){.pair{grid-template-columns:1fr}}
 </style>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
 </head>
 <body>
 <header class="top"><a href="/zh/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>找不同</h1><div class="sp"></div><a href="/zh/games/">🎮 救援队</a></header>
@@ -31,7 +33,7 @@
 <div class="pills"><span class="pill">🔍 已找到： <b id="found">0</b> / <b id="total">5</b></span><span class="pill">⏱ <b id="time">0:00</b></span><button class="btn alt" id="hint" style="padding:8px 16px;font-size:15px">💡 提示</button></div>
 <div class="pair"><div class="pic" id="pA"><canvas id="cA"></canvas><span class="lbl">图1</span></div><div class="pic" id="pB"><canvas id="cB"></canvas><span class="lbl">图2</span></div></div>
 <p style="text-align:center;font-weight:800;color:#0B1240">两张图几乎一样，但斯库普希克偷偷改了几处！在任意一张图上点出不同之处。</p>
-<div class="more"><a href="/zh/games/">🎮 救援队</a><a href="/zh/games/pazl/">🧩 拼图</a><a href="/zh/raskraska/">🖌 涂色</a></div>
+<div class="more"><a href="/zh/games/">🎮 救援队</a><a href="/zh/games/stroim/">🧱 建造宝藏岩</a><a href="/zh/games/pazl/">🧩 拼图</a><a href="/zh/raskraska/">🖌 涂色</a></div>
 </div>
 <div class="win" id="win"><div class="card"><h2>全部找到了！🎉</h2><p id="winText" style="font-weight:800"></p><button class="btn" id="again">下一张</button></div></div>
 <canvas id="conf"></canvas>

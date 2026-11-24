@@ -23,6 +23,8 @@
 .lbl{position:absolute;left:8px;top:8px;background:rgba(11,18,64,.7);color:#fff;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px}
 @media(max-width:700px){.pair{grid-template-columns:1fr}}
 </style>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
 </head>
 <body>
 <header class="top"><a href="/ar/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>أوجد الفرق</h1><div class="sp"></div><a href="/ar/games/">🎮 فريق الإنقاذ</a></header>
@@ -31,7 +33,7 @@
 <div class="pills"><span class="pill">🔍 وُجد: <b id="found">0</b> من <b id="total">5</b></span><span class="pill">⏱ <b id="time">0:00</b></span><button class="btn alt" id="hint" style="padding:8px 16px;font-size:15px">💡 تلميح</button></div>
 <div class="pair"><div class="pic" id="pA"><canvas id="cA"></canvas><span class="lbl">الصورة 1</span></div><div class="pic" id="pB"><canvas id="cB"></canvas><span class="lbl">الصورة 2</span></div></div>
 <p style="text-align:center;font-weight:800;color:#0B1240">الصورتان متشابهتان تقريبًا، لكن سكوبشيك غيّر بعض الأشياء! اضغط على الاختلافات في أي صورة.</p>
-<div class="more"><a href="/ar/games/">🎮 فريق الإنقاذ</a><a href="/ar/games/pazl/">🧩 أحجية</a><a href="/ar/raskraska/">🖌 تلوين</a></div>
+<div class="more"><a href="/ar/games/">🎮 فريق الإنقاذ</a><a href="/ar/games/stroim/">🧱 ابنِ الصخرة</a><a href="/ar/games/pazl/">🧩 أحجية</a><a href="/ar/raskraska/">🖌 تلوين</a></div>
 </div>
 <div class="win" id="win"><div class="card"><h2>وجدت كل الاختلافات! 🎉</h2><p id="winText" style="font-weight:800"></p><button class="btn" id="again">الصورة التالية</button></div></div>
 <canvas id="conf"></canvas>

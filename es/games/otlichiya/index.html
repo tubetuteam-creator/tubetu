@@ -23,6 +23,8 @@
 .lbl{position:absolute;left:8px;top:8px;background:rgba(11,18,64,.7);color:#fff;font-weight:900;font-size:12px;padding:4px 10px;border-radius:999px}
 @media(max-width:700px){.pair{grid-template-columns:1fr}}
 </style>
+<link href="/assets/app-icon-180.png" rel="apple-touch-icon"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
 </head>
 <body>
 <header class="top"><a href="/es/" style="background:none;padding:0"><img alt="TUBETU" src="/assets/logo.png"/></a><h1>Encuentra las diferencias</h1><div class="sp"></div><a href="/es/games/">🎮 Rescatadores</a></header>
@@ -31,7 +33,7 @@
 <div class="pills"><span class="pill">🔍 Encontradas: <b id="found">0</b> de <b id="total">5</b></span><span class="pill">⏱ <b id="time">0:00</b></span><button class="btn alt" id="hint" style="padding:8px 16px;font-size:15px">💡 Pista</button></div>
 <div class="pair"><div class="pic" id="pA"><canvas id="cA"></canvas><span class="lbl">Imagen 1</span></div><div class="pic" id="pB"><canvas id="cB"></canvas><span class="lbl">Imagen 2</span></div></div>
 <p style="text-align:center;font-weight:800;color:#0B1240">Las imágenes son casi iguales, ¡pero Skupshchik cambió algunas cosas! Toca las diferencias en cualquiera de las imágenes.</p>
-<div class="more"><a href="/es/games/">🎮 Rescatadores</a><a href="/es/games/pazl/">🧩 Rompecabezas</a><a href="/es/raskraska/">🖌 Colorear</a></div>
+<div class="more"><a href="/es/games/">🎮 Rescatadores</a><a href="/es/games/stroim/">🧱 Construye la Roca</a><a href="/es/games/pazl/">🧩 Rompecabezas</a><a href="/es/raskraska/">🖌 Colorear</a></div>
 </div>
 <div class="win" id="win"><div class="card"><h2>¡Todas las diferencias encontradas! 🎉</h2><p id="winText" style="font-weight:800"></p><button class="btn" id="again">Siguiente imagen</button></div></div>
 <canvas id="conf"></canvas>
