@@ -213,6 +213,14 @@ footer a{color:#fff}
 .pbtn.on{animation:pp 1s infinite}@keyframes pp{50%{transform:scale(1.07)}}
 .pinfo{flex:1}.pinfo b{display:block;font-weight:900;margin-bottom:6px}
 .pbar{height:8px;border-radius:99px;background:#E3E8FB;overflow:hidden}.pbar i{display:block;height:100%;width:0;background:#FF9F1C}
+.shorts{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 14px;margin-top:22px}
+.shorts .sh{flex:0 0 200px;scroll-snap-align:start;aspect-ratio:9/16;border-radius:22px;overflow:hidden;position:relative;background:#1b1340;border:0;padding:0;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.shorts .sh img{width:100%;height:100%;object-fit:cover;display:block}
+.shorts .sh span{position:absolute;left:0;right:0;bottom:0;padding:28px 10px 10px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font-weight:800;font-size:14px;text-align:left;line-height:1.25}
+.shorts .sh b{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(255,0,0,.9);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center}
+.shorts .sh iframe{width:100%;height:100%;border:0;display:block}
+.allvid{margin-top:18px;aspect-ratio:16/9;max-width:720px;border-radius:22px;overflow:hidden;background:#000}
+.allvid iframe{width:100%;height:100%;border:0}
 </style>
 <link rel="apple-touch-icon" href="/assets/app-icon-180.png">
 </head>
@@ -224,6 +232,7 @@ footer a{color:#fff}
     <button class="burger" aria-label="Меню" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
     <ul id="menu" onclick="if(event.target.tagName==='A')this.classList.remove('open')">
       <li><a href="#seriya">Серия 1</a></li>
+      <li><a href="#video">Видео</a></li>
       <li><a href="#geroi">Герои</a></li>
       <li><a href="#mir">Мир</a></li>
       <li><a href="#konkurs">Конкурс</a></li>
@@ -287,6 +296,31 @@ footer a{color:#fff}
     </div>
   </div>
 </section>
+
+<section id="video" style="background:#fff">
+  <div class="wrap">
+    <span class="badge">Новые видео</span>
+    <h2>Смотрите ролики TUBETU</h2>
+    <p class="lead">Короткие истории про героев штаба. Новое видео — каждый день в 19:00!</p>
+    <div class="shorts" id="shortsList"></div>
+    <h3 style="font-weight:900;margin-top:26px">Все видео канала</h3>
+    <div class="allvid"><iframe loading="lazy" src="https://www.youtube-nocookie.com/embed/videoseries?list=UU9_IbZMQloWbc6iFJNo-HIA" title="Все видео TUBETU" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="btns" style="justify-content:flex-start;margin-top:14px"><a class="btn main" href="https://www.youtube.com/@tubetuapp/shorts" target="_blank" rel="noopener">Все ролики на YouTube</a></div>
+  </div>
+</section>
+<script>
+/* Новые ролики добавлять В НАЧАЛО списка: ['ID ролика с YouTube', 'Подпись'] */
+(function(){var V=[
+ ['njKg9LIgCRM','За дверью с лапкой — Асила! 🍭'],
+ ['kjc4hOKAKpg','Кто живёт за дверью с лапкой? 🐾'],
+ ['nqHT2r3kuxQ','Пароль верный! Лиско открывает Скалу 🔑'],
+ ['p9PBm9xH7a0','Ух не пустит чужого! Знаешь пароль? 🦉']
+];var box=document.getElementById('shortsList');if(!box)return;
+V.forEach(function(v){var b=document.createElement('button');b.type='button';b.className='sh';b.setAttribute('aria-label','Смотреть: '+v[1]);
+b.innerHTML='<img loading="lazy" alt="" src="https://i.ytimg.com/vi/'+v[0]+'/hqdefault.jpg"><b>▶</b><span></span>';b.querySelector('span').textContent=v[1];
+b.onclick=function(){b.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v[0]+'?autoplay=1&rel=0" title="'+v[1].replace(/"/g,'')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';b.onclick=null;b.style.cursor='default'};
+box.appendChild(b)})})();
+</script>
 
 <section class="dark" id="geroi">
   <div class="wrap">
